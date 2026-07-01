@@ -1,0 +1,223 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Novo Planejamento
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Novo Planejamento</h2>
+            <small class="text-muted">
+                Cadastro de planejamento de campo
+            </small>
+        </div>
+
+        <a href="/planejamento" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Voltar
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <form action="/planejamento/salvar" method="POST">
+
+                <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Projeto
+                        </label>
+
+                        <select
+                            name="projeto_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Selecione...
+                            </option>
+
+                            {% for projeto in projetos %}
+
+                            <option value="{{ projeto.id }}">
+                                {{ projeto.nome }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Equipe
+                        </label>
+
+                        <select
+                            name="equipe_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Selecione...
+                            </option>
+
+                            {% for equipe in equipes %}
+
+                            <option value="{{ equipe.id }}">
+                                {{ equipe.nome }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Veículo
+                        </label>
+
+                        <select
+                            name="veiculo_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Selecione...
+                            </option>
+
+                            {% for veiculo in veiculos %}
+
+                            <option value="{{ veiculo.id }}">
+                                {{ veiculo.modelo }}
+                                ({{ veiculo.placa }})
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+                            Data Inicial
+                        </label>
+
+                        <input
+                            type="date"
+                            name="data_inicio"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+                            Data Final
+                        </label>
+
+                        <input
+                            type="date"
+                            name="data_fim"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Responsável
+                        </label>
+
+                        <input
+                            type="text"
+                            name="responsavel"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select">
+
+                            <option>Planejado</option>
+                            <option>Em Andamento</option>
+                            <option>Concluído</option>
+                            <option>Cancelado</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Observações
+                    </label>
+
+                    <textarea
+                        name="observacoes"
+                        rows="4"
+                        class="form-control"></textarea>
+
+                </div>
+
+                <button
+                    class="btn btn-success">
+
+                    <i class="bi bi-check-circle"></i>
+
+                    Salvar Planejamento
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

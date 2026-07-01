@@ -1,0 +1,196 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Editar Planejamento
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2>Editar Planejamento</h2>
+
+    <hr>
+
+    <form action="/planejamento/atualizar/{{ planejamento.id }}" method="POST">
+
+        <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+        <div class="row">
+
+            <!-- Projeto -->
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">Projeto</label>
+
+                <select class="form-select" name="projeto_id" required>
+
+                    {% for projeto in projetos %}
+
+                    <option
+                        value="{{ projeto.id }}"
+                        {% if projeto.id == planejamento.projeto_id %}selected{% endif %}>
+
+                        {{ projeto.nome }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <!-- Equipe -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Equipe</label>
+
+                <select class="form-select" name="equipe_id" required>
+
+                    {% for equipe in equipes %}
+
+                    <option
+                        value="{{ equipe.id }}"
+                        {% if equipe.id == planejamento.equipe_id %}selected{% endif %}>
+
+                        {{ equipe.nome }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <!-- Veículo -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Veículo</label>
+
+                <select class="form-select" name="veiculo_id" required>
+
+                    {% for veiculo in veiculos %}
+
+                    <option
+                        value="{{ veiculo.id }}"
+                        {% if veiculo.id == planejamento.veiculo_id %}selected{% endif %}>
+
+                        {{ veiculo.modelo }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <!-- Data Inicial -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Data Inicial</label>
+
+                <input
+                    type="date"
+                    class="form-control"
+                    name="data_inicio"
+                    value="{{ planejamento.data_inicio }}">
+
+            </div>
+
+            <!-- Data Final -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Data Final</label>
+
+                <input
+                    type="date"
+                    class="form-control"
+                    name="data_fim"
+                    value="{{ planejamento.data_fim }}">
+
+            </div>
+
+            <!-- Responsável -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Responsável</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="responsavel"
+                    value="{{ planejamento.responsavel }}">
+
+            </div>
+
+            <!-- Status -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Status</label>
+
+                <select class="form-select" name="status">
+
+                    <option value="Planejado"
+                        {% if planejamento.status=="Planejado" %}selected{% endif %}>
+                        Planejado
+                    </option>
+
+                    <option value="Em Andamento"
+                        {% if planejamento.status=="Em Andamento" %}selected{% endif %}>
+                        Em Andamento
+                    </option>
+
+                    <option value="Concluído"
+                        {% if planejamento.status=="Concluído" %}selected{% endif %}>
+                        Concluído
+                    </option>
+
+                    <option value="Cancelado"
+                        {% if planejamento.status=="Cancelado" %}selected{% endif %}>
+                        Cancelado
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Observações -->
+            <div class="col-md-12 mb-4">
+
+                <label class="form-label">Observações</label>
+
+                <textarea
+                    class="form-control"
+                    rows="4"
+                    name="observacoes">{{ planejamento.observacoes }}</textarea>
+
+            </div>
+
+        </div>
+
+        <button class="btn btn-success">
+
+            <i class="bi bi-check-circle"></i>
+
+            Salvar Alterações
+
+        </button>
+
+        <a href="/planejamento" class="btn btn-secondary">
+
+            Cancelar
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

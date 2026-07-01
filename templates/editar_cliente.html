@@ -1,0 +1,80 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Editar Cliente
+{% endblock %}
+
+{% block content %}
+
+<h2>Editar Cliente</h2>
+
+<hr>
+
+<form action="/clientes/atualizar/{{ cliente.id }}" method="POST">
+
+    <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<label>Cliente</label>
+<input type="text" class="form-control" name="nome" value="{{ cliente.nome }}" required>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>CNPJ</label>
+<input type="text" class="form-control" name="cnpj" value="{{ cliente.cnpj }}">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Telefone</label>
+<input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Email</label>
+<input type="email" class="form-control" name="email" value="{{ cliente.email }}">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Responsável</label>
+<input type="text" class="form-control" name="responsavel" value="{{ cliente.responsavel }}">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Centro de Custo</label>
+<input type="text" class="form-control" name="centro_custo" value="{{ cliente.centro_custo }}">
+</div>
+
+<div class="col-md-8 mb-3">
+<label>Endereço</label>
+<input type="text" class="form-control" name="endereco" value="{{ cliente.endereco }}">
+</div>
+
+<div class="col-md-3 mb-3">
+<label>Cidade</label>
+<input type="text" class="form-control" name="cidade" value="{{ cliente.cidade }}">
+</div>
+
+<div class="col-md-1 mb-3">
+<label>UF</label>
+<input type="text" class="form-control" name="estado" maxlength="2" value="{{ cliente.estado }}">
+</div>
+
+</div>
+
+<button class="btn btn-success">
+Salvar Alterações
+</button>
+
+<a href="/clientes" class="btn btn-secondary">
+Cancelar
+</a>
+
+</form>
+
+{% endblock %}

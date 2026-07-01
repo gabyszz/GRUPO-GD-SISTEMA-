@@ -1,0 +1,93 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Clientes
+{% endblock %}
+
+{% block content %}
+
+<h2>Clientes</h2>
+
+<hr>
+
+<a href="/clientes/novo" class="btn btn-success mb-3">
+    + Novo Cliente
+</a>
+
+<table class="table table-bordered table-hover bg-white shadow">
+
+    <thead class="table-success">
+
+        <tr>
+
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>CNPJ</th>
+            <th>Cidade</th>
+            <th>Estado</th>
+            <th>Ações</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% if clientes %}
+
+            {% for cliente in clientes %}
+
+            <tr>
+
+                <td>{{ cliente.id }}</td>
+
+                <td>{{ cliente.nome }}</td>
+
+                <td>{{ cliente.cnpj }}</td>
+
+                <td>{{ cliente.cidade }}</td>
+
+                <td>{{ cliente.estado }}</td>
+
+                <td>
+
+                    <a href="/clientes/editar/{{ cliente.id }}"
+                       class="btn btn-warning btn-sm">
+
+                        Editar
+
+                    </a>
+
+                    <a href="/clientes/excluir/{{ cliente.id }}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Deseja realmente excluir este cliente?')">
+
+                        Excluir
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+
+                <td colspan="6" class="text-center">
+
+                    Nenhum cliente cadastrado.
+
+                </td>
+
+            </tr>
+
+        {% endif %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

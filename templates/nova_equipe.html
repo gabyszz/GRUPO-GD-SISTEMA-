@@ -1,0 +1,116 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Nova Equipe
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2>Nova Equipe</h2>
+
+    <hr>
+
+    <form action="/equipes/salvar" method="POST">
+
+        <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">Nome da Equipe</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    required>
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">Supervisor</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="supervisor">
+
+            </div>
+
+            <div class="col-md-12 mb-3">
+
+                <label class="form-label">Descrição</label>
+
+                <textarea
+                    class="form-control"
+                    rows="3"
+                    name="descricao"></textarea>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h4>Funcionários da Equipe</h4>
+
+        <div class="row">
+
+            {% for funcionario in funcionarios %}
+
+            <div class="col-md-4 mb-2">
+
+                <div class="form-check">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="funcionarios"
+                        value="{{ funcionario.id }}"
+                        id="func{{ funcionario.id }}">
+
+                    <label
+                        class="form-check-label"
+                        for="func{{ funcionario.id }}">
+
+                        {{ funcionario.nome }}
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <hr>
+
+        <button class="btn btn-success">
+
+            <i class="bi bi-check-circle"></i>
+
+            Salvar Equipe
+
+        </button>
+
+        <a href="/equipes" class="btn btn-secondary">
+
+            Cancelar
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

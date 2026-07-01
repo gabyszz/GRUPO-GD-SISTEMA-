@@ -1,0 +1,120 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Editar Veículo
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2>Editar Veículo</h2>
+
+    <hr>
+
+    <form action="/veiculos/editar/{{ veiculo.id }}" method="POST">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="row">
+
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Placa</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="placa"
+                    value="{{ veiculo.placa }}"
+                    required>
+
+            </div>
+
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Modelo</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="modelo"
+                    value="{{ veiculo.modelo }}"
+                    required>
+
+            </div>
+
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Marca</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="marca"
+                    value="{{ veiculo.marca }}">
+
+            </div>
+
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Ano</label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    name="ano"
+                    value="{{ veiculo.ano }}">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">Quilometragem</label>
+
+                <input
+                    type="number"
+                    class="form-control"
+                    name="quilometragem"
+                    value="{{ veiculo.quilometragem }}">
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">Status</label>
+
+                <select class="form-select" name="status">
+
+                    <option {% if veiculo.status == "Disponível" %}selected{% endif %}>
+                        Disponível
+                    </option>
+
+                    <option {% if veiculo.status == "Em Campo" %}selected{% endif %}>
+                        Em Campo
+                    </option>
+
+                    <option {% if veiculo.status == "Oficina" %}selected{% endif %}>
+                        Oficina
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <button class="btn btn-success">
+            <i class="bi bi-check-circle"></i>
+            Salvar Alterações
+        </button>
+
+        <a href="/veiculos" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

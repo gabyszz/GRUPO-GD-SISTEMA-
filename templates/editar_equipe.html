@@ -1,0 +1,119 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Editar Equipe
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2>Editar Equipe</h2>
+
+    <hr>
+
+    <form action="/equipes/atualizar/{{ equipe.id }}" method="POST">
+
+        <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">Nome da Equipe</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    value="{{ equipe.nome }}"
+                    required>
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">Supervisor</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="supervisor"
+                    value="{{ equipe.supervisor }}">
+
+            </div>
+
+            <div class="col-md-12 mb-3">
+
+                <label class="form-label">
+                    Funcionários
+                </label>
+
+                <select
+                    class="form-select"
+                    name="funcionarios"
+                    multiple
+                    size="10">
+
+                    {% for funcionario in funcionarios %}
+
+                        <option
+                            value="{{ funcionario.id }}"
+                            {% if funcionario in equipe.funcionarios %}
+                                selected
+                            {% endif %}>
+
+                            {{ funcionario.nome }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <small class="text-muted">
+
+                    Segure CTRL para selecionar mais de um funcionário.
+
+                </small>
+
+            </div>
+
+            <div class="col-md-12 mb-4">
+
+                <label class="form-label">
+                    Descrição
+                </label>
+
+                <textarea
+                    class="form-control"
+                    rows="4"
+                    name="descricao">{{ equipe.descricao }}</textarea>
+
+            </div>
+
+        </div>
+
+        <button class="btn btn-success">
+
+            <i class="bi bi-check-circle"></i>
+
+            Salvar Alterações
+
+        </button>
+
+        <a href="/equipes" class="btn btn-secondary">
+
+            Cancelar
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

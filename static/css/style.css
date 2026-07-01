@@ -1,0 +1,414 @@
+/* ===========================================================
+   SISTEMA G&D TOPOGRAFIA
+   Tema Corporativo v2
+   =========================================================== */
+
+:root{
+    --verde-principal:#1F6E43;
+    --verde-secundario:#2E8B57;
+    --verde-escuro:#155233;
+
+    --cinza-claro:#F4F6F8;
+    --cinza:#D8DEE4;
+
+    --texto:#2C3E50;
+    --branco:#FFFFFF;
+
+    --sombra:0 8px 25px rgba(0,0,0,.08);
+    --radius:18px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--cinza-claro);
+    font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+    color:var(--texto);
+    overflow-x:hidden;
+}
+
+/* ===========================================================
+   SIDEBAR
+   =========================================================== */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:260px;
+    height:100vh;
+
+    background:linear-gradient(
+        180deg,
+        var(--verde-principal),
+        var(--verde-escuro)
+    );
+
+    color:white;
+
+    padding:30px 20px;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    z-index:1000;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.logo-icon{
+    width:55px;
+    height:55px;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.12);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:28px;
+}
+
+.logo h3{
+    margin:0;
+    font-weight:700;
+}
+
+.logo small{
+    color:#d9f6df;
+}
+
+.sidebar hr{
+    border-color:rgba(255,255,255,.15);
+    margin:20px 0;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:white;
+    text-decoration:none;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    margin-bottom:8px;
+
+    transition:.25s;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,.12);
+    padding-left:24px;
+}
+
+.sidebar i{
+    font-size:20px;
+}
+
+/* ===========================================================
+   CONTEÚDO
+   =========================================================== */
+
+.conteudo{
+
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+    min-height:100vh;
+
+    padding:30px;
+}
+
+/* ===========================================================
+   TOPBAR
+   =========================================================== */
+
+.topbar{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px 28px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+    box-shadow:var(--sombra);
+}
+
+.topbar h4{
+    margin:0;
+    color:var(--verde-principal);
+    font-weight:700;
+}
+
+.topbar small{
+    color:#777;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.usuario{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.usuario i{
+    color:var(--verde-principal);
+}
+
+.usuario strong{
+    display:block;
+}
+
+.usuario small{
+    color:#777;
+}
+
+/* ===========================================================
+   BOTÕES
+   =========================================================== */
+
+.btn-success{
+    background:var(--verde-principal);
+    border:none;
+    border-radius:10px;
+    padding:10px 18px;
+}
+
+.btn-success:hover{
+    background:var(--verde-escuro);
+}
+
+/* ===========================================================
+   CARDS
+   =========================================================== */
+
+.card{
+    border:none;
+    border-radius:18px;
+    box-shadow:var(--sombra);
+}
+
+.dashboard-card{
+    border-left:6px solid var(--verde-principal);
+    transition:.25s;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-6px);
+}
+
+.dashboard-card h2{
+    margin-top:15px;
+    color:var(--verde-principal);
+    font-weight:700;
+}
+
+.dashboard-card h6{
+    color:#666;
+}
+
+/* ===========================================================
+   TABELAS
+   =========================================================== */
+
+.table{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.table thead{
+    background:var(--verde-principal);
+    color:white;
+}
+
+.table td{
+    vertical-align:middle;
+}
+
+/* ===========================================================
+   FORMULÁRIOS
+   =========================================================== */
+
+.form-control,
+.form-select{
+
+    border-radius:10px;
+    padding:11px;
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:var(--verde-principal);
+
+    box-shadow:0 0 0 .2rem rgba(31,110,67,.15);
+}
+
+/* ===========================================================
+   LOGIN
+   =========================================================== */
+
+.login-body{
+
+    background:linear-gradient(
+        135deg,
+        #155233,
+        #1F6E43,
+        #2E8B57
+    );
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.login-container{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+}
+
+.login-card{
+
+    width:100%;
+    max-width:430px;
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:45px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+    animation:fadeIn .6s ease;
+}
+
+.login-header{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.logo-login{
+
+    width:90px;
+    height:90px;
+
+    margin:auto auto 20px;
+
+    border-radius:22px;
+
+    background:#1F6E43;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:42px;
+}
+
+.login-header h2{
+    color:#155233;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.login-header p{
+    color:#777;
+}
+
+.login-footer{
+    text-align:center;
+    margin-top:30px;
+    color:#888;
+    font-size:13px;
+}
+
+.form-label{
+    font-weight:600;
+    color:#444;
+}
+
+.input-group .btn{
+    border-radius:0 10px 10px 0;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ===========================================================
+   RESPONSIVO
+   =========================================================== */
+
+@media (max-width:992px){
+
+    .sidebar{
+        width:90px;
+    }
+
+    .sidebar span,
+    .logo h3,
+    .logo small{
+        display:none;
+    }
+
+    .conteudo{
+        margin-left:90px;
+        width:calc(100% - 90px);
+    }
+
+}

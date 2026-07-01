@@ -1,0 +1,159 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Equipamentos
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2>Equipamentos</h2>
+
+        <small class="text-muted">
+            Controle dos equipamentos da empresa
+        </small>
+
+    </div>
+
+    <a href="/equipamentos/novo" class="btn btn-success">
+
+        <i class="bi bi-plus-circle"></i>
+
+        Novo Equipamento
+
+    </a>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <table class="table table-hover align-middle">
+
+            <thead class="table-success">
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Patrimônio</th>
+                    <th>Equipamento</th>
+                    <th>Categoria</th>
+                    <th>Fabricante</th>
+                    <th>Modelo</th>
+                    <th>Nº Série</th>
+                    <th>Próxima Calibração</th>
+                    <th>Status</th>
+                    <th width="170">Ações</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for equipamento in equipamentos %}
+
+                <tr>
+
+                    <td>{{ equipamento.id }}</td>
+                    <td>{{ equipamento.patrimonio }}</td>
+                    <td>{{ equipamento.nome }}</td>
+                    <td>{{ equipamento.categoria }}</td>
+                    <td>{{ equipamento.fabricante }}</td>
+
+<td>{{ equipamento.modelo }}</td>
+
+<td>{{ equipamento.numero_serie }}</td>
+
+<td>
+
+    {% if equipamento.proxima_calibracao %}
+
+        {{ equipamento.proxima_calibracao.strftime('%d/%m/%Y') }}
+
+    {% else %}
+
+        -
+
+    {% endif %}
+
+</td>
+
+                    <td>
+
+                        {% if equipamento.status == "Disponível" %}
+
+                            <span class="badge bg-success">
+                                Disponível
+                            </span>
+
+                        {% elif equipamento.status == "Em Campo" %}
+
+                            <span class="badge bg-primary">
+                                Em Campo
+                            </span>
+
+                        {% elif equipamento.status == "Manutenção" %}
+
+                            <span class="badge bg-danger">
+                                Manutenção
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                {{ equipamento.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="{{ url_for('equipamentos.editar_equipamento', id=equipamento.id) }}"
+                           class="btn btn-warning btn-sm">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                        </a>
+
+                        <a href="{{ url_for('equipamentos.excluir_equipamento', id=equipamento.id) }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Deseja realmente excluir este equipamento?')">
+
+                            <i class="bi bi-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="7" class="text-center text-muted">
+
+                        Nenhum equipamento cadastrado.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

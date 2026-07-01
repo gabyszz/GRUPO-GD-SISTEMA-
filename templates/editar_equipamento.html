@@ -1,0 +1,179 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Editar Equipamento
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2>Editar Equipamento</h2>
+
+    <hr>
+
+    <form action="/equipamentos/atualizar/{{ equipamento.id }}" method="POST">
+
+        <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+        <div class="row">
+
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">Patrimônio</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="patrimonio"
+                    value="{{ equipamento.patrimonio }}"
+                    required>
+
+            </div>
+
+            <div class="col-md-5 mb-3">
+
+                <label class="form-label">Nome</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    value="{{ equipamento.nome }}"
+                    required>
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">Categoria</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="categoria"
+                    value="{{ equipamento.categoria }}">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">Fabricante</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="fabricante"
+                    value="{{ equipamento.fabricante }}">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">Modelo</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="modelo"
+                    value="{{ equipamento.modelo }}">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">Número de Série</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="numero_serie"
+                    value="{{ equipamento.numero_serie }}">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">Status</label>
+
+                <select class="form-select" name="status">
+
+                    <option value="Disponível"
+                        {% if equipamento.status == "Disponível" %}selected{% endif %}>
+                        Disponível
+                    </option>
+
+                    <option value="Em Campo"
+                        {% if equipamento.status == "Em Campo" %}selected{% endif %}>
+                        Em Campo
+                    </option>
+
+                    <option value="Manutenção"
+                        {% if equipamento.status == "Manutenção" %}selected{% endif %}>
+                        Manutenção
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">Última Calibração</label>
+
+                <input
+                    type="date"
+                    class="form-control"
+                    name="ultima_calibracao"
+                    value="{% if equipamento.ultima_calibracao %}{{ equipamento.ultima_calibracao.strftime('%Y-%m-%d') }}{% endif %}">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <label class="form-label">Próxima Calibração</label>
+
+                <input
+                    type="date"
+                    class="form-control"
+                    name="proxima_calibracao"
+                    value="{% if equipamento.proxima_calibracao %}{{ equipamento.proxima_calibracao.strftime('%Y-%m-%d') }}{% endif %}">
+
+            </div>
+
+            <div class="col-md-12 mb-3">
+
+                <label class="form-label">Observações</label>
+
+                <textarea
+                    class="form-control"
+                    rows="4"
+                    name="observacoes">{{ equipamento.observacoes }}</textarea>
+
+            </div>
+
+        </div>
+
+        <button class="btn btn-success">
+
+            <i class="bi bi-check-circle"></i>
+
+            Salvar Alterações
+
+        </button>
+
+        <a href="/equipamentos" class="btn btn-secondary">
+
+            Cancelar
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

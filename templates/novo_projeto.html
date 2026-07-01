@@ -1,0 +1,103 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Novo Projeto
+{% endblock %}
+
+{% block content %}
+
+<h2>Novo Projeto</h2>
+
+<hr>
+
+<form action="/projetos/salvar" method="POST">
+
+    <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+<div class="mb-3">
+
+<label>Nome do Projeto</label>
+
+<input
+class="form-control"
+name="nome"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Cliente</label>
+
+<select
+class="form-select"
+name="cliente_id"
+required>
+
+<option value="">Selecione...</option>
+
+{% for cliente in clientes %}
+
+<option value="{{ cliente.id }}">
+
+{{ cliente.nome }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label>Responsável</label>
+
+<input
+class="form-control"
+name="responsavel">
+
+</div>
+
+<div class="mb-3">
+
+<label>Status</label>
+
+<select
+class="form-select"
+name="status">
+
+<option>Planejamento</option>
+
+<option>Em Campo</option>
+
+<option>Escritório</option>
+
+<option>Finalizado</option>
+
+<option>Entregue</option>
+
+</select>
+
+</div>
+
+<button class="btn btn-success">
+
+Salvar Projeto
+
+</button>
+
+<a href="/projetos" class="btn btn-secondary">
+
+Cancelar
+
+</a>
+
+</form>
+
+{% endblock %}

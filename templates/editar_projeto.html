@@ -1,0 +1,113 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Editar Projeto
+{% endblock %}
+
+{% block content %}
+
+<h2>Editar Projeto</h2>
+
+<hr>
+
+<form
+action="/projetos/atualizar/{{ projeto.id }}"
+method="POST">
+
+<form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+<div class="mb-3">
+
+<label>Nome</label>
+
+<input
+class="form-control"
+name="nome"
+value="{{ projeto.nome }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Cliente</label>
+
+<select
+class="form-select"
+name="cliente_id">
+
+{% for cliente in clientes %}
+
+<option
+value="{{ cliente.id }}"
+{% if cliente.id == projeto.cliente_id %}
+selected
+{% endif %}>
+
+{{ cliente.nome }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label>Responsável</label>
+
+<input
+class="form-control"
+name="responsavel"
+value="{{ projeto.responsavel }}">
+
+</div>
+
+<div class="mb-3">
+
+<label>Status</label>
+
+<select
+class="form-select"
+name="status">
+
+{% for status in ["Planejamento","Em Campo","Escritório","Finalizado","Entregue"] %}
+
+<option
+{% if projeto.status==status %}
+selected
+{% endif %}>
+
+{{ status }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<button class="btn btn-success">
+
+Salvar Alterações
+
+</button>
+
+<a
+href="/projetos"
+class="btn btn-secondary">
+
+Cancelar
+
+</a>
+
+</form>
+
+{% endblock %}

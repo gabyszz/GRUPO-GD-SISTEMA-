@@ -1,0 +1,98 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Novo Equipamento
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2>Novo Equipamento</h2>
+
+    <hr>
+
+    <form action="/equipamentos/salvar" method="POST">
+
+        <form action="/clientes/salvar" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="row">
+
+        <div class="row">
+
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Patrimônio</label>
+                <input type="text" class="form-control" name="patrimonio" required>
+            </div>
+
+            <div class="col-md-5 mb-3">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" name="nome" required>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Categoria</label>
+                <input type="text" class="form-control" name="categoria">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Fabricante</label>
+                <input type="text" class="form-control" name="fabricante">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Modelo</label>
+                <input type="text" class="form-control" name="modelo">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Número de Série</label>
+                <input type="text" class="form-control" name="numero_serie">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Status</label>
+
+                <select class="form-select" name="status">
+
+                    <option>Disponível</option>
+                    <option>Em Campo</option>
+                    <option>Manutenção</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Última Calibração</label>
+                <input type="date" class="form-control" name="ultima_calibracao">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Próxima Calibração</label>
+                <input type="date" class="form-control" name="proxima_calibracao">
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Observações</label>
+                <textarea class="form-control" rows="4" name="observacoes"></textarea>
+            </div>
+
+        </div>
+
+        <button class="btn btn-success">
+            <i class="bi bi-check-circle"></i>
+            Salvar Equipamento
+        </button>
+
+        <a href="/equipamentos" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

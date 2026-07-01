@@ -1,0 +1,189 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Usuários{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h1 class="fw-bold">Usuários</h1>
+
+        <p class="text-muted">
+            Gerenciamento de usuários do sistema
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('usuarios.novo_usuario') }}" class="btn btn-success">
+
+        <i class="bi bi-plus-circle"></i>
+
+        Novo Usuário
+
+    </a>
+
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+
+{% for categoria, mensagem in messages %}
+
+<div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+
+    {{ mensagem }}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+{% endwith %}
+
+<div class="card">
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th width="70">ID</th>
+
+                        <th>Nome</th>
+
+                        <th>E-mail</th>
+
+                        <th width="160">Perfil</th>
+
+                        <th width="120">Status</th>
+
+                        <th width="270" class="text-center">Ações</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if usuarios %}
+
+                    {% for usuario in usuarios %}
+
+                    <tr>
+
+                        <td>{{ usuario.id }}</td>
+
+                        <td>{{ usuario.nome }}</td>
+
+                        <td>{{ usuario.email }}</td>
+
+                        <td>{{ usuario.perfil }}</td>
+
+                        <td>
+
+                            {% if usuario.ativo %}
+
+                                <span class="badge bg-success">
+                                    Ativo
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+                                    Inativo
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <a href="{{ url_for('usuarios.editar_usuario', id=usuario.id) }}"
+                               class="btn btn-warning btn-sm"
+                               title="Editar">
+
+                                <i class="bi bi-pencil-fill"></i>
+
+                            </a>
+
+                            {% if usuario.ativo %}
+
+                                {% if usuario.id != current_user.id %}
+
+                                <a href="{{ url_for('usuarios.desativar_usuario', id=usuario.id) }}"
+                                   class="btn btn-secondary btn-sm"
+                                   title="Desativar"
+                                   onclick="return confirm('Deseja desativar este usuário?')">
+
+                                    <i class="bi bi-person-x-fill"></i>
+
+                                </a>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                <a href="{{ url_for('usuarios.ativar_usuario', id=usuario.id) }}"
+                                   class="btn btn-success btn-sm"
+                                   title="Ativar">
+
+                                    <i class="bi bi-person-check-fill"></i>
+
+                                </a>
+
+                            {% endif %}
+
+                            {% if usuario.id != current_user.id %}
+
+                            <a href="{{ url_for('usuarios.excluir_usuario', id=usuario.id) }}"
+                               class="btn btn-danger btn-sm"
+                               title="Excluir"
+                               onclick="return confirm('Deseja realmente excluir este usuário?')">
+
+                                <i class="bi bi-trash-fill"></i>
+
+                            </a>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center text-muted py-4">
+
+                            Nenhum usuário cadastrado.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
