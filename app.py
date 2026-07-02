@@ -107,15 +107,6 @@ app.register_blueprint(equipamentos)
 app.register_blueprint(usuarios)
 
 # ==========================
-# CRIA TABELAS
-# (Somente enquanto ainda
-# estamos desenvolvendo)
-# ==========================
-
-with app.app_context():
-    db.create_all()
-
-# ==========================
 # EXECUÇÃO
 # ==========================
 

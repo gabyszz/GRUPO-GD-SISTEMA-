@@ -9,8 +9,9 @@ class Config:
     # Caminho absoluto da pasta do projeto
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-    # Banco de dados SQLite
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, "topografia.db")
-
+    # Banco de dados PostgreSQL
+    SQLALCHEMY_DATABASE_URI = (
+    "postgresql+psycopg2://postgres:Mello%4008@localhost:5432/gd_topografia"
+)
     # Desabilita aviso do SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
