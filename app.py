@@ -12,6 +12,7 @@ from database.database import db
 from models.cliente import Cliente
 from models.projeto import Projeto
 from models.planejamento import Planejamento
+from models.financeiro import Financeiro
 from models.funcionario import Funcionario
 from models.equipe import Equipe
 from models.veiculo import Veiculo
@@ -28,6 +29,7 @@ from routes.dashboard import dashboard
 from routes.clientes import clientes
 from routes.projetos import projetos
 from routes.planejamento import planejamento
+from routes.financeiro import financeiro
 from routes.funcionarios import funcionarios
 from routes.equipes import equipes
 from routes.veiculos import veiculos
@@ -100,6 +102,7 @@ app.register_blueprint(dashboard)
 app.register_blueprint(clientes)
 app.register_blueprint(projetos)
 app.register_blueprint(planejamento)
+app.register_blueprint(financeiro)
 app.register_blueprint(funcionarios)
 app.register_blueprint(equipes)
 app.register_blueprint(veiculos)

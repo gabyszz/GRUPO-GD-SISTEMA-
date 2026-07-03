@@ -46,7 +46,8 @@ Planejamento
                     <th>Veículo</th>
                     <th>Data Inicial</th>
                     <th>Data Final</th>
-                    <th>Status</th>
+                    <th>Status Projeto</th>
+                    <th>Status Financeiro</th>
                     <th width="170">Ações</th>
 
                 </tr>
@@ -61,27 +62,13 @@ Planejamento
 
                     <td>{{ planejamento.id }}</td>
 
-                   <td>
+                    <td>{{ planejamento.projeto.nome }}</td>
 
-    {{ planejamento.projeto.nome }}
+                    <td>{{ planejamento.projeto.cliente.nome }}</td>
 
-</td>
+                    <td>{{ planejamento.equipe.nome }}</td>
 
-<td>
-
-    {{ planejamento.projeto.cliente.nome }}
-
-</td>
-
-<td>
-
-    {{ planejamento.equipe.nome }}
-
-</td>
-
-                    <td>
-                        {{ planejamento.veiculo.modelo }}
-                    </td>
+                    <td>{{ planejamento.veiculo.modelo }}</td>
 
                     <td>
 
@@ -116,31 +103,41 @@ Planejamento
                         {% if planejamento.status == "Planejado" %}
 
                             <span class="badge bg-secondary">
+
                                 Planejado
+
                             </span>
 
                         {% elif planejamento.status == "Em Andamento" %}
 
                             <span class="badge bg-primary">
+
                                 Em Andamento
+
                             </span>
 
                         {% elif planejamento.status == "Concluído" %}
 
                             <span class="badge bg-success">
+
                                 Concluído
+
                             </span>
 
                         {% elif planejamento.status == "Cancelado" %}
 
                             <span class="badge bg-danger">
+
                                 Cancelado
+
                             </span>
 
                         {% else %}
 
                             <span class="badge bg-dark">
+
                                 {{ planejamento.status }}
+
                             </span>
 
                         {% endif %}
@@ -149,20 +146,78 @@ Planejamento
 
                     <td>
 
-<a href="/planejamento/editar/{{ planejamento.id }}"
-   class="btn btn-warning btn-sm">
+                        {% if planejamento.projeto.financeiro %}
 
-    <i class="bi bi-pencil-square"></i>
+                            {% if planejamento.projeto.financeiro.status == "Pago" %}
 
-</a>
+                                <span class="badge bg-success">
 
-<a href="/planejamento/excluir/{{ planejamento.id }}"
-   class="btn btn-danger btn-sm"
-   onclick="return confirm('Deseja realmente excluir este planejamento?')">
+                                    Pago
 
-    <i class="bi bi-trash"></i>
+                                </span>
 
-</a>
+                            {% elif planejamento.projeto.financeiro.status == "Recebimento Parcial" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Parcial
+
+                                </span>
+
+                            {% elif planejamento.projeto.financeiro.status == "Faturado" %}
+
+                                <span class="badge bg-primary">
+
+                                    Faturado
+
+                                </span>
+
+                            {% elif planejamento.projeto.financeiro.status == "Cancelado" %}
+
+                                <span class="badge bg-danger">
+
+                                    Cancelado
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    A Faturar
+
+                                </span>
+
+                            {% endif %}
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                Não cadastrado
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="/planejamento/editar/{{ planejamento.id }}"
+                           class="btn btn-warning btn-sm">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                        </a>
+
+                        <a href="/planejamento/excluir/{{ planejamento.id }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Deseja realmente excluir este planejamento?')">
+
+                            <i class="bi bi-trash"></i>
+
+                        </a>
 
                     </td>
 
@@ -172,7 +227,7 @@ Planejamento
 
                 <tr>
 
-                    <td colspan="8"
+                    <td colspan="10"
                         class="text-center text-muted">
 
                         Nenhum planejamento cadastrado.

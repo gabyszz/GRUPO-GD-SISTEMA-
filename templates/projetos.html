@@ -31,7 +31,9 @@ Projetos
 
             <th>Responsável</th>
 
-            <th>Status</th>
+            <th>Status Projeto</th>
+
+            <th>Status Financeiro</th>
 
             <th width="170">Ações</th>
 
@@ -97,13 +99,73 @@ Projetos
 
             <td>
 
-                <a href="/projetos/editar/{{ projeto.id }}" class="btn btn-warning btn-sm">
+                {% if projeto.financeiro %}
+
+                    {% if projeto.financeiro.status == "Pago" %}
+
+                        <span class="badge bg-success">
+
+                            Pago
+
+                        </span>
+
+                    {% elif projeto.financeiro.status == "Recebimento Parcial" %}
+
+                        <span class="badge bg-warning text-dark">
+
+                            Parcial
+
+                        </span>
+
+                    {% elif projeto.financeiro.status == "Faturado" %}
+
+                        <span class="badge bg-primary">
+
+                            Faturado
+
+                        </span>
+
+                    {% elif projeto.financeiro.status == "Cancelado" %}
+
+                        <span class="badge bg-danger">
+
+                            Cancelado
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-secondary">
+
+                            A Faturar
+
+                        </span>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <span class="badge bg-secondary">
+
+                        Não cadastrado
+
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                <a href="/projetos/editar/{{ projeto.id }}"
+                   class="btn btn-warning btn-sm">
 
                     <i class="bi bi-pencil-square"></i>
 
                 </a>
 
-                <a href="/projetos/excluir/{{ projeto.id }}" class="btn btn-danger btn-sm">
+                <a href="/projetos/excluir/{{ projeto.id }}"
+                   class="btn btn-danger btn-sm">
 
                     <i class="bi bi-trash"></i>
 

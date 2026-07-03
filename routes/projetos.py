@@ -4,6 +4,7 @@ from flask_login import login_required
 from database.database import db
 from models.projeto import Projeto
 from models.cliente import Cliente
+from models.financeiro import Financeiro
 
 from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
@@ -63,7 +64,17 @@ def salvar_projeto():
     )
 
     db.session.add(projeto)
+    db.session.commit()
 
+    # ==========================
+    # CRIA FINANCEIRO AUTOMATICAMENTE
+    # ==========================
+
+    financeiro = Financeiro(
+        projeto_id=projeto.id
+    )
+
+    db.session.add(financeiro)
     db.session.commit()
 
     registrar_log(
@@ -132,6 +143,14 @@ def excluir_projeto(id):
 
     # BACKUP AUTOMÁTICO
     backup_antes_de_alteracao()
+
+    # Exclui o financeiro relacionado, se existir
+    financeiro = Financeiro.query.filter_by(
+        projeto_id=projeto.id
+    ).first()
+
+    if financeiro:
+        db.session.delete(financeiro)
 
     nome = projeto.nome
 

@@ -1,0 +1,371 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Financeiro
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2>Financeiro</h2>
+
+        <small class="text-muted">
+            Controle financeiro dos projetos
+        </small>
+
+    </div>
+
+</div>
+
+<!-- FILTROS -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Projeto
+                    </label>
+
+                    <input
+                        type="text"
+                        name="projeto"
+                        class="form-control"
+                        value="{{ request.args.get('projeto','') }}">
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Cliente
+                    </label>
+
+                    <input
+                        type="text"
+                        name="cliente"
+                        class="form-control"
+                        value="{{ request.args.get('cliente','') }}">
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <label class="form-label">
+                        Status
+                    </label>
+
+                    <select
+                        name="status"
+                        class="form-select">
+
+                        <option value="">Todos</option>
+
+                        <option value="A Faturar"
+                            {% if request.args.get('status') == 'A Faturar' %}selected{% endif %}>
+                            A Faturar
+                        </option>
+
+                        <option value="Recebimento Parcial"
+                            {% if request.args.get('status') == 'Recebimento Parcial' %}selected{% endif %}>
+                            Recebimento Parcial
+                        </option>
+
+                        <option value="Pago"
+                            {% if request.args.get('status') == 'Pago' %}selected{% endif %}>
+                            Pago
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button
+                        class="btn btn-success w-100">
+
+                        <i class="bi bi-search"></i>
+
+                        Pesquisar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- INDICADORES -->
+
+<div class="row mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card border-success shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+
+                    Valor Contratado
+
+                </h6>
+
+                <h4 class="text-success">
+
+                    R$
+                    {{ "{:,.2f}".format(total_contrato).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-primary shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+
+                    Valor Recebido
+
+                </h6>
+
+                <h4 class="text-primary">
+
+                    R$
+                    {{ "{:,.2f}".format(total_recebido).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-warning shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+
+                    A Receber
+
+                </h6>
+
+                <h4 class="text-warning">
+
+                    R$
+                    {{ "{:,.2f}".format(total_receber).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-dark shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+
+                    Projetos
+
+                </h6>
+
+                <h4>
+
+                    {{ quantidade }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TABELA -->
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <table class="table table-hover align-middle">
+
+            <thead class="table-success">
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Projeto</th>
+
+                    <th>Cliente</th>
+
+                    <th>Contrato</th>
+
+                    <th>Recebido</th>
+
+                    <th>Saldo</th>
+
+                    <th>Status</th>
+
+                    <th width="100">
+                        Ações
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for financeiro in financeiros %}
+
+                <tr>
+
+                    <td>{{ financeiro.id }}</td>
+
+                    <td>{{ financeiro.projeto.nome }}</td>
+
+                    <td>{{ financeiro.projeto.cliente.nome }}</td>
+
+                    <td>
+
+                        R$
+                        {{ "{:,.2f}".format(financeiro.valor_contrato).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                    </td>
+
+                    <td>
+
+                        R$
+                        {{ "{:,.2f}".format(financeiro.valor_recebido).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            R$
+                            {{ "{:,.2f}".format(financeiro.valor_contrato - financeiro.valor_recebido).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {% if financeiro.status == "Pago" %}
+
+                            <span class="badge bg-success">
+
+                                Pago
+
+                            </span>
+
+                        {% elif financeiro.status == "Recebimento Parcial" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Parcial
+
+                            </span>
+
+                        {% elif financeiro.status == "Faturado" %}
+
+                            <span class="badge bg-primary">
+
+                                Faturado
+
+                            </span>
+
+                        {% elif financeiro.status == "Cancelado" %}
+
+                            <span class="badge bg-danger">
+
+                                Cancelado
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                A Faturar
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="/financeiro/editar/{{ financeiro.id }}"
+                           class="btn btn-warning btn-sm">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="8"
+                        class="text-center text-muted">
+
+                        Nenhum registro financeiro encontrado.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
