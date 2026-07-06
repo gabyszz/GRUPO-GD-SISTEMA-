@@ -110,84 +110,9 @@ Financeiro
 
 </div>
 
-<!-- INDICADORES -->
+<!-- INDICADOR -->
 
 <div class="row mb-4">
-
-    <div class="col-md-3">
-
-        <div class="card border-success shadow-sm">
-
-            <div class="card-body">
-
-                <h6 class="text-muted">
-
-                    Valor Contratado
-
-                </h6>
-
-                <h4 class="text-success">
-
-                    R$
-                    {{ "{:,.2f}".format(total_contrato).replace(",", "X").replace(".", ",").replace("X", ".") }}
-
-                </h4>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-3">
-
-        <div class="card border-primary shadow-sm">
-
-            <div class="card-body">
-
-                <h6 class="text-muted">
-
-                    Valor Recebido
-
-                </h6>
-
-                <h4 class="text-primary">
-
-                    R$
-                    {{ "{:,.2f}".format(total_recebido).replace(",", "X").replace(".", ",").replace("X", ".") }}
-
-                </h4>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-3">
-
-        <div class="card border-warning shadow-sm">
-
-            <div class="card-body">
-
-                <h6 class="text-muted">
-
-                    A Receber
-
-                </h6>
-
-                <h4 class="text-warning">
-
-                    R$
-                    {{ "{:,.2f}".format(total_receber).replace(",", "X").replace(".", ",").replace("X", ".") }}
-
-                </h4>
-
-            </div>
-
-        </div>
-
-    </div>
 
     <div class="col-md-3">
 
@@ -233,16 +158,12 @@ Financeiro
 
                     <th>Cliente</th>
 
-                    <th>Contrato</th>
-
-                    <th>Recebido</th>
-
-                    <th>Saldo</th>
-
                     <th>Status</th>
 
                     <th width="100">
+
                         Ações
+
                     </th>
 
                 </tr>
@@ -260,31 +181,6 @@ Financeiro
                     <td>{{ financeiro.projeto.nome }}</td>
 
                     <td>{{ financeiro.projeto.cliente.nome }}</td>
-
-                    <td>
-
-                        R$
-                        {{ "{:,.2f}".format(financeiro.valor_contrato).replace(",", "X").replace(".", ",").replace("X", ".") }}
-
-                    </td>
-
-                    <td>
-
-                        R$
-                        {{ "{:,.2f}".format(financeiro.valor_recebido).replace(",", "X").replace(".", ",").replace("X", ".") }}
-
-                    </td>
-
-                    <td>
-
-                        <strong>
-
-                            R$
-                            {{ "{:,.2f}".format(financeiro.valor_contrato - financeiro.valor_recebido).replace(",", "X").replace(".", ",").replace("X", ".") }}
-
-                        </strong>
-
-                    </td>
 
                     <td>
 
@@ -349,7 +245,7 @@ Financeiro
 
                 <tr>
 
-                    <td colspan="8"
+                    <td colspan="5"
                         class="text-center text-muted">
 
                         Nenhum registro financeiro encontrado.

@@ -26,6 +26,10 @@ class Financeiro(db.Model):
         )
     )
 
+    # ==========================
+    # VALORES
+    # ==========================
+
     valor_contrato = db.Column(
         db.Float,
         default=0
@@ -36,11 +40,27 @@ class Financeiro(db.Model):
         default=0
     )
 
+    # ==========================
+    # FATURAMENTO
+    # ==========================
+
     nota_fiscal = db.Column(
         db.String(50)
     )
 
+    faturado_por = db.Column(
+        db.String(120)
+    )
+
     data_faturamento = db.Column(
+        db.Date
+    )
+
+    # ==========================
+    # RECEBIMENTO
+    # ==========================
+
+    data_prevista_recebimento = db.Column(
         db.Date
     )
 
@@ -48,11 +68,27 @@ class Financeiro(db.Model):
         db.Date
     )
 
+    # ==========================
+    # STATUS
+    # ==========================
+
     status = db.Column(
         db.String(30),
         default="A Faturar"
     )
 
+    # ==========================
+    # OBSERVAÇÕES
+    # ==========================
+
     observacoes = db.Column(
         db.Text
     )
+
+    # ==========================
+    # PROPRIEDADES
+    # ==========================
+
+    @property
+    def valor_aberto(self):
+        return (self.valor_contrato or 0) - (self.valor_recebido or 0)

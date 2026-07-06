@@ -20,18 +20,110 @@ Editar Financeiro
 
     <div class="card-body">
 
+        <!-- ==========================
+             RESUMO FINANCEIRO
+        =========================== -->
+
+        <div class="row mb-4">
+
+            <div class="col-md-4">
+
+                <div class="card border-success">
+
+                    <div class="card-body text-center">
+
+                        <small class="text-muted">
+                            Valor do Contrato
+                        </small>
+
+                        <h4 class="text-success mt-2">
+
+                            R$
+                            {{ "{:,.2f}".format(financeiro.valor_contrato or 0).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card border-primary">
+
+                    <div class="card-body text-center">
+
+                        <small class="text-muted">
+                            Valor Recebido
+                        </small>
+
+                        <h4 class="text-primary mt-2">
+
+                            R$
+                            {{ "{:,.2f}".format(financeiro.valor_recebido or 0).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card border-warning">
+
+                    <div class="card-body text-center">
+
+                        <small class="text-muted">
+                            Valor em Aberto
+                        </small>
+
+                        <h4 class="text-warning mt-2">
+
+                            R$
+                            {{ "{:,.2f}".format(financeiro.valor_aberto).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
         <form method="POST"
               action="/financeiro/atualizar/{{ financeiro.id }}">
 
-            <input type="hidden"
-                   name="csrf_token"
-                   value="{{ csrf_token() }}">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}">
+
+            <!-- ==========================
+                 PROJETO
+            =========================== -->
+
+            <h5 class="border-bottom pb-2 mb-3">
+
+                Informações do Projeto
+
+            </h5>
 
             <div class="row">
 
                 <div class="col-md-6 mb-3">
 
-                    <label>Projeto</label>
+                    <label class="form-label">
+
+                        Projeto
+
+                    </label>
 
                     <input
                         class="form-control"
@@ -42,7 +134,11 @@ Editar Financeiro
 
                 <div class="col-md-6 mb-3">
 
-                    <label>Cliente</label>
+                    <label class="form-label">
+
+                        Cliente
+
+                    </label>
 
                     <input
                         class="form-control"
@@ -51,9 +147,27 @@ Editar Financeiro
 
                 </div>
 
+            </div>
+
+            <!-- ==========================
+                 VALORES
+            =========================== -->
+
+            <h5 class="border-bottom pb-2 mt-4 mb-3">
+
+                Valores
+
+            </h5>
+
+            <div class="row">
+
                 <div class="col-md-6 mb-3">
 
-                    <label>Valor do Contrato</label>
+                    <label class="form-label">
+
+                        Valor do Contrato
+
+                    </label>
 
                     <input
                         type="number"
@@ -66,7 +180,11 @@ Editar Financeiro
 
                 <div class="col-md-6 mb-3">
 
-                    <label>Valor Recebido</label>
+                    <label class="form-label">
+
+                        Valor Recebido
+
+                    </label>
 
                     <input
                         type="number"
@@ -77,9 +195,27 @@ Editar Financeiro
 
                 </div>
 
-                <div class="col-md-6 mb-3">
+            </div>
 
-                    <label>Nota Fiscal</label>
+            <!-- ==========================
+                 FATURAMENTO
+            =========================== -->
+
+            <h5 class="border-bottom pb-2 mt-4 mb-3">
+
+                Faturamento
+
+            </h5>
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">
+
+                        Nota Fiscal
+
+                    </label>
 
                     <input
                         type="text"
@@ -89,33 +225,29 @@ Editar Financeiro
 
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
 
-                    <label>Status Financeiro</label>
+                    <label class="form-label">
 
-                    <select
-                        name="status"
-                        class="form-select">
+                        Faturado por
 
-                        {% for s in ["A Faturar","Faturado","Recebimento Parcial","Pago","Cancelado"] %}
+                    </label>
 
-                        <option
-                            value="{{ s }}"
-                            {% if financeiro.status == s %}selected{% endif %}>
-
-                            {{ s }}
-
-                        </option>
-
-                        {% endfor %}
-
-                    </select>
+                    <input
+                        type="text"
+                        name="faturado_por"
+                        class="form-control"
+                        value="{{ financeiro.faturado_por or '' }}">
 
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
 
-                    <label>Data de Faturamento</label>
+                    <label class="form-label">
+
+                        Data do Faturamento
+
+                    </label>
 
                     <input
                         type="date"
@@ -125,9 +257,43 @@ Editar Financeiro
 
                 </div>
 
-                <div class="col-md-6 mb-3">
+            </div>
 
-                    <label>Data de Recebimento</label>
+            <!-- ==========================
+                 RECEBIMENTO
+            =========================== -->
+
+            <h5 class="border-bottom pb-2 mt-4 mb-3">
+
+                Recebimento
+
+            </h5>
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">
+
+                        Data Prevista
+
+                    </label>
+
+                    <input
+                        type="date"
+                        name="data_prevista_recebimento"
+                        class="form-control"
+                        value="{{ financeiro.data_prevista_recebimento if financeiro.data_prevista_recebimento else '' }}">
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="form-label">
+
+                        Data do Recebimento
+
+                    </label>
 
                     <input
                         type="date"
@@ -137,33 +303,60 @@ Editar Financeiro
 
                 </div>
 
-                <div class="col-12 mb-3">
+                <div class="col-md-4 mb-3">
 
-                    <label>Observações</label>
+                    <label class="form-label">
 
-                    <textarea
-                        name="observacoes"
-                        rows="5"
-                        class="form-control">{{ financeiro.observacoes or "" }}</textarea>
+                        Status
+
+                    </label>
+
+                    <input
+                        class="form-control"
+                        value="{{ financeiro.status }}"
+                        disabled>
 
                 </div>
 
             </div>
 
-            <button
-                class="btn btn-success">
+            <!-- ==========================
+                 OBSERVAÇÕES
+            =========================== -->
 
-                Salvar Alterações
+            <h5 class="border-bottom pb-2 mt-4 mb-3">
 
-            </button>
+                Observações
 
-            <a
-                href="/financeiro"
-                class="btn btn-secondary">
+            </h5>
 
-                Cancelar
+            <div class="mb-4">
 
-            </a>
+                <textarea
+                    name="observacoes"
+                    rows="5"
+                    class="form-control">{{ financeiro.observacoes or "" }}</textarea>
+
+            </div>
+
+            <div class="d-flex justify-content-end">
+
+                <a
+                    href="/financeiro"
+                    class="btn btn-secondary me-2">
+
+                    Cancelar
+
+                </a>
+
+                <button
+                    class="btn btn-success">
+
+                    Salvar Alterações
+
+                </button>
+
+            </div>
 
         </form>
 
