@@ -224,7 +224,7 @@ Editar Financeiro
                         value="{{ financeiro.nota_fiscal or '' }}">
 
                 </div>
-
+ 
                 <div class="col-md-4 mb-3">
 
                     <label class="form-label">
@@ -233,13 +233,25 @@ Editar Financeiro
 
                     </label>
 
-                    <input
-                        type="text"
-                        name="faturado_por"
-                        class="form-control"
-                        value="{{ financeiro.faturado_por or '' }}">
+                <select
+                    name="faturado_por"
+                    class="form-select">
 
-                </div>
+                <option value="">Selecione...</option>
+
+                     <option value="G&D Topografia"
+                         {% if financeiro.faturado_por == "G&D Topografia" %}selected{% endif %}>
+                         G&D Topografia
+                 </option>
+
+                <option value="GDN Topografia"
+                         {% if financeiro.faturado_por == "GDN Topografia" %}selected{% endif %}>
+                         GDN Topografia
+                 </option>
+
+                 </select>
+
+             </div>
 
                 <div class="col-md-4 mb-3">
 
