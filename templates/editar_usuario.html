@@ -67,6 +67,11 @@ Editar Usuário
                     Operador
                 </option>
 
+                <option value="Executor"
+                    {% if usuario.perfil == "Executor" %}selected{% endif %}>
+                    Executor
+                </option>
+
             </select>
 
         </div>
@@ -118,7 +123,7 @@ Editar Usuário
 <form action="{{ url_for('usuarios.alterar_senha', id=usuario.id) }}"
       method="POST">
 
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <div class="row">
 

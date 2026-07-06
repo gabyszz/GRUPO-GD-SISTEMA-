@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, request, redirect
-from flask_login import login_required
 
 from database.database import db
 from models.cliente import Cliente
 
 from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
+from services.permissoes import perfis_permitidos
 
 
 clientes = Blueprint("clientes", __name__)
@@ -16,7 +16,7 @@ clientes = Blueprint("clientes", __name__)
 # ==========================
 
 @clientes.route("/clientes")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def listar_clientes():
 
     lista = Cliente.query.order_by(Cliente.nome).all()
@@ -32,7 +32,7 @@ def listar_clientes():
 # ==========================
 
 @clientes.route("/clientes/novo")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def novo_cliente():
 
     return render_template("novo_cliente.html")
@@ -43,7 +43,7 @@ def novo_cliente():
 # ==========================
 
 @clientes.route("/clientes/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def salvar_cliente():
 
     cliente = Cliente(
@@ -55,7 +55,6 @@ def salvar_cliente():
         cidade=request.form["cidade"],
         estado=request.form["estado"],
         responsavel=request.form["responsavel"],
-      
     )
 
     db.session.add(cliente)
@@ -73,7 +72,7 @@ def salvar_cliente():
 # ==========================
 
 @clientes.route("/clientes/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def editar_cliente(id):
 
     cliente = Cliente.query.get_or_404(id)
@@ -89,7 +88,7 @@ def editar_cliente(id):
 # ==========================
 
 @clientes.route("/clientes/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def atualizar_cliente(id):
 
     cliente = Cliente.query.get_or_404(id)
@@ -104,7 +103,6 @@ def atualizar_cliente(id):
     cliente.cidade = request.form["cidade"]
     cliente.estado = request.form["estado"]
     cliente.responsavel = request.form["responsavel"]
-   
 
     db.session.commit()
 
@@ -120,12 +118,11 @@ def atualizar_cliente(id):
 # ==========================
 
 @clientes.route("/clientes/excluir/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def excluir_cliente(id):
 
     cliente = Cliente.query.get_or_404(id)
 
-    # Backup automático antes da exclusão
     backup_antes_de_alteracao()
 
     nome = cliente.nome

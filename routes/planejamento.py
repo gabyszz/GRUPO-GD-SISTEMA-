@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect
-from flask_login import login_required
+from flask import Blueprint, render_template, request, redirect, flash
+from flask_login import login_required, current_user
 from datetime import datetime
 
 from database.database import db
@@ -13,6 +13,23 @@ from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
 
 planejamento = Blueprint("planejamento", __name__)
+
+# ==========================
+# PERMISSÃO EXECUTOR
+# ==========================
+
+def somente_nao_executor():
+
+    if current_user.perfil == "Executor":
+
+        flash(
+            "Você não possui permissão para realizar esta ação.",
+            "warning"
+        )
+
+        return False
+
+    return True
 
 
 # ==========================
@@ -41,6 +58,9 @@ def listar_planejamento():
 @login_required
 def novo_planejamento():
 
+    if not somente_nao_executor():
+      return redirect("/planejamento")
+
     projetos = Projeto.query.order_by(
         Projeto.nome
     ).all()
@@ -68,6 +88,9 @@ def novo_planejamento():
 @planejamento.route("/planejamento/salvar", methods=["POST"])
 @login_required
 def salvar_planejamento():
+
+    if not somente_nao_executor():
+        return redirect("/planejamento")
 
     data_inicio = request.form.get("data_inicio")
     data_fim = request.form.get("data_fim")
@@ -193,6 +216,9 @@ def atualizar_planejamento(id):
 @planejamento.route("/planejamento/excluir/<int:id>")
 @login_required
 def excluir_planejamento(id):
+
+    if not somente_nao_executor():
+        return redirect("/planejamento")
 
     planejamento_obj = Planejamento.query.get_or_404(id)
 

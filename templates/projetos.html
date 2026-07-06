@@ -10,10 +10,12 @@ Projetos
 
     <h2>Projetos</h2>
 
+    {% if current_user.perfil != "Executor" %}
     <a href="/projetos/novo" class="btn btn-success">
         <i class="bi bi-plus-circle"></i>
         Novo Projeto
     </a>
+    {% endif %}
 
 </div>
 
@@ -156,10 +158,12 @@ Projetos
                     <i class="bi bi-pencil-square"></i>
                 </a>
 
+                {% if current_user.perfil != "Executor" %}
                 <a href="/projetos/excluir/{{ projeto.id }}"
                    class="btn btn-danger btn-sm">
                     <i class="bi bi-trash"></i>
                 </a>
+                {% endif %}
 
             </td>
 

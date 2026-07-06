@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, redirect
-from flask_login import login_required
 
 from database.database import db
 from models.projeto import Projeto
@@ -8,6 +7,7 @@ from models.financeiro import Financeiro
 
 from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
+from services.permissoes import perfis_permitidos
 
 projetos = Blueprint("projetos", __name__)
 
@@ -17,7 +17,7 @@ projetos = Blueprint("projetos", __name__)
 # ==========================
 
 @projetos.route("/projetos")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def listar_projetos():
 
     lista_projetos = Projeto.query.order_by(
@@ -35,7 +35,7 @@ def listar_projetos():
 # ==========================
 
 @projetos.route("/projetos/novo")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def novo_projeto():
 
     clientes = Cliente.query.order_by(
@@ -53,7 +53,7 @@ def novo_projeto():
 # ==========================
 
 @projetos.route("/projetos/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def salvar_projeto():
 
     projeto = Projeto(
@@ -68,30 +68,6 @@ def salvar_projeto():
 
     db.session.add(projeto)
     db.session.commit()
-
-    # ==========================
-    # CRIA FINANCEIRO AUTOMATICAMENTE
-    # ==========================
-
-    financeiro = Financeiro(
-        projeto_id=projeto.id
-    )
-
-    db.session.add(financeiro)
-    db.session.commit()
-
-    registrar_log(
-        f"Criou o projeto '{projeto.nome}'"
-    )
-
-    return redirect("/projetos")
-
-    db.session.add(projeto)
-    db.session.commit()
-
-    # ==========================
-    # CRIA FINANCEIRO AUTOMATICAMENTE
-    # ==========================
 
     financeiro = Financeiro(
         projeto_id=projeto.id
@@ -112,7 +88,7 @@ def salvar_projeto():
 # ==========================
 
 @projetos.route("/projetos/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def editar_projeto(id):
 
     projeto = Projeto.query.get_or_404(id)
@@ -133,7 +109,7 @@ def editar_projeto(id):
 # ==========================
 
 @projetos.route("/projetos/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def atualizar_projeto(id):
 
     projeto = Projeto.query.get_or_404(id)
@@ -162,15 +138,13 @@ def atualizar_projeto(id):
 # ==========================
 
 @projetos.route("/projetos/excluir/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def excluir_projeto(id):
 
     projeto = Projeto.query.get_or_404(id)
 
-    # BACKUP AUTOMÁTICO
     backup_antes_de_alteracao()
 
-    # Exclui o financeiro relacionado, se existir
     financeiro = Financeiro.query.filter_by(
         projeto_id=projeto.id
     ).first()
@@ -181,7 +155,6 @@ def excluir_projeto(id):
     nome = projeto.nome
 
     db.session.delete(projeto)
-
     db.session.commit()
 
     registrar_log(
