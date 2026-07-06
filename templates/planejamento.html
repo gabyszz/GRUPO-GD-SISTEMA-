@@ -39,15 +39,12 @@ Planejamento
 
                 <tr>
 
-                    <th>ID</th>
                     <th>Projeto</th>
-                    <th>Cliente</th>
+                    <th>Responsável</th>
                     <th>Equipe</th>
-                    <th>Veículo</th>
-                    <th>Data Inicial</th>
-                    <th>Data Final</th>
-                    <th>Status Projeto</th>
+                    <th>Status Planejamento</th>
                     <th>Status Financeiro</th>
+                    <th>Prazo</th>
                     <th width="170">Ações</th>
 
                 </tr>
@@ -60,41 +57,21 @@ Planejamento
 
                 <tr>
 
-                    <td>{{ planejamento.id }}</td>
-
-                    <td>{{ planejamento.projeto.nome }}</td>
-
-                    <td>{{ planejamento.projeto.cliente.nome }}</td>
-
-                    <td>{{ planejamento.equipe.nome }}</td>
-
-                    <td>{{ planejamento.veiculo.modelo }}</td>
-
                     <td>
 
-                        {% if planejamento.data_inicio %}
-
-                            {{ planejamento.data_inicio.strftime('%d/%m/%Y') }}
-
-                        {% else %}
-
-                            -
-
-                        {% endif %}
+                        {{ planejamento.projeto.nome }}
 
                     </td>
 
                     <td>
 
-                        {% if planejamento.data_fim %}
+                        {{ planejamento.responsavel }}
 
-                            {{ planejamento.data_fim.strftime('%d/%m/%Y') }}
+                    </td>
 
-                        {% else %}
+                    <td>
 
-                            -
-
-                        {% endif %}
+                        {{ planejamento.equipe.nome }}
 
                     </td>
 
@@ -204,6 +181,20 @@ Planejamento
 
                     <td>
 
+                        {% if planejamento.data_fim %}
+
+                            {{ planejamento.data_fim.strftime('%d/%m/%Y') }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
                         <a href="/planejamento/editar/{{ planejamento.id }}"
                            class="btn btn-warning btn-sm">
 
@@ -227,7 +218,7 @@ Planejamento
 
                 <tr>
 
-                    <td colspan="10"
+                    <td colspan="7"
                         class="text-center text-muted">
 
                         Nenhum planejamento cadastrado.

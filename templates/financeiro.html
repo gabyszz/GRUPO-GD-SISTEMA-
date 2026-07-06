@@ -121,15 +121,11 @@ Financeiro
             <div class="card-body">
 
                 <h6 class="text-muted">
-
                     Projetos
-
                 </h6>
 
                 <h4>
-
                     {{ quantidade }}
-
                 </h4>
 
             </div>
@@ -152,18 +148,16 @@ Financeiro
 
                 <tr>
 
-                    <th>ID</th>
-
                     <th>Projeto</th>
 
-                    <th>Cliente</th>
+                    <th>Valor em Aberto</th>
+
+                    <th>Data Prevista</th>
 
                     <th>Status</th>
 
                     <th width="100">
-
                         Ações
-
                     </th>
 
                 </tr>
@@ -176,52 +170,65 @@ Financeiro
 
                 <tr>
 
-                    <td>{{ financeiro.id }}</td>
+                    <td>
+                        {{ financeiro.projeto.nome }}
+                    </td>
 
-                    <td>{{ financeiro.projeto.nome }}</td>
+                    <td>
 
-                    <td>{{ financeiro.projeto.cliente.nome }}</td>
+                        <strong class="text-danger">
+
+                            R$
+                            {{ "{:,.2f}".format(financeiro.valor_aberto).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {% if financeiro.data_prevista_recebimento %}
+
+                            {{ financeiro.data_prevista_recebimento.strftime('%d/%m/%Y') }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
 
                     <td>
 
                         {% if financeiro.status == "Pago" %}
 
                             <span class="badge bg-success">
-
                                 Pago
-
                             </span>
 
                         {% elif financeiro.status == "Recebimento Parcial" %}
 
                             <span class="badge bg-warning text-dark">
-
                                 Parcial
-
                             </span>
 
                         {% elif financeiro.status == "Faturado" %}
 
                             <span class="badge bg-primary">
-
                                 Faturado
-
                             </span>
 
                         {% elif financeiro.status == "Cancelado" %}
 
                             <span class="badge bg-danger">
-
                                 Cancelado
-
                             </span>
 
                         {% else %}
 
                             <span class="badge bg-secondary">
-
                                 A Faturar
-
                             </span>
 
                         {% endif %}

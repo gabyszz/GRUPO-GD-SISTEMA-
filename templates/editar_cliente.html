@@ -1,57 +1,197 @@
 {% extends "layout/base.html" %}
 
-{% block title %}Editar Cliente{% endblock %}
+{% block title %}
+Editar Cliente
+{% endblock %}
 
 {% block content %}
-<h2>Editar Cliente</h2>
-<hr>
 
-<form action="/clientes/atualizar/{{ cliente.id }}" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card shadow">
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label>Cliente</label>
-            <input type="text" class="form-control" name="nome" value="{{ cliente.nome }}" required>
-        </div>
+    <div class="card-header bg-success text-white">
 
-        <div class="col-md-6 mb-3">
-            <label>CNPJ</label>
-            <input type="text" class="form-control" name="cnpj" value="{{ cliente.cnpj }}">
-        </div>
+        <h3 class="mb-0">
 
-        <div class="col-md-6 mb-3">
-            <label>Telefone</label>
-            <input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}">
-        </div>
+            Editar Cliente
 
-        <div class="col-md-6 mb-3">
-            <label>Email</label>
-            <input type="email" class="form-control" name="email" value="{{ cliente.email }}">
-        </div>
+        </h3>
 
-        <div class="col-md-6 mb-3">
-            <label>Responsável</label>
-            <input type="text" class="form-control" name="responsavel" value="{{ cliente.responsavel }}">
-        </div>
-
-        <div class="col-md-8 mb-3">
-            <label>Endereço</label>
-            <input type="text" class="form-control" name="endereco" value="{{ cliente.endereco }}">
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <label>Cidade</label>
-            <input type="text" class="form-control" name="cidade" value="{{ cliente.cidade }}">
-        </div>
-
-        <div class="col-md-1 mb-3">
-            <label>UF</label>
-            <input type="text" class="form-control" name="estado" maxlength="2" value="{{ cliente.estado }}">
-        </div>
     </div>
 
-    <button class="btn btn-success">Salvar Alterações</button>
-    <a href="/clientes" class="btn btn-secondary">Cancelar</a>
-</form>
+    <div class="card-body">
+
+        <form action="/clientes/atualizar/{{ cliente.id }}" method="POST">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <!-- ==========================================
+                 DADOS DO CONTRATANTE
+            =========================================== -->
+
+            <h4 class="border-bottom pb-2 mb-4">
+
+                Dados do Contratante
+
+            </h4>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+
+                        Nome
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="nome"
+                        value="{{ cliente.nome }}"
+                        required>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+
+                        CPF/CNPJ
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="cnpj"
+                        value="{{ cliente.cnpj }}">
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+
+                        Telefone
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="telefone"
+                        value="{{ cliente.telefone }}">
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+
+                        Contato
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="responsavel"
+                        value="{{ cliente.responsavel }}">
+
+                </div>
+
+                <div class="col-md-12 mb-4">
+
+                    <label class="form-label">
+
+                        E-mail
+
+                    </label>
+
+                    <input
+                        type="email"
+                        class="form-control"
+                        name="email"
+                        value="{{ cliente.email }}">
+
+                </div>
+
+                <div class="col-md-8 mb-3">
+
+                    <label class="form-label">
+
+                        Endereço
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="endereco"
+                        value="{{ cliente.endereco }}">
+
+                </div>
+
+                <div class="col-md-3 mb-3">
+
+                    <label class="form-label">
+
+                        Cidade
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="cidade"
+                        value="{{ cliente.cidade }}">
+
+                </div>
+
+                <div class="col-md-1 mb-3">
+
+                    <label class="form-label">
+
+                        UF
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="estado"
+                        maxlength="2"
+                        value="{{ cliente.estado }}">
+
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-end mt-4">
+
+                <a href="/clientes"
+                   class="btn btn-secondary me-2">
+
+                    Cancelar
+
+                </a>
+
+                <button
+                    class="btn btn-success">
+
+                    Salvar Alterações
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 {% endblock %}
