@@ -44,7 +44,11 @@ class Financeiro(db.Model):
     # FATURAMENTO
     # ==========================
 
-    nota_fiscal = db.Column(
+    recibo_sinal = db.Column(
+        db.String(50)
+    )
+
+    recibo_saldo = db.Column(
         db.String(50)
     )
 

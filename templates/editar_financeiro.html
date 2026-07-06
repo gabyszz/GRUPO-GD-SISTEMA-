@@ -209,21 +209,37 @@ Editar Financeiro
 
             <div class="row">
 
-                <div class="col-md-4 mb-3">
+               <div class="col-md-3 mb-3">
 
-                    <label class="form-label">
+    <label class="form-label">
 
-                        Nota Fiscal
+        Recibo Sinal
 
-                    </label>
+    </label>
 
-                    <input
-                        type="text"
-                        name="nota_fiscal"
-                        class="form-control"
-                        value="{{ financeiro.nota_fiscal or '' }}">
+    <input
+        type="text"
+        name="recibo_sinal"
+        class="form-control"
+        value="{{ financeiro.recibo_sinal or '' }}">
 
-                </div>
+</div>
+
+<div class="col-md-3 mb-3">
+
+    <label class="form-label">
+
+        Recibo Saldo
+
+    </label>
+
+    <input
+        type="text"
+        name="recibo_saldo"
+        class="form-control"
+        value="{{ financeiro.recibo_saldo or '' }}">
+
+</div>
  
                 <div class="col-md-4 mb-3">
 

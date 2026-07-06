@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, request, redirect
 from flask_login import login_required
 
-from models.projeto import Projeto
-from models.cliente import Cliente
 from database.database import db
 from models.financeiro import Financeiro
 from models.projeto import Projeto
+from models.cliente import Cliente
 
 from services.log_service import registrar_log
 
@@ -53,6 +52,7 @@ def listar_financeiro():
         quantidade=quantidade
     )
 
+
 # ==========================
 # EDITAR FINANCEIRO
 # ==========================
@@ -95,7 +95,9 @@ def atualizar_financeiro(id):
     # FATURAMENTO
     # ==========================
 
-    financeiro.nota_fiscal = request.form.get("nota_fiscal")
+    financeiro.recibo_sinal = request.form.get("recibo_sinal")
+
+    financeiro.recibo_saldo = request.form.get("recibo_saldo")
 
     financeiro.faturado_por = request.form.get("faturado_por")
 
@@ -136,31 +138,6 @@ def atualizar_financeiro(id):
     else:
 
         financeiro.status = "Pago"
-
-    db.session.commit()
-
-    registrar_log(
-        f"Atualizou o financeiro do projeto '{financeiro.projeto.nome}'"
-    )
-
-    return redirect("/financeiro")
-
-    # ==========================
-    # STATUS AUTOMÁTICO
-    # ==========================
-
-    if financeiro.valor_recebido <= 0:
-
-        financeiro.status = "A Faturar"
-
-    elif financeiro.valor_recebido < financeiro.valor_contrato:
-
-        financeiro.status = "Recebimento Parcial"
-
-    else:
-
-        financeiro.status = "Pago"
-
 
     db.session.commit()
 
