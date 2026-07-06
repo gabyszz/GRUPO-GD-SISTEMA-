@@ -10,103 +10,123 @@ Editar Projeto
 
 <hr>
 
-<form
-action="/projetos/atualizar/{{ projeto.id }}"
-method="POST">
-
-<form action="/clientes/salvar" method="POST">
+<form action="/projetos/atualizar/{{ projeto.id }}" method="POST">
 
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <div class="row">
 
-<div class="mb-3">
+        <div class="mb-3">
+            <label>Nome</label>
 
-<label>Nome</label>
+            <input
+                type="text"
+                class="form-control"
+                name="nome"
+                value="{{ projeto.nome }}"
+                required>
+        </div>
 
-<input
-class="form-control"
-name="nome"
-value="{{ projeto.nome }}"
-required>
+        <div class="mb-3">
+            <label>Cliente</label>
 
-</div>
+            <select
+                class="form-select"
+                name="cliente_id">
 
-<div class="mb-3">
+                {% for cliente in clientes %}
 
-<label>Cliente</label>
+                <option
+                    value="{{ cliente.id }}"
+                    {% if cliente.id == projeto.cliente_id %}selected{% endif %}>
 
-<select
-class="form-select"
-name="cliente_id">
+                    {{ cliente.nome }}
 
-{% for cliente in clientes %}
+                </option>
 
-<option
-value="{{ cliente.id }}"
-{% if cliente.id == projeto.cliente_id %}
-selected
-{% endif %}>
+                {% endfor %}
 
-{{ cliente.nome }}
+            </select>
+        </div>
 
-</option>
+        <div class="mb-3">
+            <label>Centro de Custo</label>
 
-{% endfor %}
+            <input
+                type="text"
+                class="form-control"
+                name="centro_custo"
+                value="{{ projeto.centro_custo }}">
+        </div>
 
-</select>
+        <div class="mb-3">
+            <label>Contato</label>
 
-</div>
+            <input
+                type="text"
+                class="form-control"
+                name="contato"
+                value="{{ projeto.contato }}">
+        </div>
 
-<div class="mb-3">
+        <div class="mb-3">
+            <label>Telefone</label>
 
-<label>Responsável</label>
+            <input
+                type="text"
+                class="form-control"
+                name="telefone"
+                value="{{ projeto.telefone }}">
+        </div>
 
-<input
-class="form-control"
-name="responsavel"
-value="{{ projeto.responsavel }}">
+        <div class="mb-3">
+            <label>Responsável</label>
 
-</div>
+            <input
+                type="text"
+                class="form-control"
+                name="responsavel"
+                value="{{ projeto.responsavel }}">
+        </div>
 
-<div class="mb-3">
+        <div class="mb-3">
+            <label>Status</label>
 
-<label>Status</label>
+            <select
+                class="form-select"
+                name="status">
 
-<select
-class="form-select"
-name="status">
+                {% for status in [
+                    "Planejamento",
+                    "Em Campo",
+                    "Escritório",
+                    "Cartório",
+                    "Finalizado",
+                    "Entregue"
+                ] %}
 
-{% for status in ["Planejamento","Em Campo","Escritório","Finalizado","Entregue"] %}
+                <option
+                    value="{{ status }}"
+                    {% if projeto.status == status %}selected{% endif %}>
 
-<option
-{% if projeto.status==status %}
-selected
-{% endif %}>
+                    {{ status }}
 
-{{ status }}
+                </option>
 
-</option>
+                {% endfor %}
 
-{% endfor %}
+            </select>
+        </div>
 
-</select>
+    </div>
 
-</div>
+    <button class="btn btn-success">
+        Salvar Alterações
+    </button>
 
-<button class="btn btn-success">
-
-Salvar Alterações
-
-</button>
-
-<a
-href="/projetos"
-class="btn btn-secondary">
-
-Cancelar
-
-</a>
+    <a href="/projetos" class="btn btn-secondary">
+        Cancelar
+    </a>
 
 </form>
 

@@ -12,91 +12,108 @@ Novo Projeto
 
 <form action="/projetos/salvar" method="POST">
 
-    <form action="/clientes/salvar" method="POST">
-
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <div class="row">
 
-<div class="mb-3">
+        <div class="mb-3">
+            <label>Nome do Projeto</label>
+            <input
+                type="text"
+                class="form-control"
+                name="nome"
+                required>
+        </div>
 
-<label>Nome do Projeto</label>
+        <div class="mb-3">
+            <label>Cliente</label>
 
-<input
-class="form-control"
-name="nome"
-required>
+            <select
+                class="form-select"
+                name="cliente_id"
+                required>
 
-</div>
+                <option value="">Selecione...</option>
 
-<div class="mb-3">
+                {% for cliente in clientes %}
 
-<label>Cliente</label>
+                <option value="{{ cliente.id }}">
+                    {{ cliente.nome }}
+                </option>
 
-<select
-class="form-select"
-name="cliente_id"
-required>
+                {% endfor %}
 
-<option value="">Selecione...</option>
+            </select>
+        </div>
 
-{% for cliente in clientes %}
+        <div class="mb-3">
+            <label>Centro de Custo</label>
 
-<option value="{{ cliente.id }}">
+            <input
+                type="text"
+                class="form-control"
+                name="centro_custo"
+                placeholder="Ex.: CC-001">
+        </div>
 
-{{ cliente.nome }}
+        <div class="mb-3">
+           <label>Contato</label>
 
-</option>
+            <input
+                type="text"
+                class="form-control"
+                name="contato">
+        </div>
 
-{% endfor %}
+        <div class="mb-3">
+          <label>Telefone</label>
 
-</select>
+          <input
+              type="text"
+              class="form-control"
+              name="telefone">
+        </div>
 
-</div>
+        <div class="mb-3">
+            <label>Responsável</label>
 
-<div class="mb-3">
+            <input
+                type="text"
+                class="form-control"
+                name="responsavel">
+        </div>
 
-<label>Responsável</label>
+        <div class="mb-3">
+            <label>Status</label>
 
-<input
-class="form-control"
-name="responsavel">
+            <select
+                class="form-select"
+                name="status">
 
-</div>
+                <option>Planejamento</option>
 
-<div class="mb-3">
+                <option>Em Campo</option>
 
-<label>Status</label>
+                <option>Escritório</option>
 
-<select
-class="form-select"
-name="status">
+                <option>Cartório</option>
 
-<option>Planejamento</option>
+                <option>Finalizado</option>
 
-<option>Em Campo</option>
+                <option>Entregue</option>
 
-<option>Escritório</option>
+            </select>
+        </div>
 
-<option>Finalizado</option>
+    </div>
 
-<option>Entregue</option>
+    <button class="btn btn-success">
+        Salvar Projeto
+    </button>
 
-</select>
-
-</div>
-
-<button class="btn btn-success">
-
-Salvar Projeto
-
-</button>
-
-<a href="/projetos" class="btn btn-secondary">
-
-Cancelar
-
-</a>
+    <a href="/projetos" class="btn btn-secondary">
+        Cancelar
+    </a>
 
 </form>
 

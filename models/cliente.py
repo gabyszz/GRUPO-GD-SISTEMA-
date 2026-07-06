@@ -23,4 +23,3 @@ class Cliente(db.Model):
 
     responsavel = db.Column(db.String(100))
 
-    centro_custo = db.Column(db.String(50))

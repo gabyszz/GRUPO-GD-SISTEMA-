@@ -60,8 +60,31 @@ def salvar_projeto():
         nome=request.form["nome"],
         cliente_id=request.form["cliente_id"],
         responsavel=request.form["responsavel"],
-        status=request.form["status"]
+        status=request.form["status"],
+        centro_custo=request.form["centro_custo"],
+        contato=request.form["contato"],
+        telefone=request.form["telefone"]
     )
+
+    db.session.add(projeto)
+    db.session.commit()
+
+    # ==========================
+    # CRIA FINANCEIRO AUTOMATICAMENTE
+    # ==========================
+
+    financeiro = Financeiro(
+        projeto_id=projeto.id
+    )
+
+    db.session.add(financeiro)
+    db.session.commit()
+
+    registrar_log(
+        f"Criou o projeto '{projeto.nome}'"
+    )
+
+    return redirect("/projetos")
 
     db.session.add(projeto)
     db.session.commit()
@@ -121,6 +144,9 @@ def atualizar_projeto(id):
     projeto.cliente_id = request.form["cliente_id"]
     projeto.responsavel = request.form["responsavel"]
     projeto.status = request.form["status"]
+    projeto.centro_custo = request.form["centro_custo"]
+    projeto.contato = request.form["contato"]
+    projeto.telefone = request.form["telefone"]
 
     db.session.commit()
 

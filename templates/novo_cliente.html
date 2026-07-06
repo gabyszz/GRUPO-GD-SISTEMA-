@@ -1,134 +1,57 @@
 {% extends "layout/base.html" %}
 
-{% block title %}
-Novo Cliente
-{% endblock %}
+{% block title %}Novo Cliente{% endblock %}
 
 {% block content %}
-
 <h2>Novo Cliente</h2>
-
 <hr>
 
 <form action="/clientes/salvar" method="POST">
-
-    <form action="/clientes/salvar" method="POST">
-
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <div class="row">
+        <div class="col-md-6 mb-3">
+            <label>Cliente</label>
+            <input type="text" class="form-control" name="nome" required>
+        </div>
 
-<div class="row">
+        <div class="col-md-6 mb-3">
+            <label>CNPJ</label>
+            <input type="text" class="form-control" name="cnpj">
+        </div>
 
-<div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3">
+            <label>Telefone</label>
+            <input type="text" class="form-control" name="telefone">
+        </div>
 
-<label>Cliente</label>
+        <div class="col-md-6 mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email">
+        </div>
 
-<input
-type="text"
-class="form-control"
-name="nome"
-required>
+        <div class="col-md-6 mb-3">
+            <label>Responsável</label>
+            <input type="text" class="form-control" name="responsavel">
+        </div>
 
-</div>
+        <div class="col-md-8 mb-3">
+            <label>Endereço</label>
+            <input type="text" class="form-control" name="endereco">
+        </div>
 
-<div class="col-md-6 mb-3">
+        <div class="col-md-3 mb-3">
+            <label>Cidade</label>
+            <input type="text" class="form-control" name="cidade">
+        </div>
 
-<label>CNPJ</label>
+        <div class="col-md-1 mb-3">
+            <label>UF</label>
+            <input type="text" class="form-control" name="estado" maxlength="2">
+        </div>
+    </div>
 
-<input
-type="text"
-class="form-control"
-name="cnpj">
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>Telefone</label>
-
-<input
-type="text"
-class="form-control"
-name="telefone">
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>Email</label>
-
-<input
-type="email"
-class="form-control"
-name="email">
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>Responsável</label>
-
-<input
-type="text"
-class="form-control"
-name="responsavel">
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>Centro de Custo</label>
-
-<input
-type="text"
-class="form-control"
-name="centro_custo">
-
-</div>
-
-<div class="col-md-8 mb-3">
-
-<label>Endereço</label>
-
-<input
-type="text"
-class="form-control"
-name="endereco">
-
-</div>
-
-<div class="col-md-3 mb-3">
-
-<label>Cidade</label>
-
-<input
-type="text"
-class="form-control"
-name="cidade">
-
-</div>
-
-<div class="col-md-1 mb-3">
-
-<label>UF</label>
-
-<input
-type="text"
-class="form-control"
-name="estado"
-maxlength="2">
-
-</div>
-
-</div>
-
-<button class="btn btn-success">
-
-Salvar Cliente
-
-</button>
-
+    <button class="btn btn-success">Salvar Cliente</button>
+    <a href="/clientes" class="btn btn-secondary">Cancelar</a>
 </form>
-
 {% endblock %}

@@ -55,7 +55,7 @@ def salvar_cliente():
         cidade=request.form["cidade"],
         estado=request.form["estado"],
         responsavel=request.form["responsavel"],
-        centro_custo=request.form["centro_custo"]
+      
     )
 
     db.session.add(cliente)
@@ -104,7 +104,7 @@ def atualizar_cliente(id):
     cliente.cidade = request.form["cidade"]
     cliente.estado = request.form["estado"]
     cliente.responsavel = request.form["responsavel"]
-    cliente.centro_custo = request.form["centro_custo"]
+   
 
     db.session.commit()
 
