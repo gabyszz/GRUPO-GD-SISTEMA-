@@ -14,10 +14,17 @@ Editar Projeto
 
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+    <!-- ========================================= -->
+    <!-- DADOS DO PROJETO -->
+    <!-- ========================================= -->
+
+    <h5 class="mb-3">Dados do Projeto</h5>
+
     <div class="row">
 
-        <div class="mb-3">
-            <label>Nome</label>
+        <div class="col-md-12 mb-3">
+
+            <label class="form-label">Nome</label>
 
             <input
                 type="text"
@@ -25,10 +32,12 @@ Editar Projeto
                 name="nome"
                 value="{{ projeto.nome }}"
                 required>
+
         </div>
 
-        <div class="mb-3">
-            <label>Cliente</label>
+        <div class="col-md-12 mb-3">
+
+            <label class="form-label">Cliente</label>
 
             <select
                 class="form-select"
@@ -47,50 +56,60 @@ Editar Projeto
                 {% endfor %}
 
             </select>
+
         </div>
 
-        <div class="mb-3">
-            <label>Centro de Custo</label>
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">Centro de Custo</label>
 
             <input
                 type="text"
                 class="form-control"
                 name="centro_custo"
                 value="{{ projeto.centro_custo }}">
+
         </div>
 
-        <div class="mb-3">
-            <label>Contato</label>
+        <div class="col-md-6 mb-3">
 
-            <input
-                type="text"
-                class="form-control"
-                name="contato"
-                value="{{ projeto.contato }}">
-        </div>
-
-        <div class="mb-3">
-            <label>Telefone</label>
-
-            <input
-                type="text"
-                class="form-control"
-                name="telefone"
-                value="{{ projeto.telefone }}">
-        </div>
-
-        <div class="mb-3">
-            <label>Responsável</label>
+            <label class="form-label">Responsável</label>
 
             <input
                 type="text"
                 class="form-control"
                 name="responsavel"
                 value="{{ projeto.responsavel }}">
+
         </div>
 
-        <div class="mb-3">
-            <label>Status</label>
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">Contato</label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="contato"
+                value="{{ projeto.contato }}">
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">Telefone</label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="telefone"
+                value="{{ projeto.telefone }}">
+
+        </div>
+
+        <div class="col-md-12 mb-4">
+
+            <label class="form-label">Status</label>
 
             <select
                 class="form-select"
@@ -116,16 +135,168 @@ Editar Projeto
                 {% endfor %}
 
             </select>
+
         </div>
 
     </div>
 
+    <!-- ========================================= -->
+    <!-- DADOS PARA EMISSÃO DA TRT -->
+    <!-- ========================================= -->
+
+    <hr class="my-4">
+
+    <h5 class="mb-3">
+
+        Dados para Emissão da TRT
+
+    </h5>
+
+    <div class="row">
+
+        <div class="col-md-8 mb-3">
+
+            <label class="form-label">
+
+                Nome
+
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="trt_nome"
+                value="{{ projeto.trt_nome or '' }}">
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label class="form-label">
+
+                CPF / CNPJ
+
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="trt_cpf_cnpj"
+                value="{{ projeto.trt_cpf_cnpj or '' }}">
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label class="form-label">
+
+                Telefone
+
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="trt_telefone"
+                value="{{ projeto.trt_telefone or '' }}">
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label class="form-label">
+
+                Contato
+
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="trt_contato"
+                value="{{ projeto.trt_contato or '' }}">
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label class="form-label">
+
+                E-mail
+
+            </label>
+
+            <input
+                type="email"
+                class="form-control"
+                name="trt_email"
+                value="{{ projeto.trt_email or '' }}">
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+
+                Endereço
+
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="trt_endereco"
+                value="{{ projeto.trt_endereco or '' }}">
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label class="form-label">
+
+                Cidade
+
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="trt_cidade"
+                value="{{ projeto.trt_cidade or '' }}">
+
+        </div>
+
+        <div class="col-md-2 mb-3">
+
+            <label class="form-label">
+
+                UF
+
+            </label>
+
+            <input
+                type="text"
+                maxlength="2"
+                class="form-control"
+                name="trt_uf"
+                value="{{ projeto.trt_uf or '' }}">
+
+        </div>
+
+    </div>
+
+    <hr>
+
     <button class="btn btn-success">
+
         Salvar Alterações
+
     </button>
 
     <a href="/projetos" class="btn btn-secondary">
+
         Cancelar
+
     </a>
 
 </form>

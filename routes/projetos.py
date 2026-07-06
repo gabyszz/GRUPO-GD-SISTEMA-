@@ -57,13 +57,28 @@ def novo_projeto():
 def salvar_projeto():
 
     projeto = Projeto(
+
         nome=request.form["nome"],
         cliente_id=request.form["cliente_id"],
         responsavel=request.form["responsavel"],
         status=request.form["status"],
         centro_custo=request.form["centro_custo"],
         contato=request.form["contato"],
-        telefone=request.form["telefone"]
+        telefone=request.form["telefone"],
+
+        # ==========================
+        # TRT
+        # ==========================
+
+        trt_nome=request.form.get("trt_nome"),
+        trt_cpf_cnpj=request.form.get("trt_cpf_cnpj"),
+        trt_telefone=request.form.get("trt_telefone"),
+        trt_contato=request.form.get("trt_contato"),
+        trt_email=request.form.get("trt_email"),
+        trt_endereco=request.form.get("trt_endereco"),
+        trt_cidade=request.form.get("trt_cidade"),
+        trt_uf=request.form.get("trt_uf")
+
     )
 
     db.session.add(projeto)
@@ -123,6 +138,19 @@ def atualizar_projeto(id):
     projeto.centro_custo = request.form["centro_custo"]
     projeto.contato = request.form["contato"]
     projeto.telefone = request.form["telefone"]
+
+    # ==========================
+    # TRT
+    # ==========================
+
+    projeto.trt_nome = request.form.get("trt_nome")
+    projeto.trt_cpf_cnpj = request.form.get("trt_cpf_cnpj")
+    projeto.trt_telefone = request.form.get("trt_telefone")
+    projeto.trt_contato = request.form.get("trt_contato")
+    projeto.trt_email = request.form.get("trt_email")
+    projeto.trt_endereco = request.form.get("trt_endereco")
+    projeto.trt_cidade = request.form.get("trt_cidade")
+    projeto.trt_uf = request.form.get("trt_uf")
 
     db.session.commit()
 
