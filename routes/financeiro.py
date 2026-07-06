@@ -106,6 +106,19 @@ def atualizar_financeiro(id):
     )
 
     # ==========================
+    # DADOS PARA FATURAMENTO
+    # ==========================
+
+    financeiro.faturamento_nome = request.form.get("faturamento_nome")
+    financeiro.faturamento_cpf_cnpj = request.form.get("faturamento_cpf_cnpj")
+    financeiro.faturamento_telefone = request.form.get("faturamento_telefone")
+    financeiro.faturamento_contato = request.form.get("faturamento_contato")
+    financeiro.faturamento_email = request.form.get("faturamento_email")
+    financeiro.faturamento_endereco = request.form.get("faturamento_endereco")
+    financeiro.faturamento_cidade = request.form.get("faturamento_cidade")
+    financeiro.faturamento_uf = request.form.get("faturamento_uf")
+
+    # ==========================
     # RECEBIMENTO
     # ==========================
 

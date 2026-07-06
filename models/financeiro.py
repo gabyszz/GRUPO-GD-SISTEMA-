@@ -61,6 +61,42 @@ class Financeiro(db.Model):
     )
 
     # ==========================
+    # DADOS PARA FATURAMENTO
+    # ==========================
+
+    faturamento_nome = db.Column(
+        db.String(150)
+    )
+
+    faturamento_cpf_cnpj = db.Column(
+        db.String(30)
+    )
+
+    faturamento_telefone = db.Column(
+        db.String(30)
+    )
+
+    faturamento_contato = db.Column(
+        db.String(100)
+    )
+
+    faturamento_email = db.Column(
+        db.String(150)
+    )
+
+    faturamento_endereco = db.Column(
+        db.String(200)
+    )
+
+    faturamento_cidade = db.Column(
+        db.String(100)
+    )
+
+    faturamento_uf = db.Column(
+        db.String(2)
+    )
+
+    # ==========================
     # RECEBIMENTO
     # ==========================
 

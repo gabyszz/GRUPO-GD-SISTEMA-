@@ -287,6 +287,151 @@ Editar Financeiro
 
             </div>
 
+
+<!-- ==========================
+     DADOS PARA FATURAMENTO
+=========================== -->
+
+<h5 class="border-bottom pb-2 mt-4 mb-3">
+
+    Dados para Faturamento
+
+</h5>
+
+<div class="row">
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Nome
+
+        </label>
+
+        <input
+            type="text"
+            name="faturamento_nome"
+            class="form-control"
+            value="{{ financeiro.faturamento_nome or '' }}">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            CPF / CNPJ
+
+        </label>
+
+        <input
+            type="text"
+            name="faturamento_cpf_cnpj"
+            class="form-control"
+            value="{{ financeiro.faturamento_cpf_cnpj or '' }}">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Telefone
+
+        </label>
+
+        <input
+            type="text"
+            name="faturamento_telefone"
+            class="form-control"
+            value="{{ financeiro.faturamento_telefone or '' }}">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Contato
+
+        </label>
+
+        <input
+            type="text"
+            name="faturamento_contato"
+            class="form-control"
+            value="{{ financeiro.faturamento_contato or '' }}">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            E-mail
+
+        </label>
+
+        <input
+            type="email"
+            name="faturamento_email"
+            class="form-control"
+            value="{{ financeiro.faturamento_email or '' }}">
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+
+            Endereço
+
+        </label>
+
+        <input
+            type="text"
+            name="faturamento_endereco"
+            class="form-control"
+            value="{{ financeiro.faturamento_endereco or '' }}">
+
+    </div>
+
+    <div class="col-md-4 mb-3">
+
+        <label class="form-label">
+
+            Cidade
+
+        </label>
+
+        <input
+            type="text"
+            name="faturamento_cidade"
+            class="form-control"
+            value="{{ financeiro.faturamento_cidade or '' }}">
+
+    </div>
+
+    <div class="col-md-2 mb-3">
+
+        <label class="form-label">
+
+            UF
+
+        </label>
+
+        <input
+            type="text"
+            maxlength="2"
+            name="faturamento_uf"
+            class="form-control"
+            style="text-transform:uppercase"
+            value="{{ financeiro.faturamento_uf or '' }}">
+
+    </div>
+
+</div>
+
             <!-- ==========================
                  RECEBIMENTO
             =========================== -->
