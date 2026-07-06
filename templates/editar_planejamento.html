@@ -117,18 +117,29 @@ Editar Planejamento
 
             </div>
 
-            <!-- Responsável -->
-            <div class="col-md-3 mb-3">
+<!-- Responsável -->
+<div class="col-md-3 mb-3">
 
-                <label class="form-label">Responsável</label>
+    <label class="form-label">Responsável</label>
 
-                <input
-                    type="text"
-                    class="form-control"
-                    name="responsavel"
-                    value="{{ planejamento.responsavel }}">
+    <select
+        class="form-select"
+        name="responsavel"
+        required>
 
-            </div>
+        <option value="Catarina"
+            {% if planejamento.responsavel == "Catarina" %}selected{% endif %}>
+            Catarina
+        </option>
+
+        <option value="Marcos"
+            {% if planejamento.responsavel == "Marcos" %}selected{% endif %}>
+            Marcos
+        </option>
+
+    </select>
+
+</div>
 
             <!-- Status -->
             <div class="col-md-3 mb-3">
