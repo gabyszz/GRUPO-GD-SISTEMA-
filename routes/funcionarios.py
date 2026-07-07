@@ -50,16 +50,17 @@ def novo_funcionario():
 def salvar_funcionario():
 
     funcionario = Funcionario(
-        nome=request.form["nome"],
-        cpf=request.form["cpf"],
-        telefone=request.form["telefone"],
-        email=request.form["email"],
-        funcao=request.form["funcao"],
-        status=request.form["status"]
+        nome=request.form.get("nome"),
+        cpf=request.form.get("cpf"),
+        telefone=request.form.get("telefone"),
+        email=request.form.get("email"),
+        cargo=request.form.get("cargo"),
+        funcao=request.form.get("funcao"),
+        status=request.form.get("status"),
+        observacoes=request.form.get("observacoes")
     )
 
     db.session.add(funcionario)
-
     db.session.commit()
 
     registrar_log(
@@ -95,14 +96,19 @@ def atualizar_funcionario(id):
 
     funcionario = Funcionario.query.get_or_404(id)
 
+    # Backup automático antes da alteração
+    backup_antes_de_alteracao()
+
     nome_antigo = funcionario.nome
 
-    funcionario.nome = request.form["nome"]
-    funcionario.cpf = request.form["cpf"]
-    funcionario.telefone = request.form["telefone"]
-    funcionario.email = request.form["email"]
-    funcionario.funcao = request.form["funcao"]
-    funcionario.status = request.form["status"]
+    funcionario.nome = request.form.get("nome")
+    funcionario.cpf = request.form.get("cpf")
+    funcionario.telefone = request.form.get("telefone")
+    funcionario.email = request.form.get("email")
+    funcionario.cargo = request.form.get("cargo")
+    funcionario.funcao = request.form.get("funcao")
+    funcionario.status = request.form.get("status")
+    funcionario.observacoes = request.form.get("observacoes")
 
     db.session.commit()
 
@@ -123,13 +129,12 @@ def excluir_funcionario(id):
 
     funcionario = Funcionario.query.get_or_404(id)
 
-    # BACKUP AUTOMÁTICO
+    # Backup automático
     backup_antes_de_alteracao()
 
     nome = funcionario.nome
 
     db.session.delete(funcionario)
-
     db.session.commit()
 
     registrar_log(

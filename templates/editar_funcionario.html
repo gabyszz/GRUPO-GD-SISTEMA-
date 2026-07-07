@@ -14,132 +14,121 @@ Editar Funcionário
 
     <form action="/funcionarios/atualizar/{{ funcionario.id }}" method="POST">
 
-        <form action="/clientes/salvar" method="POST">
-
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-    <div class="row">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <div class="row">
 
             <div class="col-md-6 mb-3">
-
                 <label class="form-label">Nome</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="nome"
                     value="{{ funcionario.nome }}"
                     required>
-
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">CPF</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="cpf"
-                    value="{{ funcionario.cpf }}">
-
+                    value="{{ funcionario.cpf or '' }}">
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">Telefone</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="telefone"
-                    value="{{ funcionario.telefone }}">
-
+                    value="{{ funcionario.telefone or '' }}">
             </div>
 
             <div class="col-md-6 mb-3">
-
                 <label class="form-label">E-mail</label>
-
                 <input
                     type="email"
                     class="form-control"
                     name="email"
-                    value="{{ funcionario.email }}">
-
+                    value="{{ funcionario.email or '' }}">
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">Cargo</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="cargo"
-                    value="{{ funcionario.cargo }}">
-
+                    value="{{ funcionario.cargo or '' }}">
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">Função</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="funcao"
-                    value="{{ funcionario.funcao }}">
-
+                    value="{{ funcionario.funcao or '' }}">
             </div>
 
             <div class="col-md-4 mb-3">
-
                 <label class="form-label">Status</label>
 
-                <select
-                    class="form-select"
-                    name="status">
+                <select class="form-select" name="status">
 
-                    <option {% if funcionario.status=="Disponível" %}selected{% endif %}>Disponível</option>
+                    <option value="Disponível"
+                        {% if funcionario.status == "Disponível" %}selected{% endif %}>
+                        Disponível
+                    </option>
 
-                    <option {% if funcionario.status=="Em Campo" %}selected{% endif %}>Em Campo</option>
+                    <option value="Em Campo"
+                        {% if funcionario.status == "Em Campo" %}selected{% endif %}>
+                        Em Campo
+                    </option>
 
-                    <option {% if funcionario.status=="Férias" %}selected{% endif %}>Férias</option>
+                    <option value="Férias"
+                        {% if funcionario.status == "Férias" %}selected{% endif %}>
+                        Férias
+                    </option>
 
-                    <option {% if funcionario.status=="Folga" %}selected{% endif %}>Folga</option>
+                    <option value="Folga"
+                        {% if funcionario.status == "Folga" %}selected{% endif %}>
+                        Folga
+                    </option>
+
+                    <option value="Afastado"
+                        {% if funcionario.status == "Afastado" %}selected{% endif %}>
+                        Afastado
+                    </option>
+
+                    <option value="Desligado"
+                        {% if funcionario.status == "Desligado" %}selected{% endif %}>
+                        Desligado
+                    </option>
 
                 </select>
-
             </div>
 
             <div class="col-md-12 mb-4">
-
                 <label class="form-label">Observações</label>
 
                 <textarea
                     class="form-control"
                     rows="4"
-                    name="observacoes">{{ funcionario.observacoes }}</textarea>
-
+                    name="observacoes">{{ funcionario.observacoes or '' }}</textarea>
             </div>
 
         </div>
 
-        <button class="btn btn-success">
-
+        <button type="submit" class="btn btn-success">
             <i class="bi bi-check-circle"></i>
-
             Salvar Alterações
-
         </button>
 
         <a href="/funcionarios" class="btn btn-secondary">
-
             Cancelar
-
         </a>
 
     </form>

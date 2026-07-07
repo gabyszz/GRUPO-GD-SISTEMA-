@@ -14,123 +14,95 @@ Novo Funcionário
 
     <form action="/funcionarios/salvar" method="POST">
 
-        <form action="/clientes/salvar" method="POST">
-
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-    <div class="row">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <div class="row">
 
             <div class="col-md-6 mb-3">
-
                 <label class="form-label">Nome</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="nome"
                     required>
-
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">CPF</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="cpf">
-
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">Telefone</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="telefone">
-
             </div>
 
             <div class="col-md-6 mb-3">
-
                 <label class="form-label">E-mail</label>
-
                 <input
                     type="email"
                     class="form-control"
                     name="email">
-
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">Cargo</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="cargo">
-
             </div>
 
             <div class="col-md-3 mb-3">
-
                 <label class="form-label">Função</label>
-
                 <input
                     type="text"
                     class="form-control"
                     name="funcao">
-
             </div>
 
             <div class="col-md-4 mb-3">
-
                 <label class="form-label">Status</label>
 
                 <select
                     class="form-select"
                     name="status">
 
-                    <option>Disponível</option>
-                    <option>Em Campo</option>
-                    <option>Férias</option>
-                    <option>Folga</option>
+                    <option value="Disponível" selected>Disponível</option>
+                    <option value="Em Campo">Em Campo</option>
+                    <option value="Férias">Férias</option>
+                    <option value="Folga">Folga</option>
+                    <option value="Afastado">Afastado</option>
+                    <option value="Desligado">Desligado</option>
 
                 </select>
 
             </div>
 
             <div class="col-md-12 mb-4">
-
                 <label class="form-label">Observações</label>
 
                 <textarea
                     class="form-control"
                     rows="4"
                     name="observacoes"></textarea>
-
             </div>
 
         </div>
 
-        <button class="btn btn-success">
-
+        <button type="submit" class="btn btn-success">
             <i class="bi bi-check-circle"></i>
-
             Salvar Funcionário
-
         </button>
 
         <a href="/funcionarios" class="btn btn-secondary">
-
             Cancelar
-
         </a>
 
     </form>
