@@ -67,6 +67,48 @@ Novo Planejamento
 
                     <div class="col-md-6 mb-3">
 
+    <label class="form-label">
+        Endereço da Obra
+    </label>
+
+    <input
+        type="text"
+        id="endereco"
+        class="form-control"
+        readonly>
+
+</div>
+
+<div class="col-md-4 mb-3">
+
+    <label class="form-label">
+        Cidade
+    </label>
+
+    <input
+        type="text"
+        id="cidade"
+        class="form-control"
+        readonly>
+
+</div>
+
+<div class="col-md-2 mb-3">
+
+    <label class="form-label">
+        UF
+    </label>
+
+    <input
+        type="text"
+        id="uf"
+        class="form-control"
+        readonly>
+
+</div>
+
+                    <div class="col-md-6 mb-3">
+
                         <label class="form-label">
                             Equipe
                         </label>
@@ -231,5 +273,33 @@ Novo Planejamento
     </div>
 
 </div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const projeto = document.getElementById("projeto_id");
+
+    const endereco = document.getElementById("endereco");
+    const cidade = document.getElementById("cidade");
+    const uf = document.getElementById("uf");
+
+    function atualizarProjeto() {
+
+        const option = projeto.options[projeto.selectedIndex];
+
+        endereco.value = option.dataset.endereco || "";
+        cidade.value = option.dataset.cidade || "";
+        uf.value = option.dataset.uf || "";
+
+    }
+
+    projeto.addEventListener("change", atualizarProjeto);
+
+    atualizarProjeto();
+
+});
+
+</script>
 
 {% endblock %}

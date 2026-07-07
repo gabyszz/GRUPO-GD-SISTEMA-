@@ -48,7 +48,7 @@
             <span>Painel</span>
         </a>
 
-        <!-- MENUS SOMENTE PARA ADMIN, GERENTE E OPERADOR -->
+        <!-- CLIENTES -->
         {% if current_user.perfil != "Executor" %}
 
         <a href="{{ url_for('clientes.listar_clientes') }}">
@@ -70,12 +70,18 @@
             <span>Planejamento</span>
         </a>
 
-        {% if current_user.perfil != "Executor" %}
+        <!-- FINANCEIRO (somente Administrador e Gerente) -->
+        {% if current_user.perfil in ["Administrador", "Gerente"] %}
 
         <a href="{{ url_for('financeiro.listar_financeiro') }}">
             <i class="bi bi-cash-stack"></i>
             <span>Financeiro</span>
         </a>
+
+        {% endif %}
+
+        <!-- DEMAIS MENUS (Administrador, Gerente e Operador) -->
+        {% if current_user.perfil != "Executor" %}
 
         <a href="{{ url_for('funcionarios.listar_funcionarios') }}">
             <i class="bi bi-person-badge"></i>

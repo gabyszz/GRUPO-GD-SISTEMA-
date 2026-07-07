@@ -154,14 +154,18 @@ def editar_planejamento(id):
         Veiculo.modelo
     ).all()
 
+    projeto = Projeto.query.get_or_404(
+        planejamento_obj.projeto_id
+    )
+
     return render_template(
         "editar_planejamento.html",
         planejamento=planejamento_obj,
+        projeto=projeto,
         projetos=projetos,
         equipes=equipes,
         veiculos=veiculos
     )
-
 
 # ==========================
 # ATUALIZAR
