@@ -10,7 +10,7 @@ Projetos
 
     <h2>Projetos</h2>
 
-    {% if current_user.perfil != "Executor" %}
+    {% if current_user.perfil in ["Administrador", "Gerente", "Operador"] %}
     <a href="/projetos/novo" class="btn btn-success">
         <i class="bi bi-plus-circle"></i>
         Novo Projeto
@@ -26,17 +26,11 @@ Projetos
         <tr>
 
             <th>ID</th>
-
             <th>Projeto</th>
-
             <th>Cliente</th>
-
             <th>Responsável</th>
-
             <th>Status Projeto</th>
-
             <th>Status Financeiro</th>
-
             <th width="170">Ações</th>
 
         </tr>
@@ -153,18 +147,31 @@ Projetos
 
             <td>
 
+                {% if current_user.perfil in ["Administrador", "Gerente", "Operador"] %}
+
                 <a href="/projetos/editar/{{ projeto.id }}"
                    class="btn btn-warning btn-sm">
                     <i class="bi bi-pencil-square"></i>
                 </a>
 
-                {% if current_user.perfil != "Executor" %}
                 <a href="/projetos/excluir/{{ projeto.id }}"
-                   class="btn btn-danger btn-sm">
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Deseja realmente excluir este projeto?')">
                     <i class="bi bi-trash"></i>
                 </a>
+
                 {% endif %}
 
+            </td>
+
+        </tr>
+
+        {% else %}
+
+        <tr>
+
+            <td colspan="7" class="text-center text-muted">
+                Nenhum projeto cadastrado.
             </td>
 
         </tr>

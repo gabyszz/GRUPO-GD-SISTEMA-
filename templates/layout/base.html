@@ -24,134 +24,149 @@
 
 <body>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
+<div class="sidebar">
 
-        <div class="logo">
+    <div class="logo">
 
-            <div class="logo-icon">
-                <i class="bi bi-geo-alt-fill"></i>
-            </div>
-
-            <div>
-                <h3>Grupo</h3>
-                <small>G&D</small>
-            </div>
-
+        <div class="logo-icon">
+            <i class="bi bi-geo-alt-fill"></i>
         </div>
 
-        <hr>
-
-        <!-- PAINEL -->
-        <a href="{{ url_for('dashboard.inicio') }}">
-            <i class="bi bi-speedometer2"></i>
-            <span>Painel</span>
-        </a>
-
-        <!-- CLIENTES -->
-        {% if current_user.perfil != "Executor" %}
-
-        <a href="{{ url_for('clientes.listar_clientes') }}">
-            <i class="bi bi-buildings"></i>
-            <span>Clientes</span>
-        </a>
-
-        {% endif %}
-
-        <!-- PROJETOS -->
-        <a href="{{ url_for('projetos.listar_projetos') }}">
-            <i class="bi bi-folder2-open"></i>
-            <span>Projetos</span>
-        </a>
-
-        <!-- PLANEJAMENTO -->
-        <a href="{{ url_for('planejamento.listar_planejamento') }}">
-            <i class="bi bi-calendar3"></i>
-            <span>Planejamento</span>
-        </a>
-
-        <!-- FINANCEIRO (somente Administrador e Gerente) -->
-        {% if current_user.perfil in ["Administrador", "Gerente"] %}
-
-        <a href="{{ url_for('financeiro.listar_financeiro') }}">
-            <i class="bi bi-cash-stack"></i>
-            <span>Financeiro</span>
-        </a>
-
-        {% endif %}
-
-        <!-- DEMAIS MENUS (Administrador, Gerente e Operador) -->
-        {% if current_user.perfil != "Executor" %}
-
-        <a href="{{ url_for('funcionarios.listar_funcionarios') }}">
-            <i class="bi bi-person-badge"></i>
-            <span>Funcionários</span>
-        </a>
-
-        <a href="{{ url_for('equipes.listar_equipes') }}">
-            <i class="bi bi-people-fill"></i>
-            <span>Equipes</span>
-        </a>
-
-        <a href="{{ url_for('veiculos.listar_veiculos') }}">
-            <i class="bi bi-truck"></i>
-            <span>Veículos</span>
-        </a>
-
-        <a href="{{ url_for('equipamentos.listar_equipamentos') }}">
-            <i class="bi bi-tools"></i>
-            <span>Equipamentos</span>
-        </a>
-
-        <hr>
-
-        <a href="{{ url_for('usuarios.listar_usuarios') }}">
-            <i class="bi bi-person-gear"></i>
-            <span>Usuários</span>
-        </a>
-
-        {% endif %}
-
-        <hr>
-
-        <a href="{{ url_for('auth.logout') }}">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sair</span>
-        </a>
+        <div>
+            <h3>Grupo</h3>
+            <small>G&D</small>
+        </div>
 
     </div>
 
-    <!-- CONTEÚDO -->
-    <div class="conteudo">
+    <hr>
 
-        <!-- TOPBAR -->
-        <div class="topbar">
+    <!-- PAINEL -->
+    <a href="{{ url_for('dashboard.inicio') }}">
+        <i class="bi bi-speedometer2"></i>
+        <span>Painel</span>
+    </a>
 
-            <div>
+    <!-- CLIENTES -->
+    {% if current_user.perfil in ["Administrador","Gerente","Operador"] %}
 
-                <h4>Sistema de Gestão</h4>
+    <a href="{{ url_for('clientes.listar_clientes') }}">
+        <i class="bi bi-buildings"></i>
+        <span>Clientes</span>
+    </a>
 
-                <small>Grupo G&D</small>
+    {% endif %}
 
-            </div>
+    <!-- PROJETOS -->
+    {% if current_user.perfil in ["Administrador","Gerente","Operador"] %}
 
-            <div class="topbar-right">
+    <a href="{{ url_for('projetos.listar_projetos') }}">
+        <i class="bi bi-folder2-open"></i>
+        <span>Projetos</span>
+    </a>
 
-                <div class="usuario">
+    {% endif %}
 
-                    <i class="bi bi-person-circle fs-3"></i>
+    <!-- PLANEJAMENTO -->
+    <a href="{{ url_for('planejamento.listar_planejamento') }}">
+        <i class="bi bi-calendar3"></i>
+        <span>Planejamento</span>
+    </a>
 
-                    <div>
+    <!-- FINANCEIRO -->
+    {% if current_user.perfil in ["Administrador","Gerente"] %}
 
-                        <strong>
-                            {{ current_user.nome }}
-                        </strong>
+    <a href="{{ url_for('financeiro.listar_financeiro') }}">
+        <i class="bi bi-cash-stack"></i>
+        <span>Financeiro</span>
+    </a>
 
-                        <small>
-                            {{ current_user.perfil }}
-                        </small>
+    {% endif %}
 
-                    </div>
+    <!-- FUNCIONÁRIOS -->
+    {% if current_user.perfil in ["Administrador","Gerente"] %}
+
+    <a href="{{ url_for('funcionarios.listar_funcionarios') }}">
+        <i class="bi bi-person-badge"></i>
+        <span>Funcionários</span>
+    </a>
+
+    {% endif %}
+
+    <!-- EQUIPES -->
+    {% if current_user.perfil in ["Administrador","Gerente"] %}
+
+    <a href="{{ url_for('equipes.listar_equipes') }}">
+        <i class="bi bi-people-fill"></i>
+        <span>Equipes</span>
+    </a>
+
+    {% endif %}
+
+    <!-- VEÍCULOS -->
+    {% if current_user.perfil in ["Administrador","Gerente"] %}
+
+    <a href="{{ url_for('veiculos.listar_veiculos') }}">
+        <i class="bi bi-truck"></i>
+        <span>Veículos</span>
+    </a>
+
+    {% endif %}
+
+    <!-- EQUIPAMENTOS -->
+    {% if current_user.perfil in ["Administrador","Gerente"] %}
+
+    <a href="{{ url_for('equipamentos.listar_equipamentos') }}">
+        <i class="bi bi-tools"></i>
+        <span>Equipamentos</span>
+    </a>
+
+    {% endif %}
+
+    <!-- USUÁRIOS -->
+    {% if current_user.perfil == "Administrador" %}
+
+    <hr>
+
+    <a href="{{ url_for('usuarios.listar_usuarios') }}">
+        <i class="bi bi-person-gear"></i>
+        <span>Usuários</span>
+    </a>
+
+    {% endif %}
+
+    <hr>
+
+    <a href="{{ url_for('auth.logout') }}">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Sair</span>
+    </a>
+
+</div>
+
+<div class="conteudo">
+
+    <div class="topbar">
+
+        <div>
+
+            <h4>Sistema de Gestão</h4>
+
+            <small>Grupo G&D</small>
+
+        </div>
+
+        <div class="topbar-right">
+
+            <div class="usuario">
+
+                <i class="bi bi-person-circle fs-3"></i>
+
+                <div>
+
+                    <strong>{{ current_user.nome }}</strong>
+
+                    <small>{{ current_user.perfil }}</small>
 
                 </div>
 
@@ -159,12 +174,14 @@
 
         </div>
 
-        {% block content %}
-        {% endblock %}
-
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

@@ -17,7 +17,7 @@ projetos = Blueprint("projetos", __name__)
 # ==========================
 
 @projetos.route("/projetos")
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def listar_projetos():
 
     lista_projetos = Projeto.query.order_by(
@@ -35,7 +35,7 @@ def listar_projetos():
 # ==========================
 
 @projetos.route("/projetos/novo")
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def novo_projeto():
 
     clientes = Cliente.query.order_by(
@@ -53,7 +53,7 @@ def novo_projeto():
 # ==========================
 
 @projetos.route("/projetos/salvar", methods=["POST"])
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def salvar_projeto():
 
     projeto = Projeto(
@@ -103,7 +103,7 @@ def salvar_projeto():
 # ==========================
 
 @projetos.route("/projetos/editar/<int:id>")
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def editar_projeto(id):
 
     projeto = Projeto.query.get_or_404(id)
@@ -124,7 +124,7 @@ def editar_projeto(id):
 # ==========================
 
 @projetos.route("/projetos/atualizar/<int:id>", methods=["POST"])
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def atualizar_projeto(id):
 
     projeto = Projeto.query.get_or_404(id)
@@ -166,7 +166,7 @@ def atualizar_projeto(id):
 # ==========================
 
 @projetos.route("/projetos/excluir/<int:id>")
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def excluir_projeto(id):
 
     projeto = Projeto.query.get_or_404(id)

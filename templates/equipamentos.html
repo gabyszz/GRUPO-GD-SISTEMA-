@@ -18,6 +18,7 @@ Equipamentos
 
     </div>
 
+    {% if current_user.perfil in ["Administrador", "Gerente"] %}
     <a href="/equipamentos/novo" class="btn btn-success">
 
         <i class="bi bi-plus-circle"></i>
@@ -25,6 +26,7 @@ Equipamentos
         Novo Equipamento
 
     </a>
+    {% endif %}
 
 </div>
 
@@ -65,23 +67,23 @@ Equipamentos
                     <td>{{ equipamento.categoria }}</td>
                     <td>{{ equipamento.fabricante }}</td>
 
-<td>{{ equipamento.modelo }}</td>
+                    <td>{{ equipamento.modelo }}</td>
 
-<td>{{ equipamento.numero_serie }}</td>
+                    <td>{{ equipamento.numero_serie }}</td>
 
-<td>
+                    <td>
 
-    {% if equipamento.proxima_calibracao %}
+                        {% if equipamento.proxima_calibracao %}
 
-        {{ equipamento.proxima_calibracao.strftime('%d/%m/%Y') }}
+                            {{ equipamento.proxima_calibracao.strftime('%d/%m/%Y') }}
 
-    {% else %}
+                        {% else %}
 
-        -
+                            -
 
-    {% endif %}
+                        {% endif %}
 
-</td>
+                    </td>
 
                     <td>
 
@@ -115,6 +117,8 @@ Equipamentos
 
                     <td>
 
+                        {% if current_user.perfil in ["Administrador", "Gerente"] %}
+
                         <a href="{{ url_for('equipamentos.editar_equipamento', id=equipamento.id) }}"
                            class="btn btn-warning btn-sm">
 
@@ -130,6 +134,12 @@ Equipamentos
 
                         </a>
 
+                        {% else %}
+
+                        <span class="text-muted">Somente visualização</span>
+
+                        {% endif %}
+
                     </td>
 
                 </tr>
@@ -138,7 +148,7 @@ Equipamentos
 
                 <tr>
 
-                    <td colspan="7" class="text-center text-muted">
+                    <td colspan="10" class="text-center text-muted">
 
                         Nenhum equipamento cadastrado.
 

@@ -3,24 +3,11 @@ from flask_login import login_required, current_user
 
 from database.database import db
 from models.usuario import Usuario
+from services.permissoes import perfis_permitidos
 
 
 usuarios = Blueprint("usuarios", __name__)
 
-
-# ==========================================
-# VERIFICA SE É ADMINISTRADOR
-# ==========================================
-
-def somente_admin():
-
-    if current_user.perfil != "Administrador":
-
-        flash("Você não possui permissão para acessar esta área.", "danger")
-
-        return False
-
-    return True
 
 
 # ==========================================
@@ -28,11 +15,10 @@ def somente_admin():
 # ==========================================
 
 @usuarios.route("/usuarios")
-@login_required
+@perfis_permitidos("Administrador")
 def listar_usuarios():
 
-    if not somente_admin():
-        return redirect("/")
+
 
     lista = Usuario.query.order_by(Usuario.nome).all()
 
@@ -47,11 +33,9 @@ def listar_usuarios():
 # ==========================================
 
 @usuarios.route("/usuarios/novo")
-@login_required
+@perfis_permitidos("Administrador")
 def novo_usuario():
 
-    if not somente_admin():
-        return redirect("/")
 
     return render_template("novo_usuario.html")
 
@@ -61,11 +45,9 @@ def novo_usuario():
 # ==========================================
 
 @usuarios.route("/usuarios/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador")
 def salvar_usuario():
 
-    if not somente_admin():
-        return redirect("/")
 
     email = request.form["email"]
 
@@ -105,11 +87,9 @@ def salvar_usuario():
 # ==========================================
 
 @usuarios.route("/usuarios/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador")
 def editar_usuario(id):
 
-    if not somente_admin():
-        return redirect("/")
 
     usuario = Usuario.query.get_or_404(id)
 
@@ -127,11 +107,9 @@ def editar_usuario(id):
 # ==========================================
 
 @usuarios.route("/usuarios/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador")
 def atualizar_usuario(id):
 
-    if not somente_admin():
-        return redirect("/")
 
     usuario = Usuario.query.get_or_404(id)
 
@@ -155,11 +133,9 @@ def atualizar_usuario(id):
 # ==========================================
 
 @usuarios.route("/usuarios/senha/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador")
 def alterar_senha(id):
 
-    if not somente_admin():
-        return redirect("/")
 
     usuario = Usuario.query.get_or_404(id)
 
@@ -177,11 +153,9 @@ def alterar_senha(id):
 # ==========================================
 
 @usuarios.route("/usuarios/ativar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador")
 def ativar_usuario(id):
 
-    if not somente_admin():
-        return redirect("/")
 
     usuario = Usuario.query.get_or_404(id)
 
@@ -199,11 +173,9 @@ def ativar_usuario(id):
 # ==========================================
 
 @usuarios.route("/usuarios/desativar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador")
 def desativar_usuario(id):
 
-    if not somente_admin():
-        return redirect("/")
 
     usuario = Usuario.query.get_or_404(id)
 
@@ -223,11 +195,10 @@ def desativar_usuario(id):
 # ==========================================
 
 @usuarios.route("/usuarios/excluir/<int:id>")
-@login_required
+@perfis_permitidos("Administrador")
 def excluir_usuario(id):
 
-    if not somente_admin():
-        return redirect("/")
+
 
     usuario = Usuario.query.get_or_404(id)
 

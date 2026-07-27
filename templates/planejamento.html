@@ -18,14 +18,18 @@ Planejamento
 
     </div>
 
-    <a href="{{ url_for('planejamento.novo_planejamento') }}"
-       class="btn btn-success">
+    {% if current_user.perfil != "Executor" %}
 
-        <i class="bi bi-plus-circle"></i>
+<a href="{{ url_for('planejamento.novo_planejamento') }}"
+   class="btn btn-success">
 
-        Novo Planejamento
+    <i class="bi bi-plus-circle"></i>
 
-    </a>
+    Novo Planejamento
+
+</a>
+
+{% endif %}
 
 </div>
 
@@ -195,22 +199,28 @@ Planejamento
 
                     <td>
 
-                        <a href="/planejamento/editar/{{ planejamento.id }}"
-                           class="btn btn-warning btn-sm">
+                       <td>
 
-                            <i class="bi bi-pencil-square"></i>
+    <a href="/planejamento/editar/{{ planejamento.id }}"
+       class="btn btn-warning btn-sm">
 
-                        </a>
+        <i class="bi bi-pencil-square"></i>
 
-                        <a href="/planejamento/excluir/{{ planejamento.id }}"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Deseja realmente excluir este planejamento?')">
+    </a>
 
-                            <i class="bi bi-trash"></i>
+    {% if current_user.perfil != "Executor" %}
 
-                        </a>
+    <a href="/planejamento/excluir/{{ planejamento.id }}"
+       class="btn btn-danger btn-sm"
+       onclick="return confirm('Deseja realmente excluir este planejamento?')">
 
-                    </td>
+        <i class="bi bi-trash"></i>
+
+    </a>
+
+    {% endif %}
+
+</td>
 
                 </tr>
 

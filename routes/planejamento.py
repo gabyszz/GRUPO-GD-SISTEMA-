@@ -10,26 +10,10 @@ from models.equipe import Equipe
 from models.veiculo import Veiculo
 
 from services.log_service import registrar_log
+from services.permissoes import perfis_permitidos
 from services.backup_manager import backup_antes_de_alteracao
 
 planejamento = Blueprint("planejamento", __name__)
-
-# ==========================
-# PERMISSÃO EXECUTOR
-# ==========================
-
-def somente_nao_executor():
-
-    if current_user.perfil == "Executor":
-
-        flash(
-            "Você não possui permissão para realizar esta ação.",
-            "warning"
-        )
-
-        return False
-
-    return True
 
 
 # ==========================
@@ -37,7 +21,7 @@ def somente_nao_executor():
 # ==========================
 
 @planejamento.route("/planejamento")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def listar_planejamento():
 
     planejamentos = Planejamento.query.order_by(
@@ -55,7 +39,7 @@ def listar_planejamento():
 # ==========================
 
 @planejamento.route("/planejamento/novo")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def novo_planejamento():
 
     if not somente_nao_executor():
@@ -86,11 +70,8 @@ def novo_planejamento():
 # ==========================
 
 @planejamento.route("/planejamento/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def salvar_planejamento():
-
-    if not somente_nao_executor():
-        return redirect("/planejamento")
 
     data_inicio = request.form.get("data_inicio")
     data_fim = request.form.get("data_fim")
@@ -137,7 +118,7 @@ def salvar_planejamento():
 # ==========================
 
 @planejamento.route("/planejamento/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def editar_planejamento(id):
 
     planejamento_obj = Planejamento.query.get_or_404(id)
@@ -172,7 +153,7 @@ def editar_planejamento(id):
 # ==========================
 
 @planejamento.route("/planejamento/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
 def atualizar_planejamento(id):
 
     planejamento_obj = Planejamento.query.get_or_404(id)
@@ -218,11 +199,8 @@ def atualizar_planejamento(id):
 # ==========================
 
 @planejamento.route("/planejamento/excluir/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente", "Operador")
 def excluir_planejamento(id):
-
-    if not somente_nao_executor():
-        return redirect("/planejamento")
 
     planejamento_obj = Planejamento.query.get_or_404(id)
 

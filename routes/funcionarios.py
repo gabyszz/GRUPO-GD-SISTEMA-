@@ -6,6 +6,7 @@ from models.funcionario import Funcionario
 
 from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
+from services.permissoes import perfis_permitidos
 
 funcionarios = Blueprint("funcionarios", __name__)
 
@@ -15,7 +16,7 @@ funcionarios = Blueprint("funcionarios", __name__)
 # ==========================
 
 @funcionarios.route("/funcionarios")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def listar_funcionarios():
 
     lista = Funcionario.query.order_by(
@@ -33,7 +34,7 @@ def listar_funcionarios():
 # ==========================
 
 @funcionarios.route("/funcionarios/novo")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def novo_funcionario():
 
     return render_template(
@@ -46,7 +47,7 @@ def novo_funcionario():
 # ==========================
 
 @funcionarios.route("/funcionarios/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def salvar_funcionario():
 
     funcionario = Funcionario(
@@ -75,7 +76,7 @@ def salvar_funcionario():
 # ==========================
 
 @funcionarios.route("/funcionarios/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def editar_funcionario(id):
 
     funcionario = Funcionario.query.get_or_404(id)
@@ -91,7 +92,7 @@ def editar_funcionario(id):
 # ==========================
 
 @funcionarios.route("/funcionarios/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def atualizar_funcionario(id):
 
     funcionario = Funcionario.query.get_or_404(id)
@@ -124,7 +125,7 @@ def atualizar_funcionario(id):
 # ==========================
 
 @funcionarios.route("/funcionarios/excluir/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def excluir_funcionario(id):
 
     funcionario = Funcionario.query.get_or_404(id)

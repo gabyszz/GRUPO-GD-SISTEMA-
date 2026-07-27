@@ -10,9 +10,11 @@ Clientes
 
 <hr>
 
+{% if current_user.perfil != "Executor" %}
 <a href="/clientes/novo" class="btn btn-success mb-3">
     + Novo Cliente
 </a>
+{% endif %}
 
 <table class="table table-bordered table-hover bg-white shadow">
 
@@ -51,20 +53,20 @@ Clientes
 
                 <td>
 
+                    {% if current_user.perfil in ["Administrador", "Gerente", "Operador"] %}
                     <a href="/clientes/editar/{{ cliente.id }}"
                        class="btn btn-warning btn-sm">
-
                         Editar
-
                     </a>
+                    {% endif %}
 
+                    {% if current_user.perfil in ["Administrador", "Gerente"] %}
                     <a href="/clientes/excluir/{{ cliente.id }}"
                        class="btn btn-danger btn-sm"
                        onclick="return confirm('Deseja realmente excluir este cliente?')">
-
                         Excluir
-
                     </a>
+                    {% endif %}
 
                 </td>
 

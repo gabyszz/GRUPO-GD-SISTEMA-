@@ -7,6 +7,7 @@ from models.funcionario import Funcionario
 
 from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
+from services.permissoes import perfis_permitidos
 
 equipes = Blueprint("equipes", __name__)
 
@@ -16,7 +17,7 @@ equipes = Blueprint("equipes", __name__)
 # ==========================
 
 @equipes.route("/equipes")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def listar_equipes():
 
     lista = Equipe.query.order_by(
@@ -34,7 +35,7 @@ def listar_equipes():
 # ==========================
 
 @equipes.route("/equipes/nova")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def nova_equipe():
 
     funcionarios = Funcionario.query.order_by(
@@ -52,7 +53,7 @@ def nova_equipe():
 # ==========================
 
 @equipes.route("/equipes/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def salvar_equipe():
 
     equipe = Equipe(
@@ -86,7 +87,7 @@ def salvar_equipe():
 # ==========================
 
 @equipes.route("/equipes/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def editar_equipe(id):
 
     equipe = Equipe.query.get_or_404(id)
@@ -107,7 +108,7 @@ def editar_equipe(id):
 # ==========================
 
 @equipes.route("/equipes/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def atualizar_equipe(id):
 
     equipe = Equipe.query.get_or_404(id)
@@ -143,7 +144,7 @@ def atualizar_equipe(id):
 # ==========================
 
 @equipes.route("/equipes/excluir/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def excluir_equipe(id):
 
     equipe = Equipe.query.get_or_404(id)

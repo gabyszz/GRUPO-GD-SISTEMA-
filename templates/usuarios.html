@@ -16,13 +16,12 @@
 
     </div>
 
-    <a href="{{ url_for('usuarios.novo_usuario') }}" class="btn btn-success">
-
-        <i class="bi bi-plus-circle"></i>
-
-        Novo Usuário
-
-    </a>
+   {% if current_user.perfil == "Administrador" %}
+<a href="{{ url_for('usuarios.novo_usuario') }}" class="btn btn-success">
+    <i class="bi bi-plus-circle"></i>
+    Novo Usuário
+</a>
+{% endif %}
 
 </div>
 

@@ -118,7 +118,7 @@ def atualizar_cliente(id):
 # ==========================
 
 @clientes.route("/clientes/excluir/<int:id>")
-@perfis_permitidos("Administrador", "Gerente", "Operador")
+@perfis_permitidos("Administrador", "Gerente")
 def excluir_cliente(id):
 
     cliente = Cliente.query.get_or_404(id)

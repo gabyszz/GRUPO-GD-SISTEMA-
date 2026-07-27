@@ -7,6 +7,7 @@ from models.projeto import Projeto
 from models.cliente import Cliente
 
 from services.log_service import registrar_log
+from services.permissoes import perfis_permitidos
 
 financeiro = Blueprint("financeiro", __name__)
 
@@ -16,7 +17,7 @@ financeiro = Blueprint("financeiro", __name__)
 # ==========================
 
 @financeiro.route("/financeiro")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def listar_financeiro():
 
     projeto = request.args.get("projeto", "")
@@ -58,7 +59,7 @@ def listar_financeiro():
 # ==========================
 
 @financeiro.route("/financeiro/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def editar_financeiro(id):
 
     financeiro = Financeiro.query.get_or_404(id)
@@ -74,7 +75,7 @@ def editar_financeiro(id):
 # ==========================
 
 @financeiro.route("/financeiro/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def atualizar_financeiro(id):
 
     financeiro = Financeiro.query.get_or_404(id)
@@ -166,7 +167,7 @@ def atualizar_financeiro(id):
 # ==========================
 
 @financeiro.route("/financeiro/sincronizar")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def sincronizar_financeiro():
 
     projetos = Projeto.query.all()

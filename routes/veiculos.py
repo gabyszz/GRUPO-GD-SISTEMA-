@@ -6,6 +6,7 @@ from models.veiculo import Veiculo
 
 from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
+from services.permissoes import perfis_permitidos
 
 veiculos = Blueprint("veiculos", __name__)
 
@@ -15,7 +16,7 @@ veiculos = Blueprint("veiculos", __name__)
 # ==========================
 
 @veiculos.route("/veiculos")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def listar_veiculos():
 
     lista = Veiculo.query.order_by(
@@ -33,7 +34,7 @@ def listar_veiculos():
 # ==========================
 
 @veiculos.route("/veiculos/novo")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def novo_veiculo():
 
     return render_template(
@@ -46,7 +47,7 @@ def novo_veiculo():
 # ==========================
 
 @veiculos.route("/veiculos/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def salvar_veiculo():
 
     backup_antes_de_alteracao()
@@ -78,7 +79,7 @@ def salvar_veiculo():
 # ==========================
 
 @veiculos.route("/veiculos/editar/<int:id>", methods=["GET", "POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def editar_veiculo(id):
 
     veiculo = Veiculo.query.get_or_404(id)
@@ -115,7 +116,7 @@ def editar_veiculo(id):
 # ==========================
 
 @veiculos.route("/veiculos/excluir/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def excluir_veiculo(id):
 
     veiculo = Veiculo.query.get_or_404(id)

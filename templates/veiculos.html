@@ -18,6 +18,7 @@ Veículos
 
     </div>
 
+    {% if current_user.perfil in ["Administrador", "Gerente"] %}
     <a href="/veiculos/novo" class="btn btn-success">
 
         <i class="bi bi-plus-circle"></i>
@@ -25,6 +26,7 @@ Veículos
         Novo Veículo
 
     </a>
+    {% endif %}
 
 </div>
 
@@ -101,6 +103,8 @@ Veículos
 
                     <td>
 
+                        {% if current_user.perfil in ["Administrador", "Gerente"] %}
+
                         <a href="/veiculos/editar/{{ veiculo.id }}"
                            class="btn btn-warning btn-sm"
                            title="Editar">
@@ -125,6 +129,14 @@ Veículos
                             </button>
 
                         </form>
+
+                        {% else %}
+
+                        <span class="text-muted">
+                            Somente visualização
+                        </span>
+
+                        {% endif %}
 
                     </td>
 

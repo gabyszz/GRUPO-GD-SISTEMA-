@@ -7,6 +7,7 @@ from models.equipamento import Equipamento
 
 from services.log_service import registrar_log
 from services.backup_manager import backup_antes_de_alteracao
+from services.permissoes import perfis_permitidos
 
 equipamentos = Blueprint("equipamentos", __name__)
 
@@ -16,7 +17,7 @@ equipamentos = Blueprint("equipamentos", __name__)
 # ==========================
 
 @equipamentos.route("/equipamentos")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def listar_equipamentos():
 
     lista = Equipamento.query.order_by(
@@ -34,7 +35,7 @@ def listar_equipamentos():
 # ==========================
 
 @equipamentos.route("/equipamentos/novo")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def novo_equipamento():
 
     return render_template(
@@ -47,7 +48,7 @@ def novo_equipamento():
 # ==========================
 
 @equipamentos.route("/equipamentos/salvar", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def salvar_equipamento():
 
     ultima = request.form.get("ultima_calibracao")
@@ -93,7 +94,7 @@ def salvar_equipamento():
 # ==========================
 
 @equipamentos.route("/equipamentos/editar/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def editar_equipamento(id):
 
     equipamento = Equipamento.query.get_or_404(id)
@@ -109,7 +110,7 @@ def editar_equipamento(id):
 # ==========================
 
 @equipamentos.route("/equipamentos/atualizar/<int:id>", methods=["POST"])
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def atualizar_equipamento(id):
 
     equipamento = Equipamento.query.get_or_404(id)
@@ -159,7 +160,7 @@ def atualizar_equipamento(id):
 # ==========================
 
 @equipamentos.route("/equipamentos/excluir/<int:id>")
-@login_required
+@perfis_permitidos("Administrador", "Gerente")
 def excluir_equipamento(id):
 
     equipamento = Equipamento.query.get_or_404(id)
