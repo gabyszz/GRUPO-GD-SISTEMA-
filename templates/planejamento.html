@@ -122,41 +122,55 @@ Planejamento
 
                     <td>
 
-                        {% if planejamento.projeto.financeiro %}
+                        {% if planejamento.financeiro %}
 
 
-                            {% if planejamento.projeto.financeiro.status == "Pago" %}
+                            {% if planejamento.financeiro.status == "Pago" %}
 
                                 <span class="badge bg-success">
                                     Pago
                                 </span>
 
 
-                            {% elif planejamento.projeto.financeiro.status == "Recebimento Parcial" %}
-
-                                <span class="badge bg-warning text-dark">
-                                    Parcial
-                                </span>
-
-
-                            {% elif planejamento.projeto.financeiro.status == "Faturado" %}
-
-                                <span class="badge bg-primary">
-                                    Faturado
-                                </span>
-
-
-                            {% elif planejamento.projeto.financeiro.status == "Cancelado" %}
+                            {% elif planejamento.financeiro.status == "Em atraso" %}
 
                                 <span class="badge bg-danger">
-                                    Cancelado
+                                    Em atraso
+                                </span>
+
+
+                            {% elif planejamento.financeiro.status == "Adiado" %}
+
+                                <span class="badge bg-warning text-dark">
+                                    Adiado
+                                </span>
+
+
+                            {% elif planejamento.financeiro.status == "Em andamento" %}
+
+                                <span class="badge bg-primary">
+                                    Em andamento
+                                </span>
+
+
+                            {% elif planejamento.financeiro.status == "Em análise" %}
+
+                                <span class="badge bg-info text-dark">
+                                    Em análise
+                                </span>
+
+
+                            {% elif planejamento.financeiro.status == "A Faturar" %}
+
+                                <span class="badge bg-secondary">
+                                    A Faturar
                                 </span>
 
 
                             {% else %}
 
-                                <span class="badge bg-secondary">
-                                    A Faturar
+                                <span class="badge bg-dark">
+                                    {{ planejamento.financeiro.status }}
                                 </span>
 
 
