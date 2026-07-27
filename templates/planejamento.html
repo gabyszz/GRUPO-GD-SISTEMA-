@@ -9,29 +9,27 @@ Planejamento
 <div class="d-flex justify-content-between align-items-center mb-4">
 
     <div>
-
         <h2>Planejamento</h2>
 
         <small class="text-muted">
             Planejamento dos serviços de campo
         </small>
-
     </div>
 
     {% if current_user.perfil != "Executor" %}
 
-<a href="{{ url_for('planejamento.novo_planejamento') }}"
-   class="btn btn-success">
+    <a href="{{ url_for('planejamento.novo_planejamento') }}"
+       class="btn btn-success">
 
-    <i class="bi bi-plus-circle"></i>
+        <i class="bi bi-plus-circle"></i>
+        Novo Planejamento
 
-    Novo Planejamento
+    </a>
 
-</a>
-
-{% endif %}
+    {% endif %}
 
 </div>
+
 
 <div class="card shadow">
 
@@ -49,11 +47,14 @@ Planejamento
                     <th>Status Planejamento</th>
                     <th>Status Financeiro</th>
                     <th>Prazo</th>
-                    <th width="170">Ações</th>
+                    <th class="text-center" style="width:170px;">
+                        Ações
+                    </th>
 
                 </tr>
 
             </thead>
+
 
             <tbody>
 
@@ -61,127 +62,119 @@ Planejamento
 
                 <tr>
 
-                    <td>
 
+                    <td>
                         {{ planejamento.projeto.nome }}
-
                     </td>
 
-                    <td>
 
+                    <td>
                         {{ planejamento.responsavel }}
-
                     </td>
+
 
                     <td>
-
                         {{ planejamento.equipe.nome }}
-
                     </td>
+
 
                     <td>
 
                         {% if planejamento.status == "Planejado" %}
 
                             <span class="badge bg-secondary">
-
                                 Planejado
-
                             </span>
+
 
                         {% elif planejamento.status == "Em Andamento" %}
 
                             <span class="badge bg-primary">
-
                                 Em Andamento
-
                             </span>
+
 
                         {% elif planejamento.status == "Concluído" %}
 
                             <span class="badge bg-success">
-
                                 Concluído
-
                             </span>
+
 
                         {% elif planejamento.status == "Cancelado" %}
 
                             <span class="badge bg-danger">
-
                                 Cancelado
-
                             </span>
+
 
                         {% else %}
 
                             <span class="badge bg-dark">
-
                                 {{ planejamento.status }}
-
                             </span>
 
                         {% endif %}
 
                     </td>
+
+
 
                     <td>
 
                         {% if planejamento.projeto.financeiro %}
 
+
                             {% if planejamento.projeto.financeiro.status == "Pago" %}
 
                                 <span class="badge bg-success">
-
                                     Pago
-
                                 </span>
+
 
                             {% elif planejamento.projeto.financeiro.status == "Recebimento Parcial" %}
 
                                 <span class="badge bg-warning text-dark">
-
                                     Parcial
-
                                 </span>
+
 
                             {% elif planejamento.projeto.financeiro.status == "Faturado" %}
 
                                 <span class="badge bg-primary">
-
                                     Faturado
-
                                 </span>
+
 
                             {% elif planejamento.projeto.financeiro.status == "Cancelado" %}
 
                                 <span class="badge bg-danger">
-
                                     Cancelado
-
                                 </span>
+
 
                             {% else %}
 
                                 <span class="badge bg-secondary">
-
                                     A Faturar
-
                                 </span>
 
+
                             {% endif %}
+
 
                         {% else %}
 
                             <span class="badge bg-secondary">
-
                                 Não cadastrado
-
                             </span>
+
 
                         {% endif %}
 
                     </td>
+
+
 
                     <td>
 
@@ -197,34 +190,49 @@ Planejamento
 
                     </td>
 
-                    <td>
 
-                       <td>
 
-    <a href="/planejamento/editar/{{ planejamento.id }}"
-       class="btn btn-warning btn-sm">
+                    <td class="text-center">
 
-        <i class="bi bi-pencil-square"></i>
+                        <div class="d-flex justify-content-center gap-2">
 
-    </a>
 
-    {% if current_user.perfil != "Executor" %}
+                            <a href="{{ url_for('planejamento.editar_planejamento', id=planejamento.id) }}"
+                               class="btn btn-warning btn-sm"
+                               title="Editar">
 
-    <a href="/planejamento/excluir/{{ planejamento.id }}"
-       class="btn btn-danger btn-sm"
-       onclick="return confirm('Deseja realmente excluir este planejamento?')">
+                                <i class="bi bi-pencil-square"></i>
 
-        <i class="bi bi-trash"></i>
+                            </a>
 
-    </a>
 
-    {% endif %}
 
-</td>
+                            {% if current_user.perfil != "Executor" %}
+
+
+                            <a href="{{ url_for('planejamento.excluir_planejamento', id=planejamento.id) }}"
+                               class="btn btn-danger btn-sm"
+                               title="Excluir"
+                               onclick="return confirm('Deseja realmente excluir este planejamento?')">
+
+                                <i class="bi bi-trash"></i>
+
+                            </a>
+
+
+                            {% endif %}
+
+
+                        </div>
+
+                    </td>
+
 
                 </tr>
 
+
                 {% else %}
+
 
                 <tr>
 
@@ -237,14 +245,20 @@ Planejamento
 
                 </tr>
 
+
                 {% endfor %}
+
 
             </tbody>
 
+
         </table>
+
 
     </div>
 
+
 </div>
+
 
 {% endblock %}

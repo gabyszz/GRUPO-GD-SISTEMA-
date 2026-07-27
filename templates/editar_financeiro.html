@@ -12,19 +12,23 @@ Editar Financeiro
 
         <h4 class="mb-0">
 
-            Financeiro - {{ financeiro.projeto.nome }}
+            Financeiro - 
+            {{ financeiro.planejamento.projeto.nome }}
 
         </h4>
 
     </div>
 
+
     <div class="card-body">
+
 
         <!-- ==========================
              RESUMO FINANCEIRO
         =========================== -->
 
         <div class="row mb-4">
+
 
             <div class="col-md-4">
 
@@ -49,6 +53,8 @@ Editar Financeiro
 
             </div>
 
+
+
             <div class="col-md-4">
 
                 <div class="card border-primary">
@@ -71,6 +77,8 @@ Editar Financeiro
                 </div>
 
             </div>
+
+
 
             <div class="col-md-4">
 
@@ -95,29 +103,39 @@ Editar Financeiro
 
             </div>
 
+
         </div>
+
+
 
         <form method="POST"
               action="/financeiro/atualizar/{{ financeiro.id }}">
+
 
             <input
                 type="hidden"
                 name="csrf_token"
                 value="{{ csrf_token() }}">
 
+
+
             <!-- ==========================
-                 PROJETO
+                 PLANEJAMENTO
             =========================== -->
 
             <h5 class="border-bottom pb-2 mb-3">
 
-                Informações do Projeto
+                Informações do Planejamento
 
             </h5>
 
+
+
             <div class="row">
 
-                <div class="col-md-6 mb-3">
+
+                <div class="col-md-4 mb-3">
+
 
                     <label class="form-label">
 
@@ -125,14 +143,19 @@ Editar Financeiro
 
                     </label>
 
+
                     <input
                         class="form-control"
-                        value="{{ financeiro.projeto.nome }}"
+                        value="{{ financeiro.planejamento.projeto.nome }}"
                         disabled>
+
 
                 </div>
 
-                <div class="col-md-6 mb-3">
+
+
+                <div class="col-md-4 mb-3">
+
 
                     <label class="form-label">
 
@@ -140,14 +163,40 @@ Editar Financeiro
 
                     </label>
 
+
                     <input
                         class="form-control"
-                        value="{{ financeiro.projeto.cliente.nome }}"
+                        value="{{ financeiro.planejamento.projeto.cliente.nome }}"
                         disabled>
+
 
                 </div>
 
+
+
+                <div class="col-md-4 mb-3">
+
+
+                    <label class="form-label">
+
+                        Data do Planejamento
+
+                    </label>
+
+
+                    <input
+                        class="form-control"
+                        value="{{ financeiro.planejamento.data_inicio.strftime('%d/%m/%Y') if financeiro.planejamento.data_inicio else '-' }}"
+                        disabled>
+
+
+                </div>
+
+
             </div>
+
+
+
 
             <!-- ==========================
                  VALORES
@@ -159,15 +208,19 @@ Editar Financeiro
 
             </h5>
 
+
             <div class="row">
 
+
                 <div class="col-md-6 mb-3">
+
 
                     <label class="form-label">
 
                         Valor do Contrato
 
                     </label>
+
 
                     <input
                         type="number"
@@ -176,15 +229,20 @@ Editar Financeiro
                         class="form-control"
                         value="{{ financeiro.valor_contrato }}">
 
+
                 </div>
 
+
+
                 <div class="col-md-6 mb-3">
+
 
                     <label class="form-label">
 
                         Valor Recebido
 
                     </label>
+
 
                     <input
                         type="number"
@@ -193,13 +251,20 @@ Editar Financeiro
                         class="form-control"
                         value="{{ financeiro.valor_recebido }}">
 
+
                 </div>
 
+
             </div>
+
+
+
+
 
             <!-- ==========================
                  FATURAMENTO
             =========================== -->
+
 
             <h5 class="border-bottom pb-2 mt-4 mb-3">
 
@@ -207,234 +272,244 @@ Editar Financeiro
 
             </h5>
 
+
+
             <div class="row">
 
-               <div class="col-md-3 mb-3">
 
-    <label class="form-label">
-
-        Recibo Sinal
-
-    </label>
-
-    <input
-        type="text"
-        name="recibo_sinal"
-        class="form-control"
-        value="{{ financeiro.recibo_sinal or '' }}">
-
-</div>
-
-<div class="col-md-3 mb-3">
-
-    <label class="form-label">
-
-        Recibo Saldo
-
-    </label>
-
-    <input
-        type="text"
-        name="recibo_saldo"
-        class="form-control"
-        value="{{ financeiro.recibo_saldo or '' }}">
-
-</div>
- 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
 
                     <label class="form-label">
+                        Recibo Sinal
+                    </label>
 
+                    <input
+                        type="text"
+                        name="recibo_sinal"
+                        class="form-control"
+                        value="{{ financeiro.recibo_sinal or '' }}">
+
+                </div>
+
+
+
+                <div class="col-md-3 mb-3">
+
+                    <label class="form-label">
+                        Recibo Saldo
+                    </label>
+
+                    <input
+                        type="text"
+                        name="recibo_saldo"
+                        class="form-control"
+                        value="{{ financeiro.recibo_saldo or '' }}">
+
+                </div>
+
+
+
+                <div class="col-md-3 mb-3">
+
+                    <label class="form-label">
                         Faturado por
-
                     </label>
 
-                <select
-                    name="faturado_por"
-                    class="form-select">
 
-                <option value="">Selecione...</option>
+                    <select
+                        name="faturado_por"
+                        class="form-select">
 
-                     <option value="G&D Topografia"
-                         {% if financeiro.faturado_por == "G&D Topografia" %}selected{% endif %}>
-                         G&D Topografia
-                 </option>
 
-                <option value="GDN Topografia"
-                         {% if financeiro.faturado_por == "GDN Topografia" %}selected{% endif %}>
-                         GDN Topografia
-                 </option>
+                        <option value="">
+                            Selecione...
+                        </option>
 
-                 </select>
 
-             </div>
+                        <option value="G&D Topografia"
+                        {% if financeiro.faturado_por == "G&D Topografia" %}selected{% endif %}>
+                            G&D Topografia
+                        </option>
 
-                <div class="col-md-4 mb-3">
+
+                        <option value="GDN Topografia"
+                        {% if financeiro.faturado_por == "GDN Topografia" %}selected{% endif %}>
+                            GDN Topografia
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <div class="col-md-3 mb-3">
+
 
                     <label class="form-label">
-
                         Data do Faturamento
-
                     </label>
+
 
                     <input
                         type="date"
                         name="data_faturamento"
                         class="form-control"
-                        value="{{ financeiro.data_faturamento if financeiro.data_faturamento else '' }}">
+                        value="{{ financeiro.data_faturamento or '' }}">
+
 
                 </div>
+
 
             </div>
 
 
-<!-- ==========================
-     DADOS PARA FATURAMENTO
-=========================== -->
 
-<h5 class="border-bottom pb-2 mt-4 mb-3">
 
-    Dados para Faturamento
 
-</h5>
+            <!-- ==========================
+                 DADOS FATURAMENTO
+            =========================== -->
 
-<div class="row">
 
-    <div class="col-md-6 mb-3">
+            <h5 class="border-bottom pb-2 mt-4 mb-3">
 
-        <label class="form-label">
+                Dados para Faturamento
 
-            Nome
+            </h5>
 
-        </label>
 
-        <input
-            type="text"
-            name="faturamento_nome"
-            class="form-control"
-            value="{{ financeiro.faturamento_nome or '' }}">
+            <div class="row">
 
-    </div>
 
-    <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Nome
+                    </label>
 
-        <label class="form-label">
+                    <input
+                        type="text"
+                        name="faturamento_nome"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_nome or '' }}">
+                </div>
 
-            CPF / CNPJ
 
-        </label>
 
-        <input
-            type="text"
-            name="faturamento_cpf_cnpj"
-            class="form-control"
-            value="{{ financeiro.faturamento_cpf_cnpj or '' }}">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        CPF / CNPJ
+                    </label>
 
-    </div>
+                    <input
+                        type="text"
+                        name="faturamento_cpf_cnpj"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_cpf_cnpj or '' }}">
+                </div>
 
-    <div class="col-md-6 mb-3">
 
-        <label class="form-label">
 
-            Telefone
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Telefone
+                    </label>
 
-        </label>
+                    <input
+                        type="text"
+                        name="faturamento_telefone"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_telefone or '' }}">
+                </div>
 
-        <input
-            type="text"
-            name="faturamento_telefone"
-            class="form-control"
-            value="{{ financeiro.faturamento_telefone or '' }}">
 
-    </div>
 
-    <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Contato
+                    </label>
 
-        <label class="form-label">
+                    <input
+                        type="text"
+                        name="faturamento_contato"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_contato or '' }}">
+                </div>
 
-            Contato
 
-        </label>
 
-        <input
-            type="text"
-            name="faturamento_contato"
-            class="form-control"
-            value="{{ financeiro.faturamento_contato or '' }}">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        E-mail
+                    </label>
 
-    </div>
+                    <input
+                        type="email"
+                        name="faturamento_email"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_email or '' }}">
+                </div>
 
-    <div class="col-md-6 mb-3">
 
-        <label class="form-label">
 
-            E-mail
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Endereço
+                    </label>
 
-        </label>
+                    <input
+                        type="text"
+                        name="faturamento_endereco"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_endereco or '' }}">
+                </div>
 
-        <input
-            type="email"
-            name="faturamento_email"
-            class="form-control"
-            value="{{ financeiro.faturamento_email or '' }}">
 
-    </div>
 
-    <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
 
-        <label class="form-label">
+                    <label class="form-label">
+                        Cidade
+                    </label>
 
-            Endereço
+                    <input
+                        type="text"
+                        name="faturamento_cidade"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_cidade or '' }}">
 
-        </label>
+                </div>
 
-        <input
-            type="text"
-            name="faturamento_endereco"
-            class="form-control"
-            value="{{ financeiro.faturamento_endereco or '' }}">
 
-    </div>
 
-    <div class="col-md-4 mb-3">
+                <div class="col-md-2 mb-3">
 
-        <label class="form-label">
+                    <label class="form-label">
+                        UF
+                    </label>
 
-            Cidade
+                    <input
+                        type="text"
+                        maxlength="2"
+                        name="faturamento_uf"
+                        class="form-control"
+                        value="{{ financeiro.faturamento_uf or '' }}">
 
-        </label>
+                </div>
 
-        <input
-            type="text"
-            name="faturamento_cidade"
-            class="form-control"
-            value="{{ financeiro.faturamento_cidade or '' }}">
 
-    </div>
+            </div>
 
-    <div class="col-md-2 mb-3">
 
-        <label class="form-label">
 
-            UF
 
-        </label>
-
-        <input
-            type="text"
-            maxlength="2"
-            name="faturamento_uf"
-            class="form-control"
-            style="text-transform:uppercase"
-            value="{{ financeiro.faturamento_uf or '' }}">
-
-    </div>
-
-</div>
 
             <!-- ==========================
                  RECEBIMENTO
             =========================== -->
+
 
             <h5 class="border-bottom pb-2 mt-4 mb-3">
 
@@ -442,46 +517,47 @@ Editar Financeiro
 
             </h5>
 
+
+
             <div class="row">
+
 
                 <div class="col-md-4 mb-3">
 
                     <label class="form-label">
-
                         Data Prevista
-
                     </label>
 
                     <input
                         type="date"
                         name="data_prevista_recebimento"
                         class="form-control"
-                        value="{{ financeiro.data_prevista_recebimento if financeiro.data_prevista_recebimento else '' }}">
+                        value="{{ financeiro.data_prevista_recebimento or '' }}">
 
                 </div>
+
+
 
                 <div class="col-md-4 mb-3">
 
                     <label class="form-label">
-
                         Data do Recebimento
-
                     </label>
 
                     <input
                         type="date"
                         name="data_recebimento"
                         class="form-control"
-                        value="{{ financeiro.data_recebimento if financeiro.data_recebimento else '' }}">
+                        value="{{ financeiro.data_recebimento or '' }}">
 
                 </div>
+
+
 
                 <div class="col-md-4 mb-3">
 
                     <label class="form-label">
-
                         Status
-
                     </label>
 
                     <input
@@ -491,11 +567,17 @@ Editar Financeiro
 
                 </div>
 
+
             </div>
+
+
+
+
 
             <!-- ==========================
                  OBSERVAÇÕES
             =========================== -->
+
 
             <h5 class="border-bottom pb-2 mt-4 mb-3">
 
@@ -503,38 +585,43 @@ Editar Financeiro
 
             </h5>
 
-            <div class="mb-4">
 
-                <textarea
-                    name="observacoes"
-                    rows="5"
-                    class="form-control">{{ financeiro.observacoes or "" }}</textarea>
+            <textarea
+                name="observacoes"
+                rows="5"
+                class="form-control">{{ financeiro.observacoes or "" }}</textarea>
 
-            </div>
 
-            <div class="d-flex justify-content-end">
 
-                <a
-                    href="/financeiro"
-                    class="btn btn-secondary me-2">
+
+            <div class="d-flex justify-content-end mt-4">
+
+
+                <a href="/financeiro"
+                   class="btn btn-secondary me-2">
 
                     Cancelar
 
                 </a>
 
-                <button
-                    class="btn btn-success">
+
+
+                <button class="btn btn-success">
 
                     Salvar Alterações
 
                 </button>
 
+
             </div>
 
+
         </form>
+
 
     </div>
 
 </div>
+
 
 {% endblock %}

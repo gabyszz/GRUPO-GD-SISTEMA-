@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, flash
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, request, redirect
+
 from datetime import datetime
 
 from database.database import db
@@ -8,12 +8,18 @@ from models.planejamento import Planejamento
 from models.projeto import Projeto
 from models.equipe import Equipe
 from models.veiculo import Veiculo
+from models.financeiro import Financeiro
 
 from services.log_service import registrar_log
 from services.permissoes import perfis_permitidos
 from services.backup_manager import backup_antes_de_alteracao
 
-planejamento = Blueprint("planejamento", __name__)
+
+planejamento = Blueprint(
+    "planejamento",
+    __name__
+)
+
 
 
 # ==========================
@@ -21,12 +27,18 @@ planejamento = Blueprint("planejamento", __name__)
 # ==========================
 
 @planejamento.route("/planejamento")
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos(
+    "Administrador",
+    "Gerente",
+    "Operador",
+    "Executor"
+)
 def listar_planejamento():
 
     planejamentos = Planejamento.query.order_by(
         Planejamento.id.desc()
     ).all()
+
 
     return render_template(
         "planejamento.html",
@@ -34,28 +46,33 @@ def listar_planejamento():
     )
 
 
+
 # ==========================
 # NOVO
 # ==========================
 
 @planejamento.route("/planejamento/novo")
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@perfis_permitidos(
+    "Administrador",
+    "Gerente",
+    "Operador"
+)
 def novo_planejamento():
-
-    if not somente_nao_executor():
-      return redirect("/planejamento")
 
     projetos = Projeto.query.order_by(
         Projeto.nome
     ).all()
 
+
     equipes = Equipe.query.order_by(
         Equipe.nome
     ).all()
 
+
     veiculos = Veiculo.query.order_by(
         Veiculo.modelo
     ).all()
+
 
     return render_template(
         "novo_planejamento.html",
@@ -65,16 +82,34 @@ def novo_planejamento():
     )
 
 
+
 # ==========================
 # SALVAR
 # ==========================
 
-@planejamento.route("/planejamento/salvar", methods=["POST"])
-@perfis_permitidos("Administrador", "Gerente", "Operador")
+@planejamento.route(
+    "/planejamento/salvar",
+    methods=["POST"]
+)
+@perfis_permitidos(
+    "Administrador",
+    "Gerente",
+    "Operador"
+)
 def salvar_planejamento():
 
-    data_inicio = request.form.get("data_inicio")
-    data_fim = request.form.get("data_fim")
+
+    backup_antes_de_alteracao()
+
+
+    data_inicio = request.form.get(
+        "data_inicio"
+    )
+
+    data_fim = request.form.get(
+        "data_fim"
+    )
+
 
     planejamento_obj = Planejamento(
 
@@ -89,55 +124,101 @@ def salvar_planejamento():
             "%Y-%m-%d"
         ).date() if data_inicio else None,
 
+
         data_fim=datetime.strptime(
             data_fim,
             "%Y-%m-%d"
         ).date() if data_fim else None,
 
+
         responsavel=request.form["responsavel"],
 
         status=request.form["status"],
 
-        observacoes=request.form["observacoes"]
+        observacoes=request.form.get(
+            "observacoes"
+        )
 
     )
 
-    db.session.add(planejamento_obj)
+
+    db.session.add(
+        planejamento_obj
+    )
 
     db.session.commit()
 
-    registrar_log(
-        f"Criou o planejamento #{planejamento_obj.id}"
+
+
+    # ==========================
+    # CRIA FINANCEIRO DO PLANEJAMENTO
+    # ==========================
+
+    financeiro = Financeiro(
+        planejamento_id=planejamento_obj.id
     )
 
-    return redirect("/planejamento")
+
+    db.session.add(
+        financeiro
+    )
+
+    db.session.commit()
+
+
+
+    registrar_log(
+        f"Criou o planejamento #{planejamento_obj.id} "
+        f"com financeiro vinculado"
+    )
+
+
+    return redirect(
+        "/planejamento"
+    )
+
 
 
 # ==========================
 # EDITAR
 # ==========================
 
-@planejamento.route("/planejamento/editar/<int:id>")
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@planejamento.route(
+    "/planejamento/editar/<int:id>"
+)
+@perfis_permitidos(
+    "Administrador",
+    "Gerente",
+    "Operador",
+    "Executor"
+)
 def editar_planejamento(id):
 
-    planejamento_obj = Planejamento.query.get_or_404(id)
+
+    planejamento_obj = Planejamento.query.get_or_404(
+        id
+    )
+
 
     projetos = Projeto.query.order_by(
         Projeto.nome
     ).all()
 
+
     equipes = Equipe.query.order_by(
         Equipe.nome
     ).all()
+
 
     veiculos = Veiculo.query.order_by(
         Veiculo.modelo
     ).all()
 
+
     projeto = Projeto.query.get_or_404(
         planejamento_obj.projeto_id
     )
+
 
     return render_template(
         "editar_planejamento.html",
@@ -148,22 +229,54 @@ def editar_planejamento(id):
         veiculos=veiculos
     )
 
+
+
 # ==========================
 # ATUALIZAR
 # ==========================
 
-@planejamento.route("/planejamento/atualizar/<int:id>", methods=["POST"])
-@perfis_permitidos("Administrador", "Gerente", "Operador", "Executor")
+@planejamento.route(
+    "/planejamento/atualizar/<int:id>",
+    methods=["POST"]
+)
+@perfis_permitidos(
+    "Administrador",
+    "Gerente",
+    "Operador"
+)
 def atualizar_planejamento(id):
 
-    planejamento_obj = Planejamento.query.get_or_404(id)
 
-    planejamento_obj.projeto_id = request.form["projeto_id"]
-    planejamento_obj.equipe_id = request.form["equipe_id"]
-    planejamento_obj.veiculo_id = request.form["veiculo_id"]
+    backup_antes_de_alteracao()
 
-    data_inicio = request.form.get("data_inicio")
-    data_fim = request.form.get("data_fim")
+
+    planejamento_obj = Planejamento.query.get_or_404(
+        id
+    )
+
+
+    planejamento_obj.projeto_id = request.form[
+        "projeto_id"
+    ]
+
+    planejamento_obj.equipe_id = request.form[
+        "equipe_id"
+    ]
+
+    planejamento_obj.veiculo_id = request.form[
+        "veiculo_id"
+    ]
+
+
+
+    data_inicio = request.form.get(
+        "data_inicio"
+    )
+
+    data_fim = request.form.get(
+        "data_fim"
+    )
+
 
     planejamento_obj.data_inicio = (
         datetime.strptime(
@@ -173,6 +286,7 @@ def atualizar_planejamento(id):
         if data_inicio else None
     )
 
+
     planejamento_obj.data_fim = (
         datetime.strptime(
             data_fim,
@@ -181,40 +295,91 @@ def atualizar_planejamento(id):
         if data_fim else None
     )
 
-    planejamento_obj.responsavel = request.form["responsavel"]
-    planejamento_obj.status = request.form["status"]
-    planejamento_obj.observacoes = request.form["observacoes"]
+
+    planejamento_obj.responsavel = request.form[
+        "responsavel"
+    ]
+
+    planejamento_obj.status = request.form[
+        "status"
+    ]
+
+    planejamento_obj.observacoes = request.form.get(
+        "observacoes"
+    )
+
+
 
     db.session.commit()
+
+
 
     registrar_log(
         f"Editou o planejamento #{planejamento_obj.id}"
     )
 
-    return redirect("/planejamento")
+
+    return redirect(
+        "/planejamento"
+    )
+
 
 
 # ==========================
 # EXCLUIR
 # ==========================
 
-@planejamento.route("/planejamento/excluir/<int:id>")
-@perfis_permitidos("Administrador", "Gerente", "Operador")
+@planejamento.route(
+    "/planejamento/excluir/<int:id>"
+)
+@perfis_permitidos(
+    "Administrador",
+    "Gerente",
+    "Operador"
+)
 def excluir_planejamento(id):
 
-    planejamento_obj = Planejamento.query.get_or_404(id)
 
-    # BACKUP AUTOMÁTICO
     backup_antes_de_alteracao()
+
+
+    planejamento_obj = Planejamento.query.get_or_404(
+        id
+    )
+
 
     identificador = planejamento_obj.id
 
-    db.session.delete(planejamento_obj)
+
+
+    financeiro = Financeiro.query.filter_by(
+        planejamento_id=planejamento_obj.id
+    ).first()
+
+
+
+    if financeiro:
+
+        db.session.delete(
+            financeiro
+        )
+
+
+
+    db.session.delete(
+        planejamento_obj
+    )
+
 
     db.session.commit()
+
+
 
     registrar_log(
         f"Excluiu o planejamento #{identificador}"
     )
 
-    return redirect("/planejamento")
+
+    return redirect(
+        "/planejamento"
+    )

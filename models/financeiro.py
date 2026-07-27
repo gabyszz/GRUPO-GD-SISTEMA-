@@ -6,25 +6,38 @@ class Financeiro(db.Model):
 
     __tablename__ = "financeiro"
 
+
+    # ==========================
+    # IDENTIFICAÇÃO
+    # ==========================
+
     id = db.Column(
         db.Integer,
         primary_key=True
     )
 
-    projeto_id = db.Column(
+
+    # ==========================
+    # RELACIONAMENTO
+    # ==========================
+
+    planejamento_id = db.Column(
         db.Integer,
-        db.ForeignKey("projetos.id"),
+        db.ForeignKey("planejamentos.id"),
         nullable=False,
         unique=True
     )
 
-    projeto = db.relationship(
-        "Projeto",
+    planejamento = db.relationship(
+        "Planejamento",
         backref=backref(
             "financeiro",
-            uselist=False
+            uselist=False,
+            cascade="all, delete-orphan",
+            single_parent=True
         )
     )
+
 
     # ==========================
     # VALORES
@@ -39,6 +52,7 @@ class Financeiro(db.Model):
         db.Float,
         default=0
     )
+
 
     # ==========================
     # FATURAMENTO
@@ -59,6 +73,7 @@ class Financeiro(db.Model):
     data_faturamento = db.Column(
         db.Date
     )
+
 
     # ==========================
     # DADOS PARA FATURAMENTO
@@ -96,6 +111,7 @@ class Financeiro(db.Model):
         db.String(2)
     )
 
+
     # ==========================
     # RECEBIMENTO
     # ==========================
@@ -108,6 +124,7 @@ class Financeiro(db.Model):
         db.Date
     )
 
+
     # ==========================
     # STATUS
     # ==========================
@@ -117,6 +134,7 @@ class Financeiro(db.Model):
         default="A Faturar"
     )
 
+
     # ==========================
     # OBSERVAÇÕES
     # ==========================
@@ -125,10 +143,16 @@ class Financeiro(db.Model):
         db.Text
     )
 
+
     # ==========================
     # PROPRIEDADES
     # ==========================
 
     @property
     def valor_aberto(self):
-        return (self.valor_contrato or 0) - (self.valor_recebido or 0)
+
+        return (
+            (self.valor_contrato or 0)
+            -
+            (self.valor_recebido or 0)
+        )

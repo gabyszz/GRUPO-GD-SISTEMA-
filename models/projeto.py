@@ -9,7 +9,10 @@ class Projeto(db.Model):
     # DADOS DO PROJETO
     # ==========================================
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     nome = db.Column(
         db.String(150),

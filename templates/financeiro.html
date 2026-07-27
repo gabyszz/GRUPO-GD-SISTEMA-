@@ -13,12 +13,13 @@ Financeiro
         <h2>Financeiro</h2>
 
         <small class="text-muted">
-            Controle financeiro dos projetos
+            Controle financeiro dos planejamentos
         </small>
 
     </div>
 
 </div>
+
 
 <!-- FILTROS -->
 
@@ -29,6 +30,7 @@ Financeiro
         <form method="GET">
 
             <div class="row">
+
 
                 <div class="col-md-4">
 
@@ -44,6 +46,8 @@ Financeiro
 
                 </div>
 
+
+
                 <div class="col-md-4">
 
                     <label class="form-label">
@@ -58,83 +62,116 @@ Financeiro
 
                 </div>
 
+
+
                 <div class="col-md-2">
 
                     <label class="form-label">
                         Status
                     </label>
 
+
                     <select
                         name="status"
                         class="form-select">
 
-                        <option value="">Todos</option>
+
+                        <option value="">
+                            Todos
+                        </option>
+
 
                         <option value="A Faturar"
                             {% if request.args.get('status') == 'A Faturar' %}selected{% endif %}>
                             A Faturar
                         </option>
 
+
                         <option value="Recebimento Parcial"
                             {% if request.args.get('status') == 'Recebimento Parcial' %}selected{% endif %}>
                             Recebimento Parcial
                         </option>
+
 
                         <option value="Pago"
                             {% if request.args.get('status') == 'Pago' %}selected{% endif %}>
                             Pago
                         </option>
 
+
                     </select>
 
+
                 </div>
+
+
 
                 <div class="col-md-2 d-flex align-items-end">
 
                     <button
                         class="btn btn-success w-100">
 
+
                         <i class="bi bi-search"></i>
 
                         Pesquisar
 
+
                     </button>
+
 
                 </div>
 
+
             </div>
+
 
         </form>
 
+
     </div>
 
+
 </div>
+
+
 
 <!-- INDICADOR -->
 
 <div class="row mb-4">
 
+
     <div class="col-md-3">
+
 
         <div class="card border-dark shadow-sm">
 
+
             <div class="card-body">
 
+
                 <h6 class="text-muted">
-                    Projetos
+                    Planejamentos
                 </h6>
+
 
                 <h4>
                     {{ quantidade }}
                 </h4>
 
+
             </div>
+
 
         </div>
 
+
     </div>
 
+
 </div>
+
+
 
 <!-- TABELA -->
 
@@ -148,13 +185,25 @@ Financeiro
 
                 <tr>
 
-                    <th>Projeto</th>
+                    <th>
+                        Projeto
+                    </th>
 
-                    <th>Valor em Aberto</th>
+                    <th>
+                        Planejamento
+                    </th>
 
-                    <th>Data Prevista</th>
+                    <th>
+                        Valor em Aberto
+                    </th>
 
-                    <th>Status</th>
+                    <th>
+                        Data Prevista
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
 
                     <th width="100">
                         Ações
@@ -164,32 +213,101 @@ Financeiro
 
             </thead>
 
+
             <tbody>
 
-                {% for financeiro in financeiros %}
+
+            {% for financeiro in financeiros %}
+
 
                 <tr>
 
+
                     <td>
-                        {{ financeiro.projeto.nome }}
+
+                        {% if financeiro.planejamento 
+                           and financeiro.planejamento.projeto %}
+
+                            {{ financeiro.planejamento.projeto.nome }}
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                Sem projeto
+                            </span>
+
+                        {% endif %}
+
                     </td>
+
+
+
+                    <td>
+
+                        {% if financeiro.planejamento %}
+
+
+                            <strong>
+                                #{{ financeiro.planejamento.id }}
+                            </strong>
+
+
+                            {% if financeiro.planejamento.data_inicio %}
+
+                                <br>
+
+                                <small class="text-muted">
+
+                                    {{ financeiro.planejamento.data_inicio.strftime('%d/%m/%Y') }}
+
+                                </small>
+
+                            {% endif %}
+
+
+                        {% else %}
+
+
+                            <span class="text-muted">
+                                Sem planejamento
+                            </span>
+
+
+                        {% endif %}
+
+
+                    </td>
+
+
+
 
                     <td>
 
                         <strong class="text-danger">
 
                             R$
-                            {{ "{:,.2f}".format(financeiro.valor_aberto).replace(",", "X").replace(".", ",").replace("X", ".") }}
+
+                            {{ "{:,.2f}".format(financeiro.valor_aberto or 0)
+                            .replace(",", "X")
+                            .replace(".", ",")
+                            .replace("X", ".") }}
 
                         </strong>
 
+
                     </td>
+
+
+
 
                     <td>
 
+
                         {% if financeiro.data_prevista_recebimento %}
 
+
                             {{ financeiro.data_prevista_recebimento.strftime('%d/%m/%Y') }}
+
 
                         {% else %}
 
@@ -197,62 +315,94 @@ Financeiro
 
                         {% endif %}
 
+
                     </td>
+
+
+
+
 
                     <td>
 
+
                         {% if financeiro.status == "Pago" %}
+
 
                             <span class="badge bg-success">
                                 Pago
                             </span>
 
+
+
                         {% elif financeiro.status == "Recebimento Parcial" %}
+
 
                             <span class="badge bg-warning text-dark">
                                 Parcial
                             </span>
 
+
+
                         {% elif financeiro.status == "Faturado" %}
+
 
                             <span class="badge bg-primary">
                                 Faturado
                             </span>
 
+
+
                         {% elif financeiro.status == "Cancelado" %}
+
 
                             <span class="badge bg-danger">
                                 Cancelado
                             </span>
 
+
+
                         {% else %}
+
 
                             <span class="badge bg-secondary">
                                 A Faturar
                             </span>
 
+
                         {% endif %}
+
 
                     </td>
 
+
+
+
                     <td>
+
 
                         <a href="/financeiro/editar/{{ financeiro.id }}"
                            class="btn btn-warning btn-sm">
 
+
                             <i class="bi bi-pencil-square"></i>
+
 
                         </a>
 
+
                     </td>
+
 
                 </tr>
 
-                {% else %}
+
+
+            {% else %}
+
 
                 <tr>
 
-                    <td colspan="5"
+                    <td colspan="6"
                         class="text-center text-muted">
 
                         Nenhum registro financeiro encontrado.
@@ -261,14 +411,21 @@ Financeiro
 
                 </tr>
 
-                {% endfor %}
+
+            {% endfor %}
+
+
 
             </tbody>
 
+
         </table>
+
 
     </div>
 
+
 </div>
+
 
 {% endblock %}
