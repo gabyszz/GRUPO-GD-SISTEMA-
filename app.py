@@ -13,12 +13,14 @@ from models.cliente import Cliente
 from models.projeto import Projeto
 from models.planejamento import Planejamento
 from models.financeiro import Financeiro
+from models.calendario import Calendario
 from models.funcionario import Funcionario
 from models.equipe import Equipe
 from models.veiculo import Veiculo
 from models.equipamento import Equipamento
 from models.usuario import Usuario
 from models.log import Log
+from models.calendario import Calendario
 
 # ==========================
 # ROTAS
@@ -30,11 +32,13 @@ from routes.clientes import clientes
 from routes.projetos import projetos
 from routes.planejamento import planejamento
 from routes.financeiro import financeiro
+from routes.calendario import calendario
 from routes.funcionarios import funcionarios
 from routes.equipes import equipes
 from routes.veiculos import veiculos
 from routes.equipamentos import equipamentos
 from routes.usuarios import usuarios
+from routes.calendario import calendario
 
 # ==========================
 # APP
@@ -103,11 +107,13 @@ app.register_blueprint(clientes)
 app.register_blueprint(projetos)
 app.register_blueprint(planejamento)
 app.register_blueprint(financeiro)
+app.register_blueprint(calendario)
 app.register_blueprint(funcionarios)
 app.register_blueprint(equipes)
 app.register_blueprint(veiculos)
 app.register_blueprint(equipamentos)
 app.register_blueprint(usuarios)
+
 
 # ==========================
 # EXECUÇÃO

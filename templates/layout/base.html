@@ -73,6 +73,12 @@
         <span>Planejamento</span>
     </a>
 
+    <!-- CALENDÁRIO -->
+    <a href="{{ url_for('calendario.listar_calendario') }}">
+        <i class="bi bi-calendar-event"></i>
+        <span>Calendário</span>
+    </a>
+
     <!-- FINANCEIRO -->
     {% if current_user.perfil in ["Administrador","Gerente"] %}
 
