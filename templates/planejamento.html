@@ -154,8 +154,8 @@ Planejamento
                 <tr>
 
                     <th>Projeto</th>
+                    <th>Cliente</th>
                     <th>Responsável</th>
-                    <th>Equipe</th>
                     <th>Status Planejamento</th>
                     <th>Status Financeiro</th>
                     <th>Prazo</th>
@@ -178,13 +178,13 @@ Planejamento
                     </td>
 
                     <td>
-                        {{ planejamento.responsavel }}
+                        {{ planejamento.projeto.cliente.nome }}
                     </td>
 
-                    <td>
-                        {{ planejamento.equipe.nome }}
+                     <td>
+                         {{ planejamento.responsavel }}
                     </td>
-
+                    
                     <td>
 
                         {% if planejamento.status == "Planejado" %}
