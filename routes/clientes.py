@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, redirect
 
+from sqlalchemy import or_
+
 from database.database import db
 from models.cliente import Cliente
 
@@ -19,11 +21,31 @@ clientes = Blueprint("clientes", __name__)
 @perfis_permitidos("Administrador", "Gerente", "Operador")
 def listar_clientes():
 
-    lista = Cliente.query.order_by(Cliente.nome).all()
+    pesquisa = request.args.get("pesquisa", "").strip()
+
+    consulta = Cliente.query
+
+    if pesquisa:
+
+        consulta = consulta.filter(
+            or_(
+                Cliente.nome.ilike(f"%{pesquisa}%"),
+                Cliente.cnpj.ilike(f"%{pesquisa}%"),
+                Cliente.telefone.ilike(f"%{pesquisa}%"),
+                Cliente.email.ilike(f"%{pesquisa}%"),
+                Cliente.cidade.ilike(f"%{pesquisa}%"),
+                Cliente.responsavel.ilike(f"%{pesquisa}%")
+            )
+        )
+
+    lista = consulta.order_by(
+        Cliente.nome
+    ).all()
 
     return render_template(
         "clientes.html",
-        clientes=lista
+        clientes=lista,
+        pesquisa=pesquisa
     )
 
 

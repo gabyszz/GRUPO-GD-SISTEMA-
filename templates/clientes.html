@@ -6,15 +6,100 @@ Clientes
 
 {% block content %}
 
-<h2>Clientes</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-<hr>
+    <div>
 
-{% if current_user.perfil != "Executor" %}
-<a href="/clientes/novo" class="btn btn-success mb-3">
-    + Novo Cliente
-</a>
-{% endif %}
+        <h2>Clientes</h2>
+
+        <small class="text-muted">
+            Cadastro e gerenciamento de clientes
+        </small>
+
+    </div>
+
+    {% if current_user.perfil != "Executor" %}
+    <a href="/clientes/novo" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i>
+        Novo Cliente
+    </a>
+    {% endif %}
+
+</div>
+
+
+<!-- PESQUISA -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row align-items-end">
+
+                <div class="col-md-10">
+
+                    <label class="form-label">
+                        Pesquisar Cliente
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+
+                        <input
+                            type="text"
+                            name="pesquisa"
+                            class="form-control"
+                            placeholder="Nome, CNPJ, telefone, e-mail, cidade ou responsável..."
+                            value="{{ pesquisa }}">
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2 d-grid">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="bi bi-search"></i>
+
+                        Pesquisar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            {% if pesquisa %}
+
+            <div class="mt-3">
+
+                <a href="/clientes"
+                   class="btn btn-outline-secondary btn-sm">
+
+                    <i class="bi bi-x-circle"></i>
+
+                    Limpar Pesquisa
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+</div>
+
 
 <table class="table table-bordered table-hover bg-white shadow">
 
@@ -22,12 +107,12 @@ Clientes
 
         <tr>
 
-            <th>ID</th>
+            <th width="70">ID</th>
             <th>Cliente</th>
             <th>CNPJ</th>
             <th>Cidade</th>
-            <th>Estado</th>
-            <th>Ações</th>
+            <th width="90">Estado</th>
+            <th width="180">Ações</th>
 
         </tr>
 
@@ -56,7 +141,11 @@ Clientes
                     {% if current_user.perfil in ["Administrador", "Gerente", "Operador"] %}
                     <a href="/clientes/editar/{{ cliente.id }}"
                        class="btn btn-warning btn-sm">
+
+                        <i class="bi bi-pencil-square"></i>
+
                         Editar
+
                     </a>
                     {% endif %}
 
@@ -64,7 +153,11 @@ Clientes
                     <a href="/clientes/excluir/{{ cliente.id }}"
                        class="btn btn-danger btn-sm"
                        onclick="return confirm('Deseja realmente excluir este cliente?')">
+
+                        <i class="bi bi-trash"></i>
+
                         Excluir
+
                     </a>
                     {% endif %}
 
@@ -78,9 +171,9 @@ Clientes
 
             <tr>
 
-                <td colspan="6" class="text-center">
+                <td colspan="6" class="text-center text-muted">
 
-                    Nenhum cliente cadastrado.
+                    Nenhum cliente encontrado.
 
                 </td>
 
