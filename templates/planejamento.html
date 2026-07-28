@@ -31,6 +31,118 @@ Planejamento
 </div>
 
 
+<!-- FILTROS -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Projeto
+                    </label>
+
+                    <input
+                        type="text"
+                        name="projeto"
+                        class="form-control"
+                        placeholder="Pesquisar projeto..."
+                        value="{{ request.args.get('projeto','') }}">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Responsável
+                    </label>
+
+                    <input
+                        type="text"
+                        name="responsavel"
+                        class="form-control"
+                        placeholder="Pesquisar responsável..."
+                        value="{{ request.args.get('responsavel','') }}">
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <label class="form-label">
+                        Equipe
+                    </label>
+
+                    <input
+                        type="text"
+                        name="equipe"
+                        class="form-control"
+                        placeholder="Pesquisar equipe..."
+                        value="{{ request.args.get('equipe','') }}">
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <label class="form-label">
+                        Status
+                    </label>
+
+                    <select
+                        name="status"
+                        class="form-select">
+
+                        <option value="">Todos</option>
+
+                        <option value="Planejado"
+                            {% if request.args.get('status') == 'Planejado' %}selected{% endif %}>
+                            Planejado
+                        </option>
+
+                        <option value="Em Andamento"
+                            {% if request.args.get('status') == 'Em Andamento' %}selected{% endif %}>
+                            Em Andamento
+                        </option>
+
+                        <option value="Concluído"
+                            {% if request.args.get('status') == 'Concluído' %}selected{% endif %}>
+                            Concluído
+                        </option>
+
+                        <option value="Cancelado"
+                            {% if request.args.get('status') == 'Cancelado' %}selected{% endif %}>
+                            Cancelado
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button class="btn btn-success w-100">
+
+                        <i class="bi bi-search"></i>
+
+                        Pesquisar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
 <div class="card shadow">
 
     <div class="card-body">
@@ -55,28 +167,23 @@ Planejamento
 
             </thead>
 
-
             <tbody>
 
                 {% for planejamento in planejamentos %}
 
                 <tr>
 
-
                     <td>
                         {{ planejamento.projeto.nome }}
                     </td>
-
 
                     <td>
                         {{ planejamento.responsavel }}
                     </td>
 
-
                     <td>
                         {{ planejamento.equipe.nome }}
                     </td>
-
 
                     <td>
 
@@ -86,13 +193,11 @@ Planejamento
                                 Planejado
                             </span>
 
-
                         {% elif planejamento.status == "Em Andamento" %}
 
                             <span class="badge bg-primary">
                                 Em Andamento
                             </span>
-
 
                         {% elif planejamento.status == "Concluído" %}
 
@@ -100,13 +205,11 @@ Planejamento
                                 Concluído
                             </span>
 
-
                         {% elif planejamento.status == "Cancelado" %}
 
                             <span class="badge bg-danger">
                                 Cancelado
                             </span>
-
 
                         {% else %}
 
@@ -118,12 +221,9 @@ Planejamento
 
                     </td>
 
-
-
                     <td>
 
                         {% if planejamento.financeiro %}
-
 
                             {% if planejamento.financeiro.status == "Pago" %}
 
@@ -131,13 +231,11 @@ Planejamento
                                     Pago
                                 </span>
 
-
                             {% elif planejamento.financeiro.status == "Em atraso" %}
 
                                 <span class="badge bg-danger">
                                     Em atraso
                                 </span>
-
 
                             {% elif planejamento.financeiro.status == "Adiado" %}
 
@@ -145,13 +243,11 @@ Planejamento
                                     Adiado
                                 </span>
 
-
                             {% elif planejamento.financeiro.status == "Em andamento" %}
 
                                 <span class="badge bg-primary">
                                     Em andamento
                                 </span>
-
 
                             {% elif planejamento.financeiro.status == "Em análise" %}
 
@@ -159,13 +255,11 @@ Planejamento
                                     Em análise
                                 </span>
 
-
                             {% elif planejamento.financeiro.status == "A Faturar" %}
 
                                 <span class="badge bg-secondary">
                                     A Faturar
                                 </span>
-
 
                             {% else %}
 
@@ -173,9 +267,7 @@ Planejamento
                                     {{ planejamento.financeiro.status }}
                                 </span>
 
-
                             {% endif %}
-
 
                         {% else %}
 
@@ -183,12 +275,9 @@ Planejamento
                                 Não cadastrado
                             </span>
 
-
                         {% endif %}
 
                     </td>
-
-
 
                     <td>
 
@@ -204,12 +293,9 @@ Planejamento
 
                     </td>
 
-
-
                     <td class="text-center">
 
                         <div class="d-flex justify-content-center gap-2">
-
 
                             <a href="{{ url_for('planejamento.editar_planejamento', id=planejamento.id) }}"
                                class="btn btn-warning btn-sm"
@@ -219,10 +305,7 @@ Planejamento
 
                             </a>
 
-
-
                             {% if current_user.perfil != "Executor" %}
-
 
                             <a href="{{ url_for('planejamento.excluir_planejamento', id=planejamento.id) }}"
                                class="btn btn-danger btn-sm"
@@ -233,20 +316,15 @@ Planejamento
 
                             </a>
 
-
                             {% endif %}
-
 
                         </div>
 
                     </td>
 
-
                 </tr>
 
-
                 {% else %}
-
 
                 <tr>
 
@@ -259,20 +337,14 @@ Planejamento
 
                 </tr>
 
-
                 {% endfor %}
-
 
             </tbody>
 
-
         </table>
-
 
     </div>
 
-
 </div>
-
 
 {% endblock %}

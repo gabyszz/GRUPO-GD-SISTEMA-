@@ -34,7 +34,42 @@ planejamento = Blueprint(
 )
 def listar_planejamento():
 
-    planejamentos = Planejamento.query.order_by(
+    projeto = request.args.get("projeto", "")
+    responsavel = request.args.get("responsavel", "")
+    equipe = request.args.get("equipe", "")
+    status = request.args.get("status", "")
+
+    consulta = (
+        Planejamento.query
+        .join(Projeto)
+        .join(Equipe)
+    )
+
+    if projeto:
+
+        consulta = consulta.filter(
+            Projeto.nome.ilike(f"%{projeto}%")
+        )
+
+    if responsavel:
+
+        consulta = consulta.filter(
+            Planejamento.responsavel.ilike(f"%{responsavel}%")
+        )
+
+    if equipe:
+
+        consulta = consulta.filter(
+            Equipe.nome.ilike(f"%{equipe}%")
+        )
+
+    if status:
+
+        consulta = consulta.filter(
+            Planejamento.status == status
+        )
+
+    planejamentos = consulta.order_by(
         Planejamento.id.desc()
     ).all()
 
@@ -42,7 +77,6 @@ def listar_planejamento():
         "planejamento.html",
         planejamentos=planejamentos
     )
-
 
 # ==========================
 # NOVO
