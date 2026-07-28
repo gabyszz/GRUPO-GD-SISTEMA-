@@ -21,7 +21,6 @@ planejamento = Blueprint(
 )
 
 
-
 # ==========================
 # LISTAR
 # ==========================
@@ -39,12 +38,10 @@ def listar_planejamento():
         Planejamento.id.desc()
     ).all()
 
-
     return render_template(
         "planejamento.html",
         planejamentos=planejamentos
     )
-
 
 
 # ==========================
@@ -63,16 +60,13 @@ def novo_planejamento():
         Projeto.nome
     ).all()
 
-
     equipes = Equipe.query.order_by(
         Equipe.nome
     ).all()
 
-
     veiculos = Veiculo.query.order_by(
         Veiculo.modelo
     ).all()
-
 
     return render_template(
         "novo_planejamento.html",
@@ -80,7 +74,6 @@ def novo_planejamento():
         equipes=equipes,
         veiculos=veiculos
     )
-
 
 
 # ==========================
@@ -98,25 +91,15 @@ def novo_planejamento():
 )
 def salvar_planejamento():
 
-
     backup_antes_de_alteracao()
 
-
-    data_inicio = request.form.get(
-        "data_inicio"
-    )
-
-    data_fim = request.form.get(
-        "data_fim"
-    )
-
+    data_inicio = request.form.get("data_inicio")
+    data_fim = request.form.get("data_fim")
 
     planejamento_obj = Planejamento(
 
         projeto_id=request.form["projeto_id"],
-
         equipe_id=request.form["equipe_id"],
-
         veiculo_id=request.form["veiculo_id"],
 
         data_inicio=datetime.strptime(
@@ -124,59 +107,39 @@ def salvar_planejamento():
             "%Y-%m-%d"
         ).date() if data_inicio else None,
 
-
         data_fim=datetime.strptime(
             data_fim,
             "%Y-%m-%d"
         ).date() if data_fim else None,
 
-
         responsavel=request.form["responsavel"],
-
         status=request.form["status"],
-
-        observacoes=request.form.get(
-            "observacoes"
-        )
+        observacoes=request.form.get("observacoes")
 
     )
 
-
-    db.session.add(
-        planejamento_obj
-    )
-
+    db.session.add(planejamento_obj)
     db.session.commit()
-
-
 
     # ==========================
     # CRIA FINANCEIRO DO PLANEJAMENTO
     # ==========================
 
     financeiro = Financeiro(
-        planejamento_id=planejamento_obj.id
+        planejamento_id=planejamento_obj.id,
+        valor_contrato=0,
+        valor_recebido=0,
+        status="A Faturar"
     )
 
-
-    db.session.add(
-        financeiro
-    )
-
+    db.session.add(financeiro)
     db.session.commit()
 
-
-
     registrar_log(
-        f"Criou o planejamento #{planejamento_obj.id} "
-        f"com financeiro vinculado"
+        f"Criou o planejamento #{planejamento_obj.id} com financeiro vinculado"
     )
 
-
-    return redirect(
-        "/planejamento"
-    )
-
+    return redirect("/planejamento")
 
 
 # ==========================
@@ -194,31 +157,23 @@ def salvar_planejamento():
 )
 def editar_planejamento(id):
 
-
-    planejamento_obj = Planejamento.query.get_or_404(
-        id
-    )
-
+    planejamento_obj = Planejamento.query.get_or_404(id)
 
     projetos = Projeto.query.order_by(
         Projeto.nome
     ).all()
 
-
     equipes = Equipe.query.order_by(
         Equipe.nome
     ).all()
-
 
     veiculos = Veiculo.query.order_by(
         Veiculo.modelo
     ).all()
 
-
     projeto = Projeto.query.get_or_404(
         planejamento_obj.projeto_id
     )
-
 
     return render_template(
         "editar_planejamento.html",
@@ -228,7 +183,6 @@ def editar_planejamento(id):
         equipes=equipes,
         veiculos=veiculos
     )
-
 
 
 # ==========================
@@ -246,83 +200,38 @@ def editar_planejamento(id):
 )
 def atualizar_planejamento(id):
 
-
     backup_antes_de_alteracao()
 
+    planejamento_obj = Planejamento.query.get_or_404(id)
 
-    planejamento_obj = Planejamento.query.get_or_404(
-        id
-    )
+    planejamento_obj.projeto_id = request.form["projeto_id"]
+    planejamento_obj.equipe_id = request.form["equipe_id"]
+    planejamento_obj.veiculo_id = request.form["veiculo_id"]
 
-
-    planejamento_obj.projeto_id = request.form[
-        "projeto_id"
-    ]
-
-    planejamento_obj.equipe_id = request.form[
-        "equipe_id"
-    ]
-
-    planejamento_obj.veiculo_id = request.form[
-        "veiculo_id"
-    ]
-
-
-
-    data_inicio = request.form.get(
-        "data_inicio"
-    )
-
-    data_fim = request.form.get(
-        "data_fim"
-    )
-
+    data_inicio = request.form.get("data_inicio")
+    data_fim = request.form.get("data_fim")
 
     planejamento_obj.data_inicio = (
-        datetime.strptime(
-            data_inicio,
-            "%Y-%m-%d"
-        ).date()
+        datetime.strptime(data_inicio, "%Y-%m-%d").date()
         if data_inicio else None
     )
 
-
     planejamento_obj.data_fim = (
-        datetime.strptime(
-            data_fim,
-            "%Y-%m-%d"
-        ).date()
+        datetime.strptime(data_fim, "%Y-%m-%d").date()
         if data_fim else None
     )
 
-
-    planejamento_obj.responsavel = request.form[
-        "responsavel"
-    ]
-
-    planejamento_obj.status = request.form[
-        "status"
-    ]
-
-    planejamento_obj.observacoes = request.form.get(
-        "observacoes"
-    )
-
-
+    planejamento_obj.responsavel = request.form["responsavel"]
+    planejamento_obj.status = request.form["status"]
+    planejamento_obj.observacoes = request.form.get("observacoes")
 
     db.session.commit()
-
-
 
     registrar_log(
         f"Editou o planejamento #{planejamento_obj.id}"
     )
 
-
-    return redirect(
-        "/planejamento"
-    )
-
+    return redirect("/planejamento")
 
 
 # ==========================
@@ -339,47 +248,25 @@ def atualizar_planejamento(id):
 )
 def excluir_planejamento(id):
 
-
     backup_antes_de_alteracao()
 
-
-    planejamento_obj = Planejamento.query.get_or_404(
-        id
-    )
-
+    planejamento_obj = Planejamento.query.get_or_404(id)
 
     identificador = planejamento_obj.id
-
-
 
     financeiro = Financeiro.query.filter_by(
         planejamento_id=planejamento_obj.id
     ).first()
 
-
-
     if financeiro:
+        db.session.delete(financeiro)
 
-        db.session.delete(
-            financeiro
-        )
-
-
-
-    db.session.delete(
-        planejamento_obj
-    )
-
+    db.session.delete(planejamento_obj)
 
     db.session.commit()
-
-
 
     registrar_log(
         f"Excluiu o planejamento #{identificador}"
     )
 
-
-    return redirect(
-        "/planejamento"
-    )
+    return redirect("/planejamento")
