@@ -1,5 +1,9 @@
 from flask import Blueprint, render_template, request, redirect
 
+from datetime import date
+
+from sqlalchemy import func
+
 from database.database import db
 
 from models.financeiro import Financeiro
@@ -26,7 +30,6 @@ def listar_financeiro():
     cliente = request.args.get("cliente", "")
     status = request.args.get("status", "")
 
-
     consulta = (
         Financeiro.query
         .join(Planejamento)
@@ -34,13 +37,11 @@ def listar_financeiro():
         .join(Cliente)
     )
 
-
     if projeto:
 
         consulta = consulta.filter(
             Projeto.nome.ilike(f"%{projeto}%")
         )
-
 
     if cliente:
 
@@ -48,28 +49,59 @@ def listar_financeiro():
             Cliente.nome.ilike(f"%{cliente}%")
         )
 
-
     if status:
 
         consulta = consulta.filter(
             Financeiro.status == status
         )
 
-
     lista_financeiro = consulta.order_by(
         Financeiro.id.desc()
     ).all()
 
-
     quantidade = len(lista_financeiro)
 
+    # ==========================
+    # TOTAIS DO PAINEL
+    # ==========================
+
+    hoje = date.today()
+
+    total_receber = 0
+    total_atraso = 0
+
+    for financeiro_obj in Financeiro.query.all():
+
+        saldo = (
+            (financeiro_obj.valor_contrato or 0)
+            -
+            (financeiro_obj.valor_recebido or 0)
+        )
+
+        if saldo <= 0:
+            continue
+
+        if financeiro_obj.data_prevista_recebimento:
+
+            if financeiro_obj.data_prevista_recebimento >= hoje:
+
+                total_receber += saldo
+
+            else:
+
+                total_atraso += saldo
+
+        else:
+
+            total_receber += saldo
 
     return render_template(
         "financeiro.html",
         financeiros=lista_financeiro,
-        quantidade=quantidade
+        quantidade=quantidade,
+        total_receber=total_receber,
+        total_atraso=total_atraso
     )
-
 
 
 # ==========================
@@ -82,12 +114,10 @@ def editar_financeiro(id):
 
     financeiro_obj = Financeiro.query.get_or_404(id)
 
-
     return render_template(
         "editar_financeiro.html",
         financeiro=financeiro_obj
     )
-
 
 
 # ==========================
@@ -100,7 +130,6 @@ def atualizar_financeiro(id):
 
     financeiro_obj = Financeiro.query.get_or_404(id)
 
-
     # ==========================
     # VALORES
     # ==========================
@@ -109,12 +138,9 @@ def atualizar_financeiro(id):
         request.form.get("valor_contrato") or 0
     )
 
-
     financeiro_obj.valor_recebido = float(
         request.form.get("valor_recebido") or 0
     )
-
-
 
     # ==========================
     # FATURAMENTO
@@ -124,23 +150,18 @@ def atualizar_financeiro(id):
         "recibo_sinal"
     )
 
-
     financeiro_obj.recibo_saldo = request.form.get(
         "recibo_saldo"
     )
-
 
     financeiro_obj.faturado_por = request.form.get(
         "faturado_por"
     )
 
-
     financeiro_obj.data_faturamento = (
         request.form.get("data_faturamento")
         or None
     )
-
-
 
     # ==========================
     # DADOS PARA FATURAMENTO
@@ -178,8 +199,6 @@ def atualizar_financeiro(id):
         "faturamento_uf"
     )
 
-
-
     # ==========================
     # RECEBIMENTO
     # ==========================
@@ -189,13 +208,10 @@ def atualizar_financeiro(id):
         or None
     )
 
-
     financeiro_obj.data_recebimento = (
         request.form.get("data_recebimento")
         or None
     )
-
-
 
     # ==========================
     # OBSERVAÇÕES
@@ -205,8 +221,6 @@ def atualizar_financeiro(id):
         "observacoes"
     )
 
-
-
     # ==========================
     # STATUS AUTOMÁTICO
     # ==========================
@@ -215,29 +229,21 @@ def atualizar_financeiro(id):
 
         financeiro_obj.status = "A Faturar"
 
-
     elif financeiro_obj.valor_recebido < financeiro_obj.valor_contrato:
 
         financeiro_obj.status = "Recebimento Parcial"
-
 
     else:
 
         financeiro_obj.status = "Pago"
 
-
-
     db.session.commit()
-
-
 
     registrar_log(
         f"Atualizou o financeiro do planejamento #{financeiro_obj.planejamento.id}"
     )
 
-
     return redirect("/financeiro")
-
 
 
 # ==========================
@@ -248,24 +254,17 @@ def atualizar_financeiro(id):
 @perfis_permitidos("Administrador", "Gerente")
 def sincronizar_financeiro():
 
-
     planejamentos = Planejamento.query.all()
-
 
     quantidade = 0
 
-
     for planejamento in planejamentos:
-
 
         existe = Financeiro.query.filter_by(
             planejamento_id=planejamento.id
         ).first()
 
-
-
         if not existe:
-
 
             db.session.add(
                 Financeiro(
@@ -273,13 +272,8 @@ def sincronizar_financeiro():
                 )
             )
 
-
             quantidade += 1
 
-
-
     db.session.commit()
-
-
 
     return f"{quantidade} registros financeiros criados."
