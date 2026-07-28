@@ -17,6 +17,7 @@ projetos = Blueprint(
 
 
 
+
 # ==========================
 # LISTAR PROJETOS
 # ==========================
@@ -29,16 +30,41 @@ projetos = Blueprint(
 )
 def listar_projetos():
 
-    lista_projetos = Projeto.query.order_by(
+    projeto = request.args.get("projeto", "")
+    cliente = request.args.get("cliente", "")
+    status = request.args.get("status", "")
+
+    consulta = (
+        Projeto.query
+        .join(Cliente)
+    )
+
+    if projeto:
+
+        consulta = consulta.filter(
+            Projeto.nome.ilike(f"%{projeto}%")
+        )
+
+    if cliente:
+
+        consulta = consulta.filter(
+            Cliente.nome.ilike(f"%{cliente}%")
+        )
+
+    if status:
+
+        consulta = consulta.filter(
+            Projeto.status == status
+        )
+
+    lista_projetos = consulta.order_by(
         Projeto.id.desc()
     ).all()
-
 
     return render_template(
         "projetos.html",
         projetos=lista_projetos
     )
-
 
 
 # ==========================
