@@ -14,6 +14,8 @@ from services.log_service import registrar_log
 from services.permissoes import perfis_permitidos
 from services.backup_manager import backup_antes_de_alteracao
 
+from sqlalchemy import case
+
 
 planejamento = Blueprint(
     "planejamento",
@@ -45,6 +47,15 @@ def listar_planejamento():
         .join(Equipe)
     )
 
+    ordem_status = case(
+    (Planejamento.status == "Urgente", 1),
+    (Planejamento.status == "Em Andamento", 2),
+    (Planejamento.status == "Planejado", 3),
+    (Planejamento.status == "Cancelado", 4),
+    (Planejamento.status == "Concluído", 5),
+    else_=6
+)
+
     if projeto:
 
         consulta = consulta.filter(
@@ -69,15 +80,25 @@ def listar_planejamento():
             Planejamento.status == status
         )
 
-    planejamentos = consulta.order_by(
-        Planejamento.id.desc()
-    ).all()
+    # Se houver filtros, mantém a ordenação por ID
+    if projeto or responsavel or equipe or status:
+
+        planejamentos = consulta.order_by(
+            Planejamento.id.desc()
+        ).all()
+
+    # Sem filtros, usa a prioridade dos status
+    else:
+
+        planejamentos = consulta.order_by(
+            ordem_status,
+            Planejamento.id.desc()
+        ).all()
 
     return render_template(
         "planejamento.html",
         planejamentos=planejamentos
     )
-
 # ==========================
 # NOVO
 # ==========================
