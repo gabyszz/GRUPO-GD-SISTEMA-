@@ -210,6 +210,12 @@ Editar Planejamento
                         Cancelado
                     </option>
 
+                    <option value="URGÊNCIA!!!"
+                        {% if planejamento.status=="URGÊNCIA!!!" %}selected{% endif %}
+                        style="color:#dc3545;font-weight:bold;">
+                        🚨 URGÊNCIA!!!
+                    </option>
+
                 </select>
 
             </div>

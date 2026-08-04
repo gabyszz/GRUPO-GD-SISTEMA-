@@ -103,9 +103,14 @@ Planejamento
                             Planejado
                         </option>
 
-                        <option value="Em Andamento"
+                       <option value="Em Andamento"
                             {% if request.args.get('status') == 'Em Andamento' %}selected{% endif %}>
                             Em Andamento
+                        </option>
+
+                        <option value="URGÊNCIA!!!"
+                            {% if request.args.get('status') == 'URGÊNCIA!!!' %}selected{% endif %}>
+                            🚨 URGÊNCIA!!!
                         </option>
 
                         <option value="Concluído"
@@ -186,38 +191,50 @@ Planejamento
                     </td>
                     
                     <td>
+{% if planejamento.status == "URGÊNCIA!!!" %}
 
-                        {% if planejamento.status == "Planejado" %}
+    <span class="badge"
+          style="background:#dc0000;
+                 color:#fff;
+                 font-weight:900;
+                 font-size:0.9rem;
+                 padding:8px 12px;
+                 animation: piscar 1s infinite;
+                 box-shadow:0 0 12px rgba(220,0,0,.8);">
+        🚨 URGÊNCIA!!!
+    </span>
 
-                            <span class="badge bg-secondary">
-                                Planejado
-                            </span>
+{% elif planejamento.status == "Planejado" %}
 
-                        {% elif planejamento.status == "Em Andamento" %}
+    <span class="badge bg-secondary">
+        Planejado
+    </span>
 
-                            <span class="badge bg-primary">
-                                Em Andamento
-                            </span>
+{% elif planejamento.status == "Em Andamento" %}
 
-                        {% elif planejamento.status == "Concluído" %}
+    <span class="badge bg-primary">
+        Em Andamento
+    </span>
 
-                            <span class="badge bg-success">
-                                Concluído
-                            </span>
+{% elif planejamento.status == "Concluído" %}
 
-                        {% elif planejamento.status == "Cancelado" %}
+    <span class="badge bg-success">
+        Concluído
+    </span>
 
-                            <span class="badge bg-danger">
-                                Cancelado
-                            </span>
+{% elif planejamento.status == "Cancelado" %}
 
-                        {% else %}
+    <span class="badge bg-danger">
+        Cancelado
+    </span>
 
-                            <span class="badge bg-dark">
-                                {{ planejamento.status }}
-                            </span>
+{% else %}
 
-                        {% endif %}
+    <span class="badge bg-dark">
+        {{ planejamento.status }}
+    </span>
+
+{% endif %}
 
                     </td>
 
