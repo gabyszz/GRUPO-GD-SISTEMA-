@@ -142,6 +142,14 @@ def atualizar_financeiro(id):
         request.form.get("valor_recebido") or 0
     )
 
+    financeiro_obj.valor_comissao = float(
+        request.form.get("valor_comissao") or 0
+    )
+
+    financeiro_obj.comissionado = request.form.get(
+        "comissionado"
+    )
+
     # ==========================
     # FATURAMENTO
     # ==========================

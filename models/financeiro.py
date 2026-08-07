@@ -53,6 +53,14 @@ class Financeiro(db.Model):
         default=0
     )
 
+    valor_comissao = db.Column(
+        db.Float,
+        default=0
+    )
+
+    comissao_para = db.Column(
+        db.String(120)
+    )
 
     # ==========================
     # FATURAMENTO
