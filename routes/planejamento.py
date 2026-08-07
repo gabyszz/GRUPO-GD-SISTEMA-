@@ -48,46 +48,41 @@ def listar_planejamento():
     )
 
     ordem_status = case(
-    (Planejamento.status == "Urgente", 1),
-    (Planejamento.status == "Em Andamento", 2),
-    (Planejamento.status == "Planejado", 3),
-    (Planejamento.status == "Cancelado", 4),
-    (Planejamento.status == "Concluído", 5),
-    else_=6
-)
+        (Planejamento.status == "URGÊNCIA!!!", 1),
+        (Planejamento.status == "Em Andamento", 2),
+        (Planejamento.status == "Planejado", 3),
+        (Planejamento.status == "Cancelado", 4),
+        (Planejamento.status == "Concluído", 5),
+        else_=6
+    )
 
     if projeto:
-
         consulta = consulta.filter(
             Projeto.nome.ilike(f"%{projeto}%")
         )
 
     if responsavel:
-
         consulta = consulta.filter(
             Planejamento.responsavel.ilike(f"%{responsavel}%")
         )
 
     if equipe:
-
         consulta = consulta.filter(
             Equipe.nome.ilike(f"%{equipe}%")
         )
 
     if status:
-
         consulta = consulta.filter(
             Planejamento.status == status
         )
 
-    # Se houver filtros, mantém a ordenação por ID
+    # Se houver filtros, mantém a ordenação atual
     if projeto or responsavel or equipe or status:
 
         planejamentos = consulta.order_by(
             Planejamento.id.desc()
         ).all()
 
-    # Sem filtros, usa a prioridade dos status
     else:
 
         planejamentos = consulta.order_by(
@@ -95,9 +90,21 @@ def listar_planejamento():
             Planejamento.id.desc()
         ).all()
 
+    # Separa ativos dos concluídos
+    planejamentos_ativos = [
+        p for p in planejamentos
+        if p.status != "Concluído"
+    ]
+
+    planejamentos_concluidos = [
+        p for p in planejamentos
+        if p.status == "Concluído"
+    ]
+
     return render_template(
         "planejamento.html",
-        planejamentos=planejamentos
+        planejamentos_ativos=planejamentos_ativos,
+        planejamentos_concluidos=planejamentos_concluidos
     )
 # ==========================
 # NOVO

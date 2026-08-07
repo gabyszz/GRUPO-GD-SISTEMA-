@@ -174,8 +174,7 @@ Planejamento
 
             <tbody>
 
-                {% for planejamento in planejamentos %}
-
+                {% for planejamento in planejamentos_ativos %}
                 <tr>
 
                     <td>
@@ -341,26 +340,171 @@ Planejamento
 
                 </tr>
 
-                {% else %}
+               {% else %}
 
-                <tr>
+<tr>
 
-                    <td colspan="7"
-                        class="text-center text-muted">
+    <td colspan="7"
+        class="text-center text-muted">
 
-                        Nenhum planejamento cadastrado.
+        Nenhum planejamento ativo.
 
-                    </td>
+    </td>
 
-                </tr>
+</tr>
 
-                {% endfor %}
+{% endfor %}
+
 
             </tbody>
 
         </table>
 
     </div>
+
+    <div class="card mt-4">
+
+    <div class="card-header bg-light">
+
+        <button
+            class="btn btn-link text-decoration-none text-success fw-bold p-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#planejamentosConcluidos"
+            aria-expanded="false">
+
+            <i class="bi bi-check-circle"></i>
+            Serviços Concluídos ({{ planejamentos_concluidos|length }})
+
+        </button>
+
+    </div>
+
+    <div
+        class="collapse"
+        id="planejamentosConcluidos">
+
+        <div class="card-body p-0">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Projeto</th>
+                        <th>Cliente</th>
+                        <th>Responsável</th>
+                        <th>Status Planejamento</th>
+                        <th>Status Financeiro</th>
+                        <th>Prazo</th>
+                        <th class="text-center" style="width:170px;">
+                            Ações
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for planejamento in planejamentos_concluidos %}
+
+                    <tr>
+
+                        <td>{{ planejamento.projeto.nome }}</td>
+
+                        <td>{{ planejamento.projeto.cliente.nome }}</td>
+
+                        <td>{{ planejamento.responsavel }}</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Concluído
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if planejamento.financeiro %}
+
+                                {{ planejamento.financeiro.status }}
+
+                            {% else %}
+
+                                Não cadastrado
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if planejamento.data_fim %}
+
+                                {{ planejamento.data_fim.strftime('%d/%m/%Y') }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <a href="{{ url_for('planejamento.editar_planejamento', id=planejamento.id) }}"
+                               class="btn btn-warning btn-sm">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                            </a>
+
+                            {% if current_user.perfil != "Executor" %}
+
+                            <a href="{{ url_for('planejamento.excluir_planejamento', id=planejamento.id) }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Deseja realmente excluir este planejamento?')">
+
+                                <i class="bi bi-trash"></i>
+
+                            </a>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="text-center text-muted">
+
+                            Nenhum planejamento concluído.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
 </div>
 
